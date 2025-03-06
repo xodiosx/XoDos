@@ -1,0 +1,32 @@
+plugins {
+    id('com.android.library')
+}
+android.buildFeatures.buildConfig true
+android {
+    namespace 'com.termux.shell.stub'
+    compileSdk 34
+    defaultConfig {
+        minSdkVersion 24
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 28
+    }
+    buildFeatures {
+        buildConfig false
+        viewBinding true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '34.0.0'
+    ndkVersion '25.1.8937393'
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.7.1'
+}

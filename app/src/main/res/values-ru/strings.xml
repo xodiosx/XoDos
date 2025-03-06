@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE resources [<!ENTITY TERMUX_PACKAGE_NAME "com.termux"><!ENTITY TERMUX_APP_NAME "XoDos"><!ENTITY TERMUX_API_APP_NAME "Termux:API"><!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot"><!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float"><!ENTITY TERMUX_STYLING_APP_NAME "Termux:Styling"><!ENTITY TERMUX_TASKER_APP_NAME "Termux:Tasker"><!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">]>
+<resources>
+    <string name="application_name">XoDos</string>
+    <string name="shared_user_label">user</string>
+    <!-- Разрешение Termux RUN_COMMAND -->
+    <string name="permission_run_command_label">Выполнение команд в среде &TERMUX_APP_NAME;</string>
+    <string name="permission_run_command_description">&TERMUX_APP_NAME; выполняет произвольные команды в среде и имеет доступ к файлам</string>
+
+
+    <!-- Установка пакетов Termux Bootstrap -->
+    <string name="bootstrap_installer_body">Установка пакетов bootstrap…</string>
+    <string name="bootstrap_error_title">Невозможно установить bootstrap</string>
+    <string name="bootstrap_error_body">&TERMUX_APP_NAME; не смог установить пакеты bootstrap.</string>
+    <string name="bootstrap_error_abort">Прервать</string>
+    <string name="bootstrap_error_try_again">Попробовать снова</string>
+    <string name="bootstrap_error_not_primary_user_message">&TERMUX_APP_NAME;&TERMUX_APP_NAME;" может быть запущен только как основной пользователь. Бинарные файлы bootstrap скомпилированы для жестко заданного пути $PREFIX и не могут быть установлены по любому другому пути, кроме:%1$s."</string>
+    <string name="bootstrap_error_installed_on_portable_sd">&TERMUX_APP_NAME;&TERMUX_APP_NAME;" не может быть установлен на портативную/внешнюю/съемную SD-карту на вашем устройстве. Бинарные файлы bootstrap скомпилированы для жестко заданного пути $PREFIX и не могут быть установлены по любому другому пути, кроме:%1$s."</string>
+
+
+    <!-- Боковая панель терминала и ярлыки -->
+    <string name="action_new_session">Новая сессия</string>
+    <string name="action_new_session_failsafe">Аварийный режим</string>
+    <string name="title_max_terminals_reached">Достигнуто максимальное количество терминалов</string>
+    <string name="msg_max_terminals_reached">Закройте существующие перед созданием новых.</string>
+
+    <string name="title_rename_session">Установить имя сессии</string>
+    <string name="action_rename_session_confirm">Установить</string>
+    <string name="title_create_named_session">Новая именованная сессия</string>
+    <string name="action_create_named_session_confirm">Создать</string>
+
+    <string name="action_toggle_soft_keyboard">Клавиатура</string>
+    <string name="action_toggle_tool_box">Инструменты</string>
+
+    <string name="msg_enabling_terminal_toolbar">Включение панели инструментов терминала</string>
+    <string name="msg_disabling_terminal_toolbar">Отключение панели инструментов терминала</string>
+
+
+    <!-- Всплывающее окно терминала -->
+    <string name="action_select_url">Выбрать URL</string>
+    <string name="title_select_url_dialog">Нажмите на URL, чтобы скопировать, или долгое нажатие, чтобы открыть</string>
+    <string name="title_select_url_none_found">В терминале не найдено URL.</string>
+    <string name="msg_select_url_copied_to_clipboard">URL скопирован в буфер обмена</string>
+
+    <string name="action_share_transcript">Поделиться транскриптом</string>
+    <string name="title_share_transcript">Транскрипт терминала</string>
+    <string name="title_share_transcript_with">Отправить транскрипт:</string>
+
+    <string name="action_share_selected_text">Поделиться выделенным текстом</string>
+    <string name="title_share_selected_text">Текст терминала</string>
+    <string name="title_share_selected_text_with">Отправить выделенный текст:</string>
+
+    <string name="action_autofill_password">Автозаполнение пароля</string>
+
+    <string name="action_reset_terminal">Сбросить</string>
+    <string name="msg_terminal_reset">Терминал сброшен</string>
+
+    <string name="action_kill_process">Убить процесс (%d)</string>
+    <string name="title_confirm_kill_process">Действительно завершить эту сессию?</string>
+
+    <string name="action_style_terminal">Стиль</string>
+    <string name="action_toggle_keep_screen_on">Не выключать экран</string>
+    <string name="action_open_help">Помощь</string>
+    <string name="action_open_settings">Настройки</string>
+    <string name="action_recover_storage">Восстановление</string>
+    <string name="action_backup_storage">Резервное копирование</string>
+
+    <string name="action_report_issue">Сообщить о проблеме</string>
+    <string name="msg_generating_report">Генерация отчета</string>
+    <string name="msg_add_termux_debug_info">Добавить отладочную информацию Termux в отчет?</string>
+
+    <string name="error_styling_not_installed">Приложение &TERMUX_STYLING_APP_NAME; не установлено.</string>
+    <string name="action_styling_install">Установить</string>
+
+
+    <!-- Уведомления Termux -->
+    <string name="notification_action_exit">Выход</string>
+    <string name="notification_action_wake_lock">Заблокировать экран</string>
+    <string name="notification_action_wake_unlock">Разблокировать экран</string>
+
+
+    <!-- TermuxService -->
+    <string name="error_display_over_other_apps_permission_not_granted_to_start_terminal">&TERMUX_APP_NAME;
+        требует
+        разрешения \"Отображение поверх других приложений\" для запуска сессий терминала из фона на Android >= 10.
+        Предоставьте его в Настройки -> Приложения -> &TERMUX_APP_NAME; -> Дополнительно</string>
+    <string name="error_termux_service_invalid_execution_command_runner">Недопустимый исполнитель команды для TermuxService: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_runner">Неподдерживаемый исполнитель команды для TermuxService: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_shell_create_mode">Неподдерживаемый режим создания оболочки для TermuxService: `%1$s`</string>
+    <string name="error_termux_service_execution_command_shell_name_unset">Имя оболочки не установлено, но передан режим создания оболочки `%1$s`</string>
+
+
+    <!-- Termux RunCommandService -->
+    <string name="error_run_command_service_invalid_intent_action">Недопустимое действие Intent для RunCommandService: `%1$s`</string>
+    <string name="error_run_command_service_invalid_execution_command_runner">Недопустимый исполнитель команды для RunCommandService: `%1$s`</string>
+    <string name="error_run_command_service_mandatory_extra_missing">Обязательный параметр отсутствует для RunCommandService: \"%1$s\"</string>
+    <string name="error_run_command_service_api_help">Посетите %1$s для получения дополнительной информации об использовании Intent RUN_COMMAND.</string>
+
+
+    <!-- Получатель файлов Termux -->
+    <string name="title_file_received">Сохранить файл в ~/downloads/</string>
+    <string name="action_file_received_edit">Редактировать</string>
+    <string name="action_file_received_open_directory">Открыть директорию</string>
+
+
+    <!-- Разное -->
+    <string name="error_termux_service_start_failed_general">Не удалось запустить TermuxService. Проверьте logcat для получения сообщения об ошибке.</string>
+    <string name="error_termux_service_start_failed_bg">Не удалось запустить TermuxService, пока приложение находится в фоне, из-за ограничений Android.</string>
+
+
+    <!-- Настройки Termux -->
+    <string name="title_activity_termux_settings">Настройки &TERMUX_APP_NAME;</string>
+
+    <!-- Настройки приложения Termux -->
+    <string name="termux_preferences_title">Настройки &TERMUX_APP_NAME;</string>
+    <string name="termux_preferences_summary">Настройки для приложения &TERMUX_APP_NAME;</string>
+
+    <!-- Настройки отладки -->
+    <string name="termux_debugging_preferences_title">Отладка</string>
+    <string name="termux_debugging_preferences_summary">Настройки для отладки</string>
+
+    <!-- Категория логирования -->
+    <string name="termux_logging_header">Логирование</string>
+
+    <!-- Уровень логирования -->
+    <string name="termux_log_level_title">Уровень логирования</string>
+
+    <!-- Логирование клавиш Terminal View -->
+    <string name="termux_terminal_view_key_logging_enabled_title">Логирование клавиш Terminal View</string>
+    <string name="termux_terminal_view_key_logging_enabled_off">Логи не будут содержать записи о клавишах Terminal View. (По умолчанию)</string>
+    <string name="termux_terminal_view_key_logging_enabled_on">Логи logcat будут содержать записи о клавишах Terminal View.
+                    Это очень подробно и должно быть отключено в обычных обстоятельствах, иначе это может вызвать проблемы с производительностью.</string>
+
+    <!-- Уведомления об ошибках плагинов -->
+    <string name="termux_plugin_error_notifications_enabled_title">Уведомления об ошибках плагинов</string>
+    <string name="termux_plugin_error_notifications_enabled_off">Отключить всплывающие сообщения и уведомления об ошибках плагинов.</string>
+    <string name="termux_plugin_error_notifications_enabled_on">Показывать всплывающие сообщения и уведомления об ошибках плагинов. (По умолчанию)</string>
+
+    <!-- Уведомления о сбоях -->
+    <string name="termux_crash_report_notifications_enabled_title">Уведомления о сбоях</string>
+    <string name="termux_crash_report_notifications_enabled_off">Отключить уведомления о сбоях.</string>
+    <string name="termux_crash_report_notifications_enabled_on">Показывать уведомления о сбоях. (По умолчанию)</string>
+
+
+    <!-- Настройки ввода-вывода терминала -->
+    <string name="termux_terminal_io_preferences_title">Ввод-вывод терминала</string>
+    <string name="termux_terminal_io_preferences_summary">Настройки для ввода-вывода терминала</string>
+
+    <!-- Категория клавиатуры -->
+    <string name="termux_keyboard_header">Клавиатура</string>
+
+    <!-- Программная клавиатура -->
+    <string name="termux_soft_keyboard_enabled_title">Программная клавиатура включена</string>
+    <string name="termux_soft_keyboard_enabled_off">Программная клавиатура будет отключена.</string>
+    <string name="termux_soft_keyboard_enabled_on">Программная клавиатура будет включена. (По умолчанию)</string>
+
+    <!-- Программная клавиатура только при отсутствии аппаратной -->
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_title">Программная клавиатура только при отсутствии аппаратной</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_off">Программная клавиатура будет включена, даже если
+                    подключена аппаратная клавиатура. (По умолчанию)</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_on">Программная клавиатура будет включена только при
+                    отсутствии подключенной аппаратной клавиатуры.</string>
+
+
+    <!-- Настройки Terminal View -->
+    <string name="termux_terminal_view_preferences_title">Terminal View</string>
+    <string name="termux_terminal_view_preferences_summary">Настройки для Terminal View</string>
+
+    <!-- Категория View -->
+    <string name="termux_terminal_view_view_header">Вид</string>
+
+    <!-- Настройка отступов Terminal View -->
+    <string name="termux_terminal_view_terminal_margin_adjustment_title">Настройка отступов Terminal View</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_off">Настройка отступов Terminal View будет отключена.</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_on">Настройка отступов Terminal View будет включена.
+                    Она должна быть включена, чтобы попытаться исправить проблему, когда программная клавиатура перекрывает часть дополнительных клавиш/терминала.
+                    Если это вызывает мерцание экрана на вашем устройстве, отключите ее. (По умолчанию)</string>
+
+
+    <!-- Настройки приложения Termux:API -->
+    <string name="termux_api_preferences_title">Настройки &TERMUX_API_APP_NAME;</string>
+    <string name="termux_api_preferences_summary">Настройки для приложения &TERMUX_API_APP_NAME;</string>
+
+
+    <!-- Настройки приложения Termux:Float -->
+    <string name="termux_float_preferences_title">Настройки &TERMUX_FLOAT_APP_NAME;</string>
+    <string name="termux_float_preferences_summary">Настройки для приложения &TERMUX_FLOAT_APP_NAME;</string>
+
+
+    <!-- Настройки приложения Termux:Tasker -->
+    <string name="termux_tasker_preferences_title">Настройки &TERMUX_TASKER_APP_NAME;</string>
+    <string name="termux_tasker_preferences_summary">Настройки для приложения &TERMUX_TASKER_APP_NAME;</string>
+
+
+    <!-- Настройки приложения Termux:Widget -->
+    <string name="termux_widget_preferences_title">Настройки &TERMUX_WIDGET_APP_NAME;</string>
+    <string name="termux_widget_preferences_summary">Настройки для приложения &TERMUX_WIDGET_APP_NAME;</string>
+
+
+    <!-- О программе -->
+    <string name="about_preference_title">О программе</string>
+
+    <!-- Пожертвовать -->
+    <string name="donate_preference_title">Пожертвовать</string>
+    <!-- TODO: Удалить или изменить этот текст-заполнитель -->
+    <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
+    <string name="file_cpy_success">файл успешно скопирован</string>
+    <string name="file_cpy_override">файл перезаписан</string>
+    <string name="file_cpy_fail">файл не может быть записан по указанному пути</string>
+    <string name="exit_toast_text">нажмите еще раз для выхода из приложения</string>
+    <string name="no_such_file">файл не найден</string>
+    <string name="not_executable">не является исполняемым</string>
+    <string name="select_command_first">выберите файл для запуска</string>
+    <string name="apply_display_over_other_app_permission">сначала предоставьте разрешение на отображение поверх других приложений</string>
+    <string name="open_terminal">открыть терминал</string>
+    <string name="terminate_current_process">убить текущий запущенный процесс</string>
+    <string name="unlock_layout">разблокировать слайдер экрана</string>
+    <string name="raise_termux_app">поднять приложение Termux</string>
+    <string name="add_menu_item">добавить элемент в меню плавающего шара</string>
+    <string name="hide_terminal">скрыть терминал</string>
+    <string name="set_dinput">dinput</string>
+    <string name="set_xinput">xinput</string>
+    <string name="select_gamepad_input_mode">выберите тип контроллера для геймпада</string>
+    <string name="ready_set_mobox_env">Установка системы XoDos займет некоторое время, пожалуйста, подождите после выбора типа управления, пока приложение не завершит работу автоматически. Если оно остается открытым дольше 5 минут, закройте его вручную и прочитайте ошибку в терминале или из лога ошибок в папке загрузок. Установка запросит разрешение, пожалуйста, предоставьте его и подождите, наслаждаясь чашкой кофе,,.от XOD M.aleiwi</string>
+    <string name="yes">да</string>
+    <string name="cancel">отмена</string>
+    <string name="executable_file">исполняемый файл</string>
+    <string name="remove_shortcut">удалить этот ярлык?</string>
+    <string name="remove">удалить</string>
+    <string name="invalid_config">неверная конфигурация</string>
+</resources>

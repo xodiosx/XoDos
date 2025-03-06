@@ -1,0 +1,222 @@
+termux-setup-storage
+sleep 3
+clear
+echo "make sure The XoDos-debian.tar.xz is in download folder"
+PS3='Please select an option:
+رﺎﻴﺧ ﺪﻳﺪﺤﺗ ءﺎﺟﺮﻟﺍ:
+Veuillez sélectionner une option :
+कृपया एक विकल्प चुनें:
+请选择一个选项：
+Selecione uma opção:
+
+1-ﺖﻧﺮﺘﻧﻹﺍ ﺮﺒﻋ ﻂﻘﻓ proot 仅根（在线）केवल प्रोट करें (ऑनलाइन)somente raiz (on-line)proot uniquement (en ligne)
+
+2-ﺖﻧﺮﺘﻧﻹﺎﺑ لﺎﺼﺗﺍ نﻭﺩ XoDos ﻊﻣ رﺬﺠﻟﺍ 使用 XoDos 离线启动 XoDos के साथ ऑफ़लाइन प्रोटूट करें fazer root com XoDos offline prootir avec XoDos hors ligne
+
+3-sortie 出口 saídab बाहर निकलना جﻭﺮﺧ
+----> '
+options=("proot only (online)" "proot with XoDos offline" "Quit")
+
+xproot(){
+echo "installing XoDos-debian it will take some time"
+proot-distro restore /storage/emulated/0/Download/XoDos-debian.tar.xz
+echo "make sure The XoDos-debian.tar.xz is in download folder"
+}
+
+
+
+
+
+
+proot(){
+echo "Installing Required Aackages And Updating, Upgrading Termux Packages . . ."
+echo -e "\n"
+termux-setup-storage
+sleep 1
+pkg remove termux-display-nightly -y
+pkg remove termux-x11-nightly -y
+dpkg -i /data/data/com.termux/files/home/termux-x11-nightly-1.03.01-0-all.deb
+sleep 1
+apt --fix-broken install -y
+pkg update -y
+#termux-change-repo
+pkg upgrade -y
+pkg install wget -y
+pkg install git -y
+pkg install hashdeep -y
+pkg install x11-repo -y
+pkg install proot-distro -y
+
+sleep 2
+clear
+
+# Setting Up The Storage
+echo -e "\e[33m[i] Setting up storage permissions..\e[0m"
+yes | termux-setup-storage &>/dev/null
+sleep 2
+clear
+while true; do
+    if [ -d ~/storage/shared ]; then
+        break
+    else
+        echo -e "\e[31m[ERR] Storage permission denied\e[0m"
+    fi
+done
+
+# Installing Termux-Am
+clear
+sleep 2
+echo -e "\e[36m[+] Installing Termux-am\e[0m"
+pkg install termux-am -y &>/dev/null
+echo -e "\e[32m[✓] Termux-am Installed Successfully\e[0m"
+echo -e "\n"
+clear
+
+    echo -e "\e[36m[+] Installing proot   without wine\e[0m"
+    sleep 2
+    echo -e "\e[33m[i] Extracting proot for XoDos from download folder. . .\e[0m"
+    proot-distro restore /storage/emulated/0/Download/XoDos-debian.tar.xz
+    sleep 2
+    echo -e "\e[32m[✓] proot Installed Successfully.\e[0m"
+    sleep 2
+    
+    echo -e "\e[33m[i] Extracting patch for proot (important) . . .\e[0m"
+    mv -f ~/patch.tar.xz /data/data/com.termux/files/xod 
+sleep 1
+tar  -xvf /data/data/com.termux/files/xod/patch.tar.xz -C /data/data/com.termux/files  --preserve-permissions
+    sleep 2
+    echo -e "\e[32m[✓] Installed Successfully.\e[0m"
+    sleep 1
+    cp /data/data/com.termux/files/usr/bin/xodos /data/data/com.termux/files/xodos-normal
+cp /data/data/com.termux/files/usr/bin/xodxx /data/data/com.termux/files/xodxx-gamemode
+cp /data/data/com.termux/files/usr/bin/xodosset /data/data/com.termux/files/xodosset-settings
+cp  /data/data/com.termux/files/usr/bin/xodx /data/data/com.termux/files/xodx-bettergpu
+cp /data/data/com.termux/files/usr/bin/xodxd /data/data/com.termux/files/xodxd-proot
+cp /data/data/com.termux/files/usr/bin/xodset /data/data/com.termux/files/xodset-settings
+cp /data/data/com.termux/files/usr/bin/xodos-mali /data/data/com.termux/files/xodos-maligpu
+cp  /data/data/com.termux/files/usr/bin/kali /data/data/com.termux/files/kali-kaliroot
+cp  /data/data/com.termux/files/usr/bin/kaliu /data/data/com.termux/files/kaliu-kaliuser
+cp  /data/data/com.termux/files/home/switch /data/data/com.termux/files/switch-container
+cp  /data/data/com.termux/files/home/switch /data/data/com.termux/files/usr/bin/switch
+sleep 1
+chmod +x /data/data/com.termux/files/usr/bin/xodos
+chmod +x /data/data/com.termux/files/usr/bin/xodos-mali
+chmod +x /data/data/com.termux/files/usr/bin/xodxx
+chmod +x /data/data/com.termux/files/usr/bin/xodosset
+chmod +x /data/data/com.termux/files/usr/bin/xodx
+chmod +x /data/data/com.termux/files/usr/bin/xod
+chmod +x  /data/data/com.termux/files/usr/bin/xodset
+chmod +x /data/data/com.termux/files/usr/bin/xodxd
+chmod +x  /data/data/com.termux/files/usr/etc/bash.bashrc
+chmod +x  /data/data/com.termux/files/home/x11
+chmod +x /data/data/com.termux/files/xodos-normal
+chmod +x /data/data/com.termux/files/xodxx-gamemode
+chmod +x /data/data/com.termux/files/xodosset-settings
+chmod +x /data/data/com.termux/files/xodx-bettergpu
+chmod +x /data/data/com.termux/files/xodxd-proot
+chmod +x  /data/data/com.termux/files/bash.bashrc
+chmod +x /data/data/com.termux/files/xodset-settings
+chmod +x /data/data/com.termux/files/xodos-maligpu
+chmod +x /data/data/com.termux/files/usr/bin/kali
+chmod +x /data/data/com.termux/files/usr/bin/kaliu
+chmod +x /data/data/com.termux/files/usr/bin/switch
+chmod +x /data/data/com.termux/files/switch
+    
+    sleep 2
+
+    clear
+    echo -e "\e[36m[+] Installing repo  \e[0m"
+   
+# Continue
+sleep 1
+echo -e "\e[32m[+] Installing Termux Packages...\e[0m"
+apt-get clean -y
+apt-get update -y
+apt-get upgrade -y
+pkg install wget -y
+pkg install root-repo -y
+apt-get -y --with-new-pkgs -o Dpkg::Options::="--force-confdef" upgrade
+echo -e "\e[32m[✓] Termux packages Installed Successfully.\e[0m"
+echo -e "\n"
+clear
+
+echo -e "\e[36m[+] Installing Termux X11 packages...\e[0m"
+pkg install x11-repo -y &>/dev/null
+pkg install termux-x11-nightly -y &>/dev/null
+echo -e "\e[32m[✓] Termux X11 Packages Installed Successfully.\e[0m"
+echo -e "\n"
+
+echo -e "\e[36m[+] Installing applications Packages...\e[0m"
+pkg install tur-repo -y &>/dev/null
+pkg install xwayland -y &>/dev/null
+pkg install xorg-xrandr -y &>/dev/null
+pkg install p7zip -y &>/dev/null
+pkg install patchelf -y &>/dev/null
+pkg install ncurses-utils -y &>/dev/null
+pkg install hashdeep -y &>/dev/null
+pkg install mesa-zink virglrenderer-mesa-zink vulkan-loader-android virglrenderer-android -y &>/dev/null
+apt install android-tools -y &>/dev/null
+pkg install python-tkinter -y &>/dev/null
+pkg install qt5-qtbase -y &>/dev/null
+echo -e "\e[32m[✓] Packages Installed Successfully.\e[0m"
+echo -e "\n"
+sleep 2
+clear
+sleep 1
+
+echo -e "\e[36m[+] Installing Xfce4, Plugins and Tools\e[0m"
+echo -e "\n"
+pkg install xfce4 -y
+apt install xfce4-whiskermenu-plugin -y
+apt install xfce4-screenshooter -y
+apt install xfce4-taskmanager -y
+apt install xfce4-docklike-plugin -y
+apt install matchbox-keyboard -y
+apt update -y
+apt upgrade -y
+echo -e "\e[32m[✓] Xfce4, Plugins, Tools, Packages, Installed Successfully.\e[0m"
+echo -e "\n"
+sleep 3
+clear
+
+echo -e "\e[36m[+] Installing proot XoDos Programs, Browsers, Etc..\e[0m"
+echo -e "\n"
+pkg install gimp -y
+pkg install mpv -y
+pkg install firefox -y
+apt install parole -y
+apt install synaptic -y
+pkg install abiword -y
+apt install ristretto -y
+pkg install pulseaudio -y
+pip install lolcat
+pkg install figlet -y
+ pkg install jp2a -y
+echo -e "\n"
+echo -e "\e[32m[✓] Programs, Browsers, Other Applications Installed Successfully.\e[0m"
+sleep 3
+clear
+echo -e "\e[32m[✓] finished,, to start type xodxd or choose Proot from command menu.\e[0m"
+cd
+bash fix
+}
+select opt in "${options[@]}" 
+do 
+case $opt in 
+"proot only (online)") 
+echo "You chose proot only (online) " 
+proot
+;; 
+"proot with XoDos offline") 
+echo "You chose proot with XoDos offline" 
+xproot
+;; 
+"Quit") 
+break 
+;; 
+*) 
+echo "Invalid option $REPLY" 
+;; 
+esac 
+done
+

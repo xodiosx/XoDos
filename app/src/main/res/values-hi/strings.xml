@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE resources [<!ENTITY TERMUX_PACKAGE_NAME "com.termux"><!ENTITY TERMUX_APP_NAME "XoDos"><!ENTITY TERMUX_API_APP_NAME "Termux:API"><!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot"><!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float"><!ENTITY TERMUX_STYLING_APP_NAME "Termux:Styling"><!ENTITY TERMUX_TASKER_APP_NAME "Termux:Tasker"><!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">]>
+<resources>
+    <string name="application_name">XoDos</string>
+    <string name="shared_user_label">user</string>
+    <!-- Termux RUN_COMMAND permission -->
+    <string name="permission_run_command_label">&TERMUX_APP_NAME; वातावरण में कमांड चलाएं</string>
+    <string name="permission_run_command_description">&TERMUX_APP_NAME; वातावरण के भीतर मनमाने कमांड निष्पादित करें और फ़ाइलों तक पहुंचें</string>
+
+
+    <!-- Termux Bootstrap Packages Installation -->
+    <string name="bootstrap_installer_body">बूटस्ट्रैप पैकेज स्थापित किए जा रहे हैं…</string>
+    <string name="bootstrap_error_title">बूटस्ट्रैप स्थापित करने में असमर्थ</string>
+    <string name="bootstrap_error_body">&TERMUX_APP_NAME; बूटस्ट्रैप पैकेज स्थापित करने में असमर्थ था।</string>
+    <string name="bootstrap_error_abort">रद्द करें</string>
+    <string name="bootstrap_error_try_again">फिर से प्रयास करें</string>
+    <string name="bootstrap_error_not_primary_user_message">&TERMUX_APP_NAME;&TERMUX_APP_NAME;" केवल प्राथमिक उपयोगकर्ता के रूप में चलाया जा सकता है। बूटस्ट्रैप बाइनरीज़ को हार्डकोडेड $PREFIX पथ के लिए संकलित किया गया है और इसे किसी अन्य पथ पर स्थापित नहीं किया जा सकता है:%1$s।"</string>
+    <string name="bootstrap_error_installed_on_portable_sd">&TERMUX_APP_NAME;&TERMUX_APP_NAME;" आपके डिवाइस पर पोर्टेबल/बाहरी/हटाने योग्य एसडी कार्ड पर स्थापित नहीं किया जा सकता है। बूटस्ट्रैप बाइनरीज़ को हार्डकोडेड $PREFIX पथ के लिए संकलित किया गया है और इसे किसी अन्य पथ पर स्थापित नहीं किया जा सकता है:%1$s।"</string>
+
+
+    <!-- Terminal Sidebar and Shortcuts -->
+    <string name="action_new_session">नया सत्र</string>
+    <string name="action_new_session_failsafe">फेलसेफ</string>
+    <string name="title_max_terminals_reached">अधिकतम टर्मिनल पहुंच गए</string>
+    <string name="msg_max_terminals_reached">नया बनाने से पहले मौजूदा को बंद करें।</string>
+
+    <string name="title_rename_session">सत्र का नाम सेट करें</string>
+    <string name="action_rename_session_confirm">सेट करें</string>
+    <string name="title_create_named_session">नया नामित सत्र</string>
+    <string name="action_create_named_session_confirm">बनाएं</string>
+
+    <string name="action_toggle_soft_keyboard">कीबोर्ड</string>
+    <string name="action_toggle_tool_box">टूलबॉक्स</string>
+
+    <string name="msg_enabling_terminal_toolbar">टर्मिनल टूलबार सक्षम किया जा रहा है</string>
+    <string name="msg_disabling_terminal_toolbar">टर्मिनल टूलबार अक्षम किया जा रहा है</string>
+
+
+    <!-- Terminal Popup -->
+    <string name="action_select_url">URL चुनें</string>
+    <string name="title_select_url_dialog">कॉपी करने के लिए URL पर क्लिक करें या खोलने के लिए लंबे समय तक दबाएं</string>
+    <string name="title_select_url_none_found">टर्मिनल में कोई URL नहीं मिला।</string>
+    <string name="msg_select_url_copied_to_clipboard">URL क्लिपबोर्ड पर कॉपी किया गया</string>
+
+    <string name="action_share_transcript">ट्रांसक्रिप्ट साझा करें</string>
+    <string name="title_share_transcript">टर्मिनल ट्रांसक्रिप्ट</string>
+    <string name="title_share_transcript_with">ट्रांसक्रिप्ट को भेजें:</string>
+
+    <string name="action_share_selected_text">चयनित पाठ साझा करें</string>
+    <string name="title_share_selected_text">टर्मिनल पाठ</string>
+    <string name="title_share_selected_text_with">चयनित पाठ को भेजें:</string>
+
+    <string name="action_autofill_password">पासवर्ड ऑटोफिल करें</string>
+
+    <string name="action_reset_terminal">रीसेट</string>
+    <string name="msg_terminal_reset">टर्मिनल रीसेट</string>
+
+    <string name="action_kill_process">प्रक्रिया को समाप्त करें (%d)</string>
+    <string name="title_confirm_kill_process">क्या वाकई इस सत्र को समाप्त करना चाहते हैं?</string>
+
+    <string name="action_style_terminal">स्टाइल</string>
+    <string name="action_toggle_keep_screen_on">स्क्रीन चालू रखें</string>
+    <string name="action_open_help">सहायता</string>
+    <string name="action_open_settings">सेटिंग्स</string>
+    <string name="action_recover_storage">पुनर्प्राप्ति</string>
+    <string name="action_backup_storage">बैकअप</string>
+
+    <string name="action_report_issue">समस्या रिपोर्ट करें</string>
+    <string name="msg_generating_report">रिपोर्ट जेनरेट की जा रही है</string>
+    <string name="msg_add_termux_debug_info">क्या रिपोर्ट में टर्मक्स डीबग जानकारी जोड़नी है?</string>
+
+    <string name="error_styling_not_installed">&TERMUX_STYLING_APP_NAME; प्लगइन ऐप स्थापित नहीं है।</string>
+    <string name="action_styling_install">स्थापित करें</string>
+
+
+    <!-- Termux Notifications -->
+    <string name="notification_action_exit">बाहर निकलें</string>
+    <string name="notification_action_wake_lock">वेकलॉक प्राप्त करें</string>
+    <string name="notification_action_wake_unlock">वेकलॉक रिलीज़ करें</string>
+
+
+    <!-- TermuxService -->
+    <string name="error_display_over_other_apps_permission_not_granted_to_start_terminal">&TERMUX_APP_NAME;
+        को Android >= 10 पर पृष्ठभूमि से टर्मिनल सत्र शुरू करने के लिए \"अन्य ऐप्स के ऊपर प्रदर्शित करें\" अनुमति की आवश्यकता है।
+        इसे सेटिंग्स -> ऐप्स -> &TERMUX_APP_NAME; -> उन्नत से अनुदान दें</string>
+    <string name="error_termux_service_invalid_execution_command_runner">TermuxService के लिए अमान्य निष्पादन कमांड रनर: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_runner">TermuxService के लिए असमर्थित निष्पादन कमांड रनर: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_shell_create_mode">TermuxService के लिए असमर्थित निष्पादन कमांड शेल बनाने का मोड: `%1$s`</string>
+    <string name="error_termux_service_execution_command_shell_name_unset">शेल का नाम सेट नहीं है लेकिन `%1$s` शेल बनाने का मोड पास किया गया है</string>
+
+
+    <!-- Termux RunCommandService -->
+    <string name="error_run_command_service_invalid_intent_action">RunCommandService के लिए अमान्य इंटेंट एक्शन: `%1$s`</string>
+    <string name="error_run_command_service_invalid_execution_command_runner">RunCommandService के लिए अमान्य निष्पादन कमांड रनर: `%1$s`</string>
+    <string name="error_run_command_service_mandatory_extra_missing">RunCommandService के लिए अनिवार्य एक्स्ट्रा गुम है: \"%1$s\"</string>
+    <string name="error_run_command_service_api_help">RUN_COMMAND इंटेंट उपयोग के बारे में अधिक जानकारी के लिए %1$s पर जाएं।</string>
+
+
+    <!-- Termux File Receiver -->
+    <string name="title_file_received">फ़ाइल को ~/downloads/ में सहेजें</string>
+    <string name="action_file_received_edit">संपादित करें</string>
+    <string name="action_file_received_open_directory">डायरेक्टरी खोलें</string>
+
+
+    <!-- Miscellaneous -->
+    <string name="error_termux_service_start_failed_general">TermuxService शुरू करने में विफल। अपवाद संदेश के लिए लॉगकैट जांचें।</string>
+    <string name="error_termux_service_start_failed_bg">ऐप पृष्ठभूमि में होने के कारण TermuxService शुरू करने में विफल।</string>
+
+
+    <!-- Termux Settings -->
+    <string name="title_activity_termux_settings">&TERMUX_APP_NAME; सेटिंग्स</string>
+
+    <!-- Termux App Preferences -->
+    <string name="termux_preferences_title">&TERMUX_APP_NAME; प्राथमिकताएं</string>
+    <string name="termux_preferences_summary">&TERMUX_APP_NAME; ऐप के लिए प्राथमिकताएं</string>
+
+    <!-- Debugging Preferences -->
+    <string name="termux_debugging_preferences_title">डीबगिंग</string>
+    <string name="termux_debugging_preferences_summary">डीबगिंग के लिए प्राथमिकताएं</string>
+
+    <!-- Logging Category -->
+    <string name="termux_logging_header">लॉगिंग</string>
+
+    <!-- Log Level -->
+    <string name="termux_log_level_title">लॉग स्तर</string>
+
+    <!-- Terminal View Key Logging -->
+    <string name="termux_terminal_view_key_logging_enabled_title">टर्मिनल व्यू की लॉगिंग</string>
+    <string name="termux_terminal_view_key_logging_enabled_off">टर्मिनल व्यू कुंजियों के लिए लॉग प्रविष्टियां नहीं होंगी। (डिफ़ॉल्ट)</string>
+    <string name="termux_terminal_view_key_logging_enabled_on">लॉगकैट लॉग में टर्मिनल व्यू कुंजियों के लिए प्रविष्टियां होंगी।
+                    ये बहुत विस्तृत हैं और सामान्य परिस्थितियों में इन्हें अक्षम कर देना चाहिए अन्यथा प्रदर्शन समस्याएं हो सकती हैं।</string>
+
+    <!-- Plugin Error Notifications -->
+    <string name="termux_plugin_error_notifications_enabled_title">प्लगइन त्रुटि सूचनाएं</string>
+    <string name="termux_plugin_error_notifications_enabled_off">प्लगइन त्रुटियों के लिए फ्लैश और सूचनाएं अक्षम करें।</string>
+    <string name="termux_plugin_error_notifications_enabled_on">प्लगइन त्रुटियों के लिए फ्लैश और सूचनाएं दिखाएं। (डिफ़ॉल्ट)</string>
+
+    <!-- Crash Report Notifications -->
+    <string name="termux_crash_report_notifications_enabled_title">क्रैश रिपोर्ट सूचनाएं</string>
+    <string name="termux_crash_report_notifications_enabled_off">क्रैश रिपोर्ट के लिए सूचनाएं अक्षम करें।</string>
+    <string name="termux_crash_report_notifications_enabled_on">क्रैश रिपोर्ट के लिए सूचनाएं दिखाएं। (डिफ़ॉल्ट)</string>
+
+
+    <!-- Terminal IO Preferences -->
+    <string name="termux_terminal_io_preferences_title">टर्मिनल I/O</string>
+    <string name="termux_terminal_io_preferences_summary">टर्मिनल I/O के लिए प्राथमिकताएं</string>
+
+    <!-- Keyboard Category -->
+    <string name="termux_keyboard_header">कीबोर्ड</string>
+
+    <!-- Soft Keyboard -->
+    <string name="termux_soft_keyboard_enabled_title">सॉफ्ट कीबोर्ड सक्षम</string>
+    <string name="termux_soft_keyboard_enabled_off">सॉफ्ट कीबोर्ड अक्षम होगा।</string>
+    <string name="termux_soft_keyboard_enabled_on">सॉफ्ट कीबोर्ड सक्षम होगा। (डिफ़ॉल्ट)</string>
+
+    <!-- Soft Keyboard Only If No Hardware-->
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_title">सॉफ्ट कीबोर्ड केवल यदि हार्डवेयर नहीं है</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_off">सॉफ्ट कीबोर्ड सक्षम होगा भले ही हार्डवेयर कीबोर्ड जुड़ा हो। (डिफ़ॉल्ट)</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_on">सॉफ्ट कीबोर्ड केवल तब सक्षम होगा जब कोई हार्डवेयर कीबोर्ड जुड़ा नहीं है।</string>
+
+
+    <!-- Terminal View Preferences -->
+    <string name="termux_terminal_view_preferences_title">टर्मिनल व्यू</string>
+    <string name="termux_terminal_view_preferences_summary">टर्मिनल व्यू के लिए प्राथमिकताएं</string>
+
+    <!-- View Category -->
+    <string name="termux_terminal_view_view_header">दृश्य</string>
+
+    <!-- Terminal View Margin Adjustment -->
+    <string name="termux_terminal_view_terminal_margin_adjustment_title">टर्मिनल मार्जिन समायोजन</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_off">टर्मिनल मार्जिन समायोजन अक्षम होगा।</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_on">टर्मिनल मार्जिन समायोजन सक्षम होगा।
+                    इसे सक्षम किया जाना चाहिए यदि सॉफ्ट कीबोर्ड एक्स्ट्रा कुंजियों/टर्मिनल व्यू के हिस्से को ढकता है।
+                    यदि यह आपके डिवाइस पर स्क्रीन फ्लिकरिंग का कारण बनता है, तो इसे अक्षम करें। (डिफ़ॉल्ट)</string>
+
+
+    <!-- Termux:API App Preferences -->
+    <string name="termux_api_preferences_title">&TERMUX_API_APP_NAME; टर्मक्स एपीआई प्राथमिकताएं</string>
+    <string name="termux_api_preferences_summary">&TERMUX_API_APP_NAME; ऐप के लिए प्राथमिकताएं</string>
+
+
+    <!-- Termux:Float App Preferences -->
+    <string name="termux_float_preferences_title">&TERMUX_FLOAT_APP_NAME; टर्मक्स फ्लोट प्राथमिकताएं</string>
+    <string name="termux_float_preferences_summary">&TERMUX_FLOAT_APP_NAME; ऐप के लिए प्राथमिकताएं</string>
+
+
+    <!-- Termux:Tasker App Preferences -->
+    <string name="termux_tasker_preferences_title">&TERMUX_TASKER_APP_NAME; टर्मक्स टास्कर प्राथमिकताएं</string>
+    <string name="termux_tasker_preferences_summary">&TERMUX_TASKER_APP_NAME; ऐप के लिए प्राथमिकताएं</string>
+
+
+    <!-- Termux:Widget App Preferences -->
+    <string name="termux_widget_preferences_title">&TERMUX_WIDGET_APP_NAME; टर्मक्स विजेट प्राथमिकताएं</string>
+    <string name="termux_widget_preferences_summary">&TERMUX_WIDGET_APP_NAME; टर्मक्स विजेट प्राथमिकताएं सारांश</string>
+
+
+    <!-- About Preference -->
+    <string name="about_preference_title">के बारे में</string>
+
+    <!-- Donate Preference -->
+    <string name="donate_preference_title">दान करें</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">हैलो खाली फ्रैगमेंट</string>
+    <string name="file_cpy_success">फ़ाइल कॉपी हो गई है</string>
+    <string name="file_cpy_override">फ़ाइल ओवरराइट हो गई है</string>
+    <string name="file_cpy_fail">फ़ाइल को निर्दिष्ट पथ पर लिखा नहीं जा सका</string>
+    <string name="exit_toast_text">ऐप से बाहर निकलने के लिए फिर से दबाएं</string>
+    <string name="no_such_file">फ़ाइल नहीं मिली</string>
+    <string name="not_executable">निष्पादन योग्य नहीं है</string>
+    <string name="select_command_first">एक स्टार्टअप फ़ाइल चुनें</string>
+    <string name="apply_display_over_other_app_permission">पहले \"अन्य ऐप्स के ऊपर प्रदर्शित करें\" अनुमति लागू करें</string>
+    <string name="open_terminal">टर्मिनल खोलें</string>
+    <string name="terminate_current_process">वर्तमान चल रही प्रक्रिया को समाप्त करें</string>
+    <string name="unlock_layout">स्क्रीन स्लाइडर अनलॉक करें</string>
+    <string name="raise_termux_app">टर्मक्स ऐप उठाएं</string>
+    <string name="add_menu_item">फ्लोट बॉल मेनू में कुछ आइटम जोड़ें</string>
+    <string name="hide_terminal">टर्मिनल छिपाएं</string>
+    <string name="set_dinput">dinput</string>
+    <string name="set_xinput">xinput</string>
+    <string name="select_gamepad_input_mode">गेमपैड के लिए नियंत्रक प्रकार चुनें</string>
+    <string name="ready_set_mobox_env">XoDos सिस्टम स्थापित करें, इसमें कुछ समय लगेगा, कृपया नियंत्रण प्रकार चुनने के बाद प्रतीक्षा करें जब तक कि ऐप स्वचालित रूप से बंद न हो जाए। यदि यह 5 मिनट से अधिक समय तक खुला रहता है, तो इसे मैन्युअल रूप से बंद करें और फिर टर्मिनल में त्रुटि पढ़ें या डाउनलोड फ़ोल्डर में त्रुटि लॉग से। स्थापना अनुमति मांगेगी, कृपया इसे अनुमति दें और प्रतीक्षा करें और एक कप कॉफी पीएं,,.by XOD M.aleiwi</string>
+    <string name="yes">हां</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="executable_file">निष्पादन योग्य फ़ाइल</string>
+    <string name="remove_shortcut">क्या इस शॉर्टकट को हटाना चाहते हैं?</string>
+    <string name="remove">हटाएं</string>
+    <string name="invalid_config">अमान्य कॉन्फ़िगरेशन</string>
+</resources>

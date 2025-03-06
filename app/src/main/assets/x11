@@ -1,0 +1,45 @@
+
+#!/data/data/com.termux/files/usr/bin/sh
+    pkg remove termux-display-nightly -y
+pkg remove termux-x11-nightly -y
+dpkg -i /data/data/com.termux/files/home/termux-x11-nightly-1.03.01-0-all.deb
+sleep 1
+cp /data/data/com.termux/files/usr/bin/xodos /data/data/com.termux/files/xodos-normal
+cp /data/data/com.termux/files/usr/bin/xodxx /data/data/com.termux/files/xodxx-gamemode
+cp /data/data/com.termux/files/usr/bin/xodosset /data/data/com.termux/files/xodosset-settings
+cp  /data/data/com.termux/files/usr/bin/xodx /data/data/com.termux/files/xodx-bettergpu
+cp /data/data/com.termux/files/usr/bin/xodxd /data/data/com.termux/files/xodxd-proot
+cp /data/data/com.termux/files/usr/bin/xodset /data/data/com.termux/files/xodset-settings
+cp /data/data/com.termux/files/usr/bin/xodos-mali /data/data/com.termux/files/xodos-maligpu
+cp  /data/data/com.termux/files/usr/bin/kali /data/data/com.termux/files/kali-kaliroot
+cp  /data/data/com.termux/files/usr/bin/kaliu /data/data/com.termux/files/kaliu-kaliuser
+cp  /data/data/com.termux/files/home/switch /data/data/com.termux/files/switch-container
+cp  /data/data/com.termux/files/home/switch /data/data/com.termux/files/usr/bin/switch
+sleep 1
+chmod +x /data/data/com.termux/files/usr/bin/xodos
+chmod +x /data/data/com.termux/files/usr/bin/xodos-mali
+chmod +x /data/data/com.termux/files/usr/bin/xodxx
+chmod +x /data/data/com.termux/files/usr/bin/xodosset
+chmod +x /data/data/com.termux/files/usr/bin/xodx
+chmod +x /data/data/com.termux/files/usr/bin/xod
+chmod +x  /data/data/com.termux/files/usr/bin/xodset
+chmod +x /data/data/com.termux/files/usr/bin/xodxd
+chmod +x  /data/data/com.termux/files/usr/etc/bash.bashrc
+chmod +x  /data/data/com.termux/files/home/x11
+chmod +x /data/data/com.termux/files/xodos-normal
+chmod +x /data/data/com.termux/files/xodxx-gamemode
+chmod +x /data/data/com.termux/files/xodosset-settings
+chmod +x /data/data/com.termux/files/xodx-bettergpu
+chmod +x /data/data/com.termux/files/xodxd-proot
+chmod +x  /data/data/com.termux/files/bash.bashrc
+chmod +x /data/data/com.termux/files/xodset-settings
+chmod +x /data/data/com.termux/files/xodos-maligpu
+chmod +x /data/data/com.termux/files/usr/bin/kali
+chmod +x /data/data/com.termux/files/usr/bin/kaliu
+chmod +x /data/data/com.termux/files/usr/bin/switch
+chmod +x /data/data/com.termux/files/switch
+sleep 1
+rm -f /data/data/com.termux/files/xod/xodos.tar.xz && rm -f /data/data/com.termux/files/xod/xod.tar.gz
+sleep 3
+killall -9 com.termux
+exit

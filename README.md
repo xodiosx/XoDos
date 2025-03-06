@@ -12,7 +12,24 @@
     <img src="https://github.com/xodiosx/XoDos/blob/main/Logo.png" alt="Logo" width="330" height="300">
   </a>
 
-<h3 align="center">XoDos emulator</h3>
+## XoDos
+
+# About
+it's a fully fledged X server with termux and winlator touch controls together in one App. It is built with Android NDK.
+
+## Submodules
+This repo uses submodules. Use 
+
+```
+~ $ git clone --recurse-submodules https://github.com/xodiosx/XoDos
+```
+or
+```
+~ $ git clone https://github.com/xodiosx/XoDos
+~ $ cd XoDos
+~ $ git submodule update --init --recursive
+```
+
 
 # About
 it's a fully fledged X server with termux and winlator touch controls together in one App. It is built with Android NDK.

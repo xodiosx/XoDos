@@ -1,0 +1,58 @@
+#!/bin/bash
+# Termux Prefix Switcher
+# This Program will switch Termux Environment from 64-bit to 32-bit
+sleep 1
+
+	echo "making New container or switching old wait until automatically closed"
+	ur2=$PREFIX/../usr2
+echo $ur2 
+	if [ -d $ur2 ]; then
+echo "switchingng"
+		mv  $ur2 $PREFIX/../usr3
+sleep 3
+echo "restart"
+	else
+		echo "make new container"
+		#mv  $PREFIX/../usr $PREFIX/../usr2
+echo "restart"
+	cat > $PREFIX/../secondstage-setup.sh <<- EOM
+	#!/system/bin/sh
+	echo "Switching users"
+	mv usr usr2
+	echo "restart,,,"
+	rm secondstage-setup.sh
+	echo "[✓] Done, Please wait until restarting the app"
+	sleep 3
+killall -9 com.termux
+	EOM
+chmod 755 $PREFIX/../secondstage-setup.sh
+	cd $PREFIX/..
+
+	# Kill Current Process and Do Second Stage Setup
+	exec /system/bin/env -i ./secondstage-setup.sh
+
+
+
+# END OF MESSAGE EOM
+sleep 2		 
+	fi
+	cat > $PREFIX/../secondstage-setup.sh <<- EOM
+	#!/system/bin/sh
+	echo "Switching users"
+	mv usr usr2
+	echo "Switching back"
+	mv usr3 usr
+	rm secondstage-setup.sh
+	echo "[✓] Done, Please wait until restarting the app"
+	sleep 3
+killall -9 com.termux
+	EOM
+	chmod 755 $PREFIX/../secondstage-setup.sh
+	cd $PREFIX/..
+
+	# Kill Current Process and Do Second Stage Setup
+	exec /system/bin/env -i ./secondstage-setup.sh
+
+
+
+# END OF MESSAGE EOM

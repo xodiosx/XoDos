@@ -1,0 +1,327 @@
+<!DOCTYPE resources [<!ENTITY TERMUX_PACKAGE_NAME "com.termux"><!ENTITY TERMUX_APP_NAME "XoDos"><!ENTITY TERMUX_DISPLAY_APP_NAME "Termux:X11">]>
+<resources>
+    <string name="app_name">&TERMUX_DISPLAY_APP_NAME; </string>
+    <string name="plugin_info">&TERMUX_DISPLAY_APP_NAME; — это приложение-плагин для приложения &TERMUX_APP_NAME;.
+        \n\nПроверьте репозиторий приложения &TERMUX_APP_NAME; на GitHub %1$s и репозиторий приложения &TERMUX_DISPLAY_APP_NAME; на GitHub %2$s для получения дополнительной информации.</string>
+
+    <!-- TermuxX11Activity -->
+    <string name="msg_storage_permission_not_granted_warning">Приложению &TERMUX_DISPLAY_APP_NAME; необходимо предоставить разрешение на доступ к хранилищу, чтобы...</string>
+    <string name="action_grant_storage_permission">Предоставить разрешение на доступ к хранилищу</string>
+
+    <string name="msg_battery_optimization_not_disabled_warning">Оптимизация батареи Android должна быть отключена для приложения &TERMUX_DISPLAY_APP_NAME;, чтобы…
+        Проверьте https://developer.android.com/about/versions/oreo/background для получения дополнительной информации и
+        https://developer.android.com/guide/components/foreground-services#background-start-restrictions
+        для получения дополнительной информации.
+
+        \n\nТакже проверьте https://dontkillmyapp.com для получения информации о специфичных для производителей способах убийства приложений.
+        В зависимости от производителя вам может потребоваться выполнить такие действия, как включение AutoStart, отключение DuraSpeed,
+        включение `Отображение всплывающих окон при работе в фоновом режиме` для приложения.</string>
+    <string name="action_disable_battery_optimizations">Отключить оптимизацию батареи</string>
+
+    <string name="msg_display_over_other_apps_permission_not_granted_warning">Приложению &TERMUX_DISPLAY_APP_NAME; должно быть предоставлено разрешение на отображение поверх других приложений для запуска активностей на переднем плане из фона. Проверьте https://developer.android.com/guide/components/activities/background-starts
+        для получения дополнительной информации.
+    </string>
+    <string name="action_grant_display_over_other_apps_permission">Предоставить разрешение на отображение поверх других приложений</string>
+
+    <string name="action_already_granted">Уже предоставлено</string>
+    <string name="action_already_disabled">Уже отключено</string>
+    <string name="not_connected">Не подключено</string>
+    <string name="help_button_text">   Помощь   </string>
+    <string name="preferences_button_text">   Настройки   </string>
+    <string name="extra_keys_config_desc">Здесь вы можете установить значение переменной extra-keys, как в приложении Termux (читайте <a href="http://wiki.termux.com/wiki/Touch_Keyboard#Extra_Keys_Row">это</a>) и многое другое (например, META).</string>
+    <!--    preference-->
+    <string name="output">Вывод</string>
+    <string name="display_resolution_mode">Режим разрешения дисплея</string>
+    <string name="display_scale">Масштаб дисплея, %</string>
+    <string name="display_resolution">Разрешение дисплея</string>
+    <string name="display_resolution_summary">Пример: 1280x1024</string>
+    <string name="touch_sensitivity">Чувствительность касания, x300ms</string>
+    <string name="open_keyboard">Открыть клавиатуру</string>
+    <string name="open_controller">Открыть контроллер</string>
+    <string name="close_controller">Закрыть контроллер</string>
+    <string name="progress_manager">Менеджер прогресса</string>
+    <string name="install_x11_server_bridge">Установить систему XoDos</string>
+    <string name="stop_desktop">Остановить рабочий стол</string>
+    <string name="stretch_to_fit_display">Растянуть по размеру дисплея</string>
+    <string name="reseed_screen">Пересчитать экран при открытой экранной клавиатуре</string>
+    <string name="reseed_screen_summary">Размер экрана будет изменен при открытой экранной клавиатуре.</string>
+    <string name="pip_mode">Режим картинка в картинке (PIP)</string>
+    <string name="pip_mode_summary">Показывать приложение в режиме картинка в картинке при нажатии кнопки "Домой" или кнопки "Недавние"</string>
+    <string name="fullscreen_on_device_display">Полноэкранный режим на дисплее устройства</string>
+    <string name="fullscreen_on_device_display_summary">Переключает иммерсивный режим на дисплее вашего устройства</string>
+    <string name="force_landscape_orientation">Принудительная альбомная ориентация</string>
+    <string name="ignore_cutout_operation">Игнорировать регулировку выреза дисплея</string>
+    <string name="ignore_cutout_operation_summary">Включите это, чтобы избавиться от проблем с отображением на некоторых устройствах</string>
+    <string name="hide_display_cutout">Скрыть вырез дисплея (если есть)</string>
+    <string name="keep_screen_on">Не выключать экран</string>
+    <string name="pointer">Указатель</string>
+    <string name="touchscreen_input_mode">Режим ввода с сенсорного экрана</string>
+    <string name="apply_display_scale_factor_to_touchpad">Применить масштаб дисплея к тачпаду</string>
+    <string name="show_stylus_click_options">Показать параметры нажатия стилусом</string>
+    <string name="show_stylus_click_options_summary">Переопределение касания стилусом, левое, среднее или правое нажатие (только для стилуса)</string>
+    <string name="show_mouse_click_helper_overlay">Показать вспомогательное наложение для нажатий мышью</string>
+    <string name="show_mouse_click_helper_overlay_summary">Экранные кнопки мыши, используемые с тачпадом</string>
+    <string name="capture_external_mouse_when_possible">Захватывать внешнюю мышь, когда это возможно</string>
+    <string name="capture_external_mouse_when_possible_summary">Перехватывать все события аппаратной мыши. Указатель возвращается в Android после нажатия клавиши Escape.</string>
+    <string name="enable_tap_to_move_for_touchpads">Включить нажатие для перемещения на тачпадах</string>
+    <string name="show_additional_keyboard">Показать дополнительную клавиатуру</string>
+    <string name="show_additional_keyboard_summary">Показать клавиатуру с дополнительными клавишами.</string>
+    <string name="hide_additional_keyboard_on_volume_down_key_press">Скрыть дополнительную клавиатуру при нажатии кнопки уменьшения громкости</string>
+    <string name="show_ime_with_external_keyboard">Показать экранную клавиатуру при подключенной аппаратной клавиатуре</string>
+    <string name="show_ime_with_external_keyboard_summary">Показывает экранную клавиатуру при подключенной аппаратной клавиатуре. Требуется разрешение WRITE_SECURE_SETTINGS.</string>
+    <string name="prefer_scancodes_when_possible">Предпочитать сканкоды, когда это возможно</string>
+    <string name="prefer_scancodes_when_possible_summary">Позволяет серверу X обрабатывать раскладку аппаратной клавиатуры (с настройками DE или setxkbmap).</string>
+    <string name="intercept_system_shortcuts">Перехват системных сочетаний клавиш</string>
+    <string name="intercept_system_shortcuts_summary">Только для Samsung Dex. Позволяет перехватывать
+        &quot;Alt+F4&quot;, &quot;Meta+D&quot;, &quot;Meta+E&quot; и т.д. </string>
+    <string name="open_accessibility_settings">Открыть настройки доступности.</string>
+    <string name="open_accessibility_settings_summary">Включите службу доступности для ручного перехвата системных сочетаний клавиш.</string>
+    <string name="requires_write_secure_settings">Включите службу доступности для автоматического перехвата системных сочетаний клавиш.</string>
+    <string name="requires_write_secure_settings_summary">Требуется разрешение WRITE_SECURE_SETTINGS.</string>
+    <string name="filter_out_intercepted">Фильтровать перехваченный ключ Win (Meta/Mod4).</string>
+    <string name="filter_out_intercepted_summary">Позволяет использовать сочетания клавиш Dex при перехвате.</string>
+    <string name="extra_keys_config">Конфигурация дополнительных клавиш</string>
+    <string name="other">Другое</string>
+    <string name="automatic_uploading_clipboard">Автоматическая загрузка буфера обмена в Android</string>
+    <string name="request_notification_permission">Запросить разрешение на уведомления</string>
+    <!-- Log Level -->
+    <string name="log_level_title">Уровень журнала</string>
+    <string name="log_level_off">Выключено</string>
+    <string name="log_level_normal">Обычный</string>
+    <string name="log_level_debug">Отладка</string>
+    <string name="log_level_verbose">Подробный</string>
+    <string name="log_level_unknown">*Неизвестно*</string>
+    <string name="log_level_value">Уровень журнала Logcat установлен на \"%1$s\"</string>
+    <string name="start_button_start_x11">запустить сервер x11</string>
+    <string name="exit_button_exit_app">Выход</string>
+    <string name="x11_server_bridge_config">Установка системы XoDos займет некоторое время, пожалуйста, подождите, пока приложение не завершит работу автоматически. Если оно остается открытым дольше 5 минут, закройте его вручную и прочитайте ошибку в терминале или из журнала ошибок в папке загрузок. Установка запросит разрешение, пожалуйста, предоставьте его и подождите, наслаждаясь чашкой кофе... от XOD M.aleiwi.</string>
+
+    <!--inpt controller-->
+    <string name="run">Запустить</string>
+    <string name="edit">Редактировать</string>
+    <string name="remove">Удалить</string>
+    <string name="add">Добавить</string>
+    <string name="shortcuts">Ярлыки</string>
+    <string name="containers">Контейнеры</string>
+    <string name="input_controls">Элементы управления вводом</string>
+    <string name="no_items_to_display">Нет элементов для отображения</string>
+    <string name="new_container">Новый контейнер</string>
+    <string name="edit_container">Редактировать контейнер</string>
+    <string name="creating_container">Создание контейнера...</string>
+    <string name="removing_container">Удаление контейнера...</string>
+    <string name="duplicating_container">Дублирование контейнера...</string>
+    <string name="installing_system_files">Установка системных файлов...</string>
+    <string name="starting_up">Запуск...</string>
+    <string name="unable_to_install_system_files">Не удалось установить системные файлы</string>
+    <string name="keyboard">Клавиатура</string>
+    <string name="toggle_fullscreen">Переключить полноэкранный режим</string>
+    <string name="exit">Выход</string>
+    <string name="no_control_element_selected">Элемент управления не выбран</string>
+    <string name="scale">Масштаб</string>
+    <string name="shape">Форма</string>
+    <string name="type">Тип</string>
+    <string name="binding">Привязка</string>
+    <string name="binding_up">Привязка вверх</string>
+    <string name="binding_right">Привязка вправо</string>
+    <string name="binding_down">Привязка вниз</string>
+    <string name="binding_left">Привязка влево</string>
+    <string name="overlay_opacity">Прозрачность наложения</string>
+    <string name="profile">Профиль</string>
+    <string name="select_profile">Выбрать профиль</string>
+    <string name="profile_name">Имя профиля</string>
+    <string name="name">Имя</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отмена</string>
+    <string name="untitled">Без названия</string>
+    <string name="no_profile_selected">Профиль не выбран</string>
+    <string name="too_much_key">Слишком много клавиш, не более четырех</string>
+    <string name="cheat_code">Чит-код</string>
+    <string name="set_cheat_code">Установить</string>
+    <string name="no_profile_found">Профиль не найден</string>
+    <string name="do_you_want_to_remove_this_profile">Вы хотите удалить этот профиль?</string>
+    <string name="do_you_want_to_duplicate_this_profile">Вы хотите дублировать этот профиль?</string>
+    <string name="do_you_want_to_duplicate_this_preset">Вы хотите дублировать этот пресет?</string>
+    <string name="do_you_want_to_remove_this_container">Вы хотите удалить этот контейнер?</string>
+    <string name="do_you_want_to_duplicate_this_container">Вы хотите дублировать этот контейнер?</string>
+    <string name="do_you_want_to_remove_this_shortcut">Вы хотите удалить этот ярлык?</string>
+    <string name="do_you_want_to_remove_this_controller">Вы хотите удалить этот контроллер?</string>
+    <string name="do_you_want_to_remove_this_wine_version">Вы хотите удалить эту версию Wine?</string>
+    <string name="do_you_want_to_remove_this_preset">Вы хотите удалить этот пресет?</string>
+    <string name="do_you_want_to_end_this_process">Вы хотите завершить этот процесс?</string>
+    <string name="controls_editor">Редактор элементов управления</string>
+    <string name="enabled">Включено</string>
+    <string name="disabled">Отключено</string>
+    <string name="container">Контейнер</string>
+    <string name="screen_size">Размер экрана</string>
+    <string name="new_environment_variable">Новая переменная окружения</string>
+    <string name="environment_variables">Переменные окружения</string>
+    <string name="value">Значение</string>
+    <string name="processor_affinity">Привязка процессора</string>
+    <string name="cursor_speed">Скорость курсора</string>
+    <string name="lock_cursor">Заблокировать курсор</string>
+    <string name="toggle_switch">Переключить переключатель</string>
+    <string name="toggle_model">Переключение (не проверено)/Долгое нажатие (проверено)</string>
+    <string name="profile_exported_to">Профиль экспортирован в</string>
+    <string name="unable_to_import_profile">Не удалось импортировать профиль</string>
+    <string name="wine_configuration">Конфигурация Wine</string>
+    <string name="registry_keys">Ключи реестра</string>
+    <string name="csmt">CSMT (Command Stream Multi-Thread)</string>
+    <string name="gpu_name">Имя GPU</string>
+    <string name="offscreen_rendering_mode">Режим рендеринга вне экрана</string>
+    <string name="strict_shader_math">Строгая математика шейдеров</string>
+    <string name="video_memory_size">Размер видеопамяти</string>
+    <string name="show_fps">Показать FPS</string>
+    <string name="none">Нет</string>
+    <string name="custom_text">Пользовательский текст</string>
+    <string name="icon">Иконка</string>
+    <string name="import_profile">Импорт профиля</string>
+    <string name="export_profile">Экспорт профиля</string>
+    <string name="touchpad_help">Помощь по тачпаду</string>
+    <string name="touchpad_help_mouse_left_click_title">Левая кнопка мыши</string>
+    <string name="touchpad_help_mouse_left_click_description">Короткое нажатие одним пальцем</string>
+    <string name="touchpad_help_mouse_right_click_title">Правая кнопка мыши</string>
+    <string name="touchpad_help_mouse_right_click_description">Нажатие одним пальцем и короткое нажатие другим пальцем</string>
+    <string name="touchpad_help_mouse_scroll_wheel_title">Колесо прокрутки мыши</string>
+    <string name="touchpad_help_mouse_scroll_wheel_description">Нажатие двумя пальцами и перемещение</string>
+    <string name="touchpad_help_main_menu_title">Главное меню</string>
+    <string name="touchpad_help_main_menu_description">Нажатие четырьмя пальцами</string>
+    <string name="duplicate">Дублировать</string>
+    <string name="about">О программе</string>
+    <string name="credits_and_third_party_apps">Благодарности и сторонние приложения</string>
+    <string name="external_controllers">Внешние контроллеры</string>
+    <string name="graphics_driver">Драйвер графики</string>
+    <string name="audio_driver">Драйвер звука</string>
+    <string name="loading">Загрузка...</string>
+    <string name="press_any_button_on_your_controller">Нажмите любую кнопку на вашем контроллере</string>
+    <string name="bindings">Привязки</string>
+    <string name="show_touchscreen_controls">Показать элементы управления на сенсорном экране</string>
+    <string name="dxwrapper">DX Wrapper</string>
+    <string name="mouse_warp_override">Переопределение перемещения мыши</string>
+    <string name="direct3d">Direct3D</string>
+    <string name="directsound">DirectSound</string>
+    <string name="directmusic">DirectMusic</string>
+    <string name="directplay">DirectPlay</string>
+    <string name="directshow">DirectShow</string>
+    <string name="vcrun2010">Visual C++ 2010</string>
+    <string name="settings">Настройки</string>
+    <string name="exec_arguments">Аргументы выполнения</string>
+    <string name="win_components">Компоненты Windows</string>
+    <string name="drives">Диски</string>
+    <string name="force_fullscreen">Принудительный полноэкранный режим</string>
+    <string name="range">Диапазон</string>
+    <string name="enable">Включить</string>
+    <string name="disable">Отключить</string>
+    <string name="force">Принудительно</string>
+    <string name="installed_wine">Установленный Wine</string>
+    <string name="install_wine">Установить Wine</string>
+    <string name="arch">Архитектура</string>
+    <string name="version">Версия</string>
+    <string name="unable_to_install_wine">Не удалось установить Wine</string>
+    <string name="unable_to_remove_this_wine_version">Не удалось удалить эту версию Wine</string>
+    <string name="wine_version">Версия Wine</string>
+    <string name="removing_wine">Удаление Wine...</string>
+    <string name="preparing_installation">Подготовка к установке...</string>
+    <string name="finishing_installation">Завершение установки...</string>
+    <string name="storage_info">Информация о хранилище</string>
+    <string name="drive_c">Диск C:</string>
+    <string name="cache">Кэш</string>
+    <string name="total">Всего</string>
+    <string name="clear_cache">Очистить кэш</string>
+    <string name="estimated_used_space">Примерно использовано места</string>
+    <string name="advanced">Дополнительно</string>
+    <string name="box86_box64">Box86/Box64</string>
+    <string name="stop_services_on_startup">Остановить службы при запуске</string>
+    <string name="system">Система</string>
+    <string name="box86_preset">Пресет Box86</string>
+    <string name="box64_preset">Пресет Box64</string>
+    <string name="box86_version">Версия Box86</string>
+    <string name="box64_version">Версия Box64</string>
+    <string name="letter">Буква</string>
+    <string name="target_path">Целевой путь</string>
+    <string name="xserver">XServer</string>
+    <string name="use_dri3_extension">Использовать расширение DRI3</string>
+    <string name="width">Ширина</string>
+    <string name="height">Высота</string>
+    <string name="old">старый</string>
+    <string name="_new">новый</string>
+    <string name="task_manager">Диспетчер задач</string>
+    <string name="process_name">Имя процесса</string>
+    <string name="pid">PID</string>
+    <string name="memory">Память</string>
+    <string name="end_process">Завершить процесс</string>
+    <string name="new_task">Новая задача</string>
+    <string name="processes">Процессы</string>
+    <string name="orientation">Ориентация</string>
+    <string name="horizontal">Горизонтальная</string>
+    <string name="vertical">Вертикальная</string>
+    <string name="open_file">Открыть файл</string>
+    <string name="download_file">Скачать файл</string>
+    <string name="do_you_want_to_download_the_selected_profiles">Вы хотите скачать выбранные профили?</string>
+    <string name="downloading_file">Скачивание файла...</string>
+    <string name="unable_to_load_profile_list">Не удалось загрузить список профилей</string>
+    <string name="copy">Копировать</string>
+    <string name="installed_version">Установленная версия</string>
+    <string name="unable_to_download_file">Не удалось скачать файл</string>
+    <string name="stability">Стабильность</string>
+    <string name="compatibility">Совместимость</string>
+    <string name="intermediate">Промежуточный</string>
+    <string name="performance">Производительность</string>
+    <string name="preset">Пресет</string>
+    <string name="you_cannot_remove_this_preset">Вы не можете удалить этот пресет</string>
+    <string name="dxwrapper_help_content"><![CDATA[
+        <i><b>WineD3D</b></i> — это слой перевода DirectX 1-11 в OpenGL.<br /><br />
+        <i><b>DXVK</b></i> — это слой перевода Direct3D 9-11 в Vulkan.<br /><br />
+        <i><b>D8VK</b></i> — это слой перевода Direct3D 8 в Vulkan.<br /><br />
+        <i><b>CNC DDraw</b></i> — это реализация DirectDraw для лучшей совместимости с классическими играми.
+    ]]></string>
+    <string name="box86_64_env_var_help__dynarec_safeflags"><![CDATA[
+        Обработка флагов на опкодах CALL/RET<br /><br />
+        <b>0</b> : Обрабатывает CALL/RET так, как будто им никогда не нужны флаги (быстрее, нестабильно)<br />
+        <b>1</b> : Большинству RET потребуются флаги, большинству CALLS — нет<br />
+        <b>2</b> : Всем CALL/RET потребуются флаги (медленнее)
+    ]]></string>
+    <string name="box86_64_env_var_help__dynarec_fastnan">Генерация -NAN, как на x86</string>
+    <string name="box86_64_env_var_help__dynarec_fastround">Генерация точного округления x86</string>
+    <string name="box86_64_env_var_help__dynarec_x87double">Использование Float/Double для эмуляции x86</string>
+    <string name="box86_64_env_var_help__dynarec_bigblock"><![CDATA[
+        Построение Dynarec BigBlock<br /><br />
+        <b>0</b> : Не пытаться строить блок как можно больше<br />
+        <b>1</b> : Строить блок Dynarec как можно больше<br />
+        <b>2</b> : Строить блок Dynarec больше (продолжать, когда блоки перекрываются, но только для блоков в памяти elf)<br />
+        <b>3</b> : Строить блок Dynarec больше (продолжать, когда блоки перекрываются, для всех типов памяти)
+    ]]></string>
+    <string name="box86_64_env_var_help__dynarec_strongmem"><![CDATA[
+        Имитация модели сильной памяти<br /><br />
+        <b>0</b> : Не делать ничего особенного<br />
+        <b>1</b> : Включить некоторые барьеры памяти при записи в память (на некоторых опкодах MOV)<br />
+        <b>2</b> : Все 1 плюс барьер памяти на каждую запись в память с использованием MOV<br />
+        <b>2</b> : Все 2 плюс барьеры памяти при чтении из памяти и на некоторых опкодах SSE/SSE2
+    ]]></string>
+    <string name="box86_64_env_var_help__dynarec_forward">Определяет максимальное допустимое значение вперед при построении блока</string>
+    <string name="box86_64_env_var_help__dynarec_callret">Оптимизация опкодов CALL/RET</string>
+    <string name="box86_64_env_var_help__dynarec_wait">Определяет, будет ли Dynarec ждать готовности FillBlock</string>
+    <string name="columns">Столбцы</string>
+    <string name="directinput_mapper_type">Тип маппера DirectInput</string>
+    <string name="desktop">Рабочий стол</string>
+    <string name="theme">Тема</string>
+    <string name="background">Фон</string>
+    <string name="max_device_memory">Максимальная память устройства</string>
+    <string name="frame_rate">Частота кадров</string>
+    <string name="configuration">Конфигурация</string>
+    <string name="browse">Обзор</string>
+    <string name="magnifier">Увеличение</string>
+    <string name="bring_to_front">На передний план</string>
+    <string name="options">Параметры</string>
+    <string name="add_button">добавить ключ</string>
+    <string name="launch_button_text">запуск</string>
+    <string name="enabl_float_ball_menu">включить меню плавающего шара</string>
+    <string name="enable_global_float_ball_menu">глобальное меню плавающего шара</string>
+    <string name="start_keyboard_x11">нажмите кнопку назад, чтобы открыть экранную клавиатуру</string>
+    <string name="stop_keyboard_x11">остановить ввод с экранной клавиатуры x11</string>
+    <string name="enabl_float_ball_menu_notice">после включения разблокировка содержимого приложения и некоторые другие функции будут перемещены в меню плавающего шара</string>
+    <string name="open_x11_settings">показать настройки x11</string>
+    <string name="hide_x11_settings">скрыть настройки x11</string>
+    <string name="enable_touch_screen">сенсорный экран</string>
+    <string name="command">команда</string>
+    <string name="title">заголовок</string>
+</resources>

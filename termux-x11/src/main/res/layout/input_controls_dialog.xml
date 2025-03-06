@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/SProfile"
+            style="@style/ComboBox"
+            android:layout_width="300dp" />
+
+        <ImageView
+            android:id="@+id/BTSettings"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/icon_settings"
+            app:tint="@color/colorPrimary" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/CBShowTouchscreenControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/show_touchscreen_controls" />
+    <CheckBox
+        android:id="@+id/CBTouchScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/enable_touch_screen" />
+
+    <CheckBox
+        android:id="@+id/CBLockCursor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lock_cursor" />
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/output" android:key="output">
+		<ListPreference android:entries="@array/displayResolutionVariants" android:title="@string/display_resolution_mode" android:key="displayResolutionMode" android:defaultValue="native" android:entryValues="@array/displayResolutionVariants" />
+		<SeekBarPreference android:max="200" android:title="@string/display_scale" android:key="displayScale" android:defaultValue="100" />
+		<ListPreference android:entries="@array/displayResolution" android:title="@string/display_resolution" android:key="displayResolutionExact" android:defaultValue="1280x1024" android:entryValues="@array/displayResolution" />
+		<EditTextPreference android:title="@string/display_resolution" android:key="displayResolutionCustom" android:summary="@string/display_resolution_summary" android:defaultValue="1280x1024" />
+		<SeekBarPreference android:max="20" android:title="@string/touch_sensitivity" android:key="touch_sensitivity" android:defaultValue="1" />
+		<Preference android:title="@string/open_keyboard" android:key="open_keyboard" />
+		<Preference android:title="@string/open_controller" android:key="select_controller" />
+		<Preference android:title="@string/progress_manager" android:key="open_progress_manager" />
+		<Preference android:title="@string/install_x11_server_bridge" android:key="install_x11_server_bridge" />
+		<Preference android:title="@string/stop_desktop" android:key="stop_desktop" />
+		<SwitchPreferenceCompat android:title="@string/enabl_float_ball_menu" android:key="enableFloatBallMenu" android:summary="@string/enabl_float_ball_menu_notice" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/enable_global_float_ball_menu" android:key="enableGlobalFloatBallMenu" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/stretch_to_fit_display" android:key="displayStretch" android:defaultValue="true" />
+		<SwitchPreferenceCompat android:title="@string/reseed_screen" android:key="Reseed" android:summary="@string/reseed_screen_summary" android:defaultValue="true" />
+		<SwitchPreferenceCompat android:title="@string/pip_mode" android:key="PIP" android:summary="@string/pip_mode_summary" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/fullscreen_on_device_display" android:key="fullscreen" android:summary="@string/fullscreen_on_device_display_summary" android:defaultValue="true" />
+		<SwitchPreferenceCompat android:title="@string/force_landscape_orientation" android:key="forceLandscape" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/hide_display_cutout" android:key="hideCutout" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/keep_screen_on" android:key="keepScreenOn" android:defaultValue="true" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Pointer" android:key="pointer">
+		<ListPreference android:entries="@array/touchscreenInputModesEntries" android:title="@string/touchscreen_input_mode" android:key="touchMode" android:defaultValue="1" android:entryValues="@array/touchscreenInputModesValues" />
+		<SwitchPreferenceCompat android:title="@string/apply_display_scale_factor_to_touchpad" android:key="scaleTouchpad" android:defaultValue="true" />
+		<SwitchPreferenceCompat android:title="@string/show_stylus_click_options" android:key="showStylusClickOverride" android:summary="@string/show_stylus_click_options_summary" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/show_mouse_click_helper_overlay" android:key="showMouseHelper" android:summary="@string/show_mouse_click_helper_overlay_summary" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/capture_external_mouse_when_possible" android:key="pointerCapture" android:summary="@string/capture_external_mouse_when_possible_summary" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/enable_tap_to_move_for_touchpads" android:key="tapToMove" android:defaultValue="false" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/keyboard" android:key="kbd">
+		<SwitchPreferenceCompat android:title="@string/show_additional_keyboard" android:key="showAdditionalKbd" android:summary="@string/show_additional_keyboard_summary" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/hide_additional_keyboard_on_volume_down_key_press" android:key="hideEKOnVolDown" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/show_ime_with_external_keyboard" android:key="showIMEWhileExternalConnected" android:summary="@string/show_ime_with_external_keyboard_summary" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/prefer_scancodes_when_possible" android:key="preferScancodes" android:summary="@string/prefer_scancodes_when_possible_summary" android:defaultValue="true" />
+		<SwitchPreferenceCompat android:title="@string/intercept_system_shortcuts" android:key="dexMetaKeyCapture" android:summary="@string/intercept_system_shortcuts_summary" android:defaultValue="false" />
+		<Preference android:title="@string/open_accessibility_settings" android:key="enableAccessibilityService" android:summary="@string/open_accessibility_settings_summary" />
+		<SwitchPreferenceCompat android:title="@string/requires_write_secure_settings" android:key="enableAccessibilityServiceAutomatically" android:summary="@string/requires_write_secure_settings_summary" android:defaultValue="false" />
+		<SwitchPreferenceCompat android:title="@string/filter_out_intercepted" android:key="filterOutWinkey" android:summary="@string/filter_out_intercepted_summary" android:defaultValue="false" />
+		<Preference android:title="@string/extra_keys_config" android:key="extra_keys_config" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/other" android:key="other">
+		<SwitchPreferenceCompat android:title="@string/automatic_uploading_clipboard" android:key="clipboardSync" android:defaultValue="true" />
+		<Preference android:title="@string/request_notification_permission" android:key="requestNotificationPermission" />
+	</PreferenceCategory>
+</PreferenceScreen>

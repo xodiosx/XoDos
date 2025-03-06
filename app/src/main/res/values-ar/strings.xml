@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE resources [<!ENTITY TERMUX_PACKAGE_NAME "com.termux"><!ENTITY TERMUX_APP_NAME "XoDos"><!ENTITY TERMUX_API_APP_NAME "Termux:API"><!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot"><!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float"><!ENTITY TERMUX_STYLING_APP_NAME "Termux:Styling"><!ENTITY TERMUX_TASKER_APP_NAME "Termux:Tasker"><!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">]>
+<resources>
+    <string name="application_name">XoDos</string>
+    <string name="shared_user_label">user</string>
+    <!-- Termux RUN_COMMAND permission -->
+    <string name="permission_run_command_label">تشغيل الأوامر في بيئة &TERMUX_APP_NAME;</string>
+    <string name="permission_run_command_description">تنفيذ أوامر عشوائية داخل بيئة &TERMUX_APP_NAME; والوصول إلى الملفات</string>
+
+
+    <!-- Termux Bootstrap Packages Installation -->
+    <string name="bootstrap_installer_body">جارٍ تثبيت حزم Bootstrap…</string>
+    <string name="bootstrap_error_title">تعذر تثبيت Bootstrap</string>
+    <string name="bootstrap_error_body">تعذر على &TERMUX_APP_NAME; تثبيت حزم Bootstrap.</string>
+    <string name="bootstrap_error_abort">إلغاء</string>
+    <string name="bootstrap_error_try_again">حاول مرة أخرى</string>
+    <string name="bootstrap_error_not_primary_user_message">يمكن تشغيل &TERMUX_APP_NAME;&TERMUX_APP_NAME;" فقط كمستخدم رئيسي. تم تجميع ثنائيات Bootstrap مع مسار $PREFIX ثابت ولا يمكن تثبيتها تحت أي مسار آخر غير:%1$s."</string>
+    <string name="bootstrap_error_installed_on_portable_sd">لا يمكن تثبيت &TERMUX_APP_NAME;&TERMUX_APP_NAME;" على بطاقة SD المحمولة/الخارجية/القابلة للإزالة على جهازك. تم تجميع ثنائيات Bootstrap مع مسار $PREFIX ثابت ولا يمكن تثبيتها تحت أي مسار آخر غير:%1$s."</string>
+
+
+    <!-- Terminal Sidebar and Shortcuts -->
+    <string name="action_new_session">جلسة جديدة</string>
+    <string name="action_new_session_failsafe">وضع الأمان</string>
+    <string name="title_max_terminals_reached">تم الوصول إلى الحد الأقصى من المحطات</string>
+    <string name="msg_max_terminals_reached">أغلق المحطات الحالية قبل إنشاء محطات جديدة.</string>
+
+    <string name="title_rename_session">تعيين اسم الجلسة</string>
+    <string name="action_rename_session_confirm">تعيين</string>
+    <string name="title_create_named_session">جلسة جديدة مسمىة</string>
+    <string name="action_create_named_session_confirm">إنشاء</string>
+
+    <string name="action_toggle_soft_keyboard">لوحة المفاتيح</string>
+    <string name="action_toggle_tool_box">صندوق الأدوات</string>
+
+    <string name="msg_enabling_terminal_toolbar">تمكين شريط أدوات المحطة</string>
+    <string name="msg_disabling_terminal_toolbar">تعطيل شريط أدوات المحطة</string>
+
+
+    <!-- Terminal Popup -->
+    <string name="action_select_url">اختر الرابط</string>
+    <string name="title_select_url_dialog">انقر على الرابط للنسخ أو اضغط مطولاً لفتحه</string>
+    <string name="title_select_url_none_found">لم يتم العثور على أي رابط في المحطة.</string>
+    <string name="msg_select_url_copied_to_clipboard">تم نسخ الرابط إلى الحافظة</string>
+
+    <string name="action_share_transcript">مشاركة النص</string>
+    <string name="title_share_transcript">نص المحطة</string>
+    <string name="title_share_transcript_with">إرسال النص إلى:</string>
+
+    <string name="action_share_selected_text">مشاركة النص المحدد</string>
+    <string name="title_share_selected_text">نص المحطة</string>
+    <string name="title_share_selected_text_with">إرسال النص المحدد إلى:</string>
+
+    <string name="action_autofill_password">ملء كلمة المرور تلقائياً</string>
+
+    <string name="action_reset_terminal">إعادة الضبط</string>
+    <string name="msg_terminal_reset">تم إعادة ضبط المحطة</string>
+
+    <string name="action_kill_process">إنهاء العملية (%d)</string>
+    <string name="title_confirm_kill_process">هل تريد حقاً إنهاء هذه الجلسة؟</string>
+
+    <string name="action_style_terminal">النمط</string>
+    <string name="action_toggle_keep_screen_on">إبقاء الشاشة مضاءة</string>
+    <string name="action_open_help">مساعدة</string>
+    <string name="action_open_settings">الإعدادات</string>
+    <string name="action_recover_storage">استعادة</string>
+    <string name="action_backup_storage">نسخ احتياطي</string>
+
+    <string name="action_report_issue">الإبلاغ عن مشكلة</string>
+    <string name="msg_generating_report">جارٍ إنشاء التقرير</string>
+    <string name="msg_add_termux_debug_info">هل تريد إضافة معلومات تصحيح Termux إلى التقرير؟</string>
+
+    <string name="error_styling_not_installed">تطبيق الإضافة &TERMUX_STYLING_APP_NAME; غير مثبت.</string>
+    <string name="action_styling_install">تثبيت</string>
+
+
+    <!-- Termux Notifications -->
+    <string name="notification_action_exit">خروج</string>
+    <string name="notification_action_wake_lock">الحصول على Wake Lock</string>
+    <string name="notification_action_wake_unlock">إطلاق Wake Lock</string>
+
+
+    <!-- TermuxService -->
+    <string name="error_display_over_other_apps_permission_not_granted_to_start_terminal">يتطلب &TERMUX_APP_NAME;
+        إذن \"عرض فوق التطبيقات الأخرى\" لبدء جلسات المحطة من الخلفية على Android >= 10.
+        قم بمنحه من الإعدادات -> التطبيقات -> &TERMUX_APP_NAME; -> متقدم</string>
+    <string name="error_termux_service_invalid_execution_command_runner">مشغل أمر تنفيذ غير صالح لـ TermuxService: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_runner">مشغل أمر تنفيذ غير مدعوم لـ TermuxService: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_shell_create_mode">وضع إنشاء shell غير مدعوم لـ TermuxService: `%1$s`</string>
+    <string name="error_termux_service_execution_command_shell_name_unset">لم يتم تعيين اسم shell ولكن تم تمرير وضع إنشاء shell `%1$s`</string>
+
+
+    <!-- Termux RunCommandService -->
+    <string name="error_run_command_service_invalid_intent_action">إجراء نية غير صالح لـ RunCommandService: `%1$s`</string>
+    <string name="error_run_command_service_invalid_execution_command_runner">مشغل أمر تنفيذ غير صالح لـ RunCommandService: `%1$s`</string>
+    <string name="error_run_command_service_mandatory_extra_missing">بيانات إضافية إلزامية مفقودة لـ RunCommandService: \"%1$s\"</string>
+    <string name="error_run_command_service_api_help">قم بزيارة %1$s لمزيد من المعلومات حول استخدام نية RUN_COMMAND.</string>
+
+
+    <!-- Termux File Receiver -->
+    <string name="title_file_received">حفظ الملف في ~/downloads/</string>
+    <string name="action_file_received_edit">تحرير</string>
+    <string name="action_file_received_open_directory">فتح الدليل</string>
+
+
+    <!-- Miscellaneous -->
+    <string name="error_termux_service_start_failed_general">فشل بدء TermuxService. تحقق من logcat لمعرفة رسالة الاستثناء.</string>
+    <string name="error_termux_service_start_failed_bg">فشل بدء TermuxService أثناء وجود التطبيق في الخلفية بسبب قيود الخلفية في Android.</string>
+
+
+    <!-- Termux Settings -->
+    <string name="title_activity_termux_settings">إعدادات &TERMUX_APP_NAME;</string>
+
+    <!-- Termux App Preferences -->
+    <string name="termux_preferences_title">تفضيلات &TERMUX_APP_NAME;</string>
+    <string name="termux_preferences_summary">تفضيلات تطبيق &TERMUX_APP_NAME;</string>
+
+    <!-- Debugging Preferences -->
+    <string name="termux_debugging_preferences_title">التصحيح</string>
+    <string name="termux_debugging_preferences_summary">تفضيلات التصحيح</string>
+
+    <!-- Logging Category -->
+    <string name="termux_logging_header">التسجيل</string>
+
+    <!-- Log Level -->
+    <string name="termux_log_level_title">مستوى التسجيل</string>
+
+    <!-- Terminal View Key Logging -->
+    <string name="termux_terminal_view_key_logging_enabled_title">تسجيل مفاتيح عرض المحطة</string>
+    <string name="termux_terminal_view_key_logging_enabled_off">لن تحتوي السجلات على إدخالات لمفاتيح عرض المحطة. (افتراضي)</string>
+    <string name="termux_terminal_view_key_logging_enabled_on">ستحتوي سجلات logcat على إدخالات لمفاتيح عرض المحطة.
+                    هذه السجلات مفصلة جداً ويجب تعطيلها في الظروف العادية أو قد تسبب مشاكل في الأداء.</string>
+
+    <!-- Plugin Error Notifications -->
+    <string name="termux_plugin_error_notifications_enabled_title">إشعارات أخطاء الإضافات</string>
+    <string name="termux_plugin_error_notifications_enabled_off">تعطيل الومضات والإشعارات لأخطاء الإضافات.</string>
+    <string name="termux_plugin_error_notifications_enabled_on">عرض الومضات والإشعارات لأخطاء الإضافات. (افتراضي)</string>
+
+    <!-- Crash Report Notifications -->
+    <string name="termux_crash_report_notifications_enabled_title">إشعارات تقارير الأعطال</string>
+    <string name="termux_crash_report_notifications_enabled_off">تعطيل الإشعارات لتقارير الأعطال.</string>
+    <string name="termux_crash_report_notifications_enabled_on">عرض الإشعارات لتقارير الأعطال. (افتراضي)</string>
+
+
+    <!-- Terminal IO Preferences -->
+    <string name="termux_terminal_io_preferences_title">إدخال/إخراج المحطة</string>
+    <string name="termux_terminal_io_preferences_summary">تفضيلات إدخال/إخراج المحطة</string>
+
+    <!-- Keyboard Category -->
+    <string name="termux_keyboard_header">لوحة المفاتيح</string>
+
+    <!-- Soft Keyboard -->
+    <string name="termux_soft_keyboard_enabled_title">تمكين لوحة المفاتيح اللينة</string>
+    <string name="termux_soft_keyboard_enabled_off">سيتم تعطيل لوحة المفاتيح اللينة.</string>
+    <string name="termux_soft_keyboard_enabled_on">سيتم تمكين لوحة المفاتيح اللينة. (افتراضي)</string>
+
+    <!-- Soft Keyboard Only If No Hardware-->
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_title">لوحة المفاتيح اللينة فقط إذا لم يكن هناك هاردوير</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_off">سيتم تمكين لوحة المفاتيح اللينة حتى إذا تم توصيل لوحة مفاتيح هاردوير. (افتراضي)</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_on">سيتم تمكين لوحة المفاتيح اللينة فقط إذا لم يتم توصيل لوحة مفاتيح هاردوير.</string>
+
+
+    <!-- Terminal View Preferences -->
+    <string name="termux_terminal_view_preferences_title">عرض المحطة</string>
+    <string name="termux_terminal_view_preferences_summary">تفضيلات عرض المحطة</string>
+
+    <!-- View Category -->
+    <string name="termux_terminal_view_view_header">العرض</string>
+
+    <!-- Terminal View Margin Adjustment -->
+    <string name="termux_terminal_view_terminal_margin_adjustment_title">ضبط هوامش المحطة</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_off">سيتم تعطيل ضبط هوامش المحطة.</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_on">سيتم تمكين ضبط هوامش المحطة.
+                    يجب تمكينه لمحاولة إصلاح المشكلة التي تغطي فيها لوحة المفاتيح اللينة جزءاً من المفاتيح الإضافية/عرض المحطة.
+                    إذا تسبب في وميض الشاشة على أجهزتك، قم بتعطيله. (افتراضي)</string>
+
+
+    <!-- Termux:API App Preferences -->
+    <string name="termux_api_preferences_title">تفضيلات &TERMUX_API_APP_NAME;</string>
+    <string name="termux_api_preferences_summary">تفضيلات تطبيق &TERMUX_API_APP_NAME;</string>
+
+
+    <!-- Termux:Float App Preferences -->
+    <string name="termux_float_preferences_title">تفضيلات &TERMUX_FLOAT_APP_NAME;</string>
+    <string name="termux_float_preferences_summary">تفضيلات تطبيق &TERMUX_FLOAT_APP_NAME;</string>
+
+
+    <!-- Termux:Tasker App Preferences -->
+    <string name="termux_tasker_preferences_title">تفضيلات &TERMUX_TASKER_APP_NAME;</string>
+    <string name="termux_tasker_preferences_summary">تفضيلات تطبيق &TERMUX_TASKER_APP_NAME;</string>
+
+
+    <!-- Termux:Widget App Preferences -->
+    <string name="termux_widget_preferences_title">تفضيلات &TERMUX_WIDGET_APP_NAME;</string>
+    <string name="termux_widget_preferences_summary">ملخص تفضيلات &TERMUX_WIDGET_APP_NAME;</string>
+
+
+    <!-- About Preference -->
+    <string name="about_preference_title">حول</string>
+
+    <!-- Donate Preference -->
+    <string name="donate_preference_title">تبرع</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">مرحباً، جزء فارغ</string>
+    <string name="file_cpy_success">تم نسخ الملف بنجاح</string>
+    <string name="file_cpy_override">تم استبدال الملف</string>
+    <string name="file_cpy_fail">تعذر كتابة الملف إلى المسار المحدد</string>
+    <string name="exit_toast_text">اضغط مرة أخرى للخروج من التطبيق</string>
+    <string name="no_such_file">الملف غير موجود</string>
+    <string name="not_executable">غير قابل للتنفيذ</string>
+    <string name="select_command_first">اختر ملف بدء التشغيل أولاً</string>
+    <string name="apply_display_over_other_app_permission">قم بتطبيق إذن \"عرض فوق التطبيقات الأخرى\" أولاً</string>
+    <string name="open_terminal">فتح المحطة</string>
+    <string name="terminate_current_process">إنهاء العملية الحالية</string>
+    <string name="unlock_layout">فتح قفل الشاشة</string>
+    <string name="raise_termux_app">رفع تطبيق Termux</string>
+    <string name="add_menu_item">إضافة عنصر إلى قائمة الكرة العائمة</string>
+    <string name="hide_terminal">إخفاء المحطة</string>
+    <string name="set_dinput">dinput</string>
+    <string name="set_xinput">xinput</string>
+    <string name="select_gamepad_input_mode">اختر نوع التحكم لوحدة الألعاب</string>
+    <string name="ready_set_mobox_env">تثبيت نظام XoDos، سيستغرق ذلك بعض الوقت، يرجى الانتظار بعد اختيار نوع التحكم حتى يغلق التطبيق تلقائياً. إذا بقي مفتوحاً لأكثر من 5 دقائق، قم بإغلاقه يدوياً ثم اقرأ الخطأ في الطرفية أو من سجل الأخطاء في مجلد التنزيلات. سيطلب التثبيت الإذن، يرجى السماح له والانتظار وتناول فنجان قهوة,,.by XOD M.aleiwi</string>
+    <string name="yes">نعم</string>
+    <string name="cancel">إلغاء</string>
+    <string name="executable_file">ملف قابل للتنفيذ</string>
+    <string name="remove_shortcut">هل تريد إزالة هذا الاختصار؟</string>
+    <string name="remove">حذف</string>
+    <string name="invalid_config">تهيئة غير صالحة</string>
+</resources>

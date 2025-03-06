@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <Spinner
+        android:id="@+id/SCBBindingType"
+        style="@style/ComboBox"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:entries="@array/binding_type_entries" />
+
+    <Spinner
+        android:id="@+id/SCBBinding"
+        style="@style/ComboBox"
+        android:layout_width="0dp"
+        android:layout_weight="4" />
+
+    <ImageButton
+        android:id="@+id/IBTNDelKeyBinding"
+        style="@style/BaseImageButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/ic_trash" />
+</LinearLayout>

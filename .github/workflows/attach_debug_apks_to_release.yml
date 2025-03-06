@@ -1,0 +1,88 @@
+name: Attach Debug APKs To Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package_variant: [apt-android-7, apt-android-5]
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Clone repository and submodules
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          submodules: 'recursive'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Make Gradle Wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Initialize/Update Submodules
+        run: |
+          git submodule sync
+          git submodule update --init --recursive
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: "temurin"
+
+      - name: Build
+        shell: bash
+        env:
+          PACKAGE_VARIANT: ${{ matrix.package_variant }}
+        run: |
+          CURRENT_VERSION_NAME_REGEX='\s+versionName "([^"]+)"$'
+          CURRENT_VERSION_NAME=$(grep -m 1 -E "$CURRENT_VERSION_NAME_REGEX" ./app/build.gradle | sed -r "s/$CURRENT_VERSION_NAME_REGEX/\1/")
+          RELEASE_VERSION_NAME="v${CURRENT_VERSION_NAME}+${GITHUB_SHA:0:7}"
+          APK_DIR_PATH="./app/build/outputs/apk/debug"
+          APK_VERSION_TAG="${RELEASE_VERSION_NAME}+${{ matrix.package_variant }}-github-debug"
+          APK_BASENAME_PREFIX="termux-app_${APK_VERSION_TAG}"
+
+          echo "RELEASE_VERSION_NAME=${RELEASE_VERSION_NAME}" >> $GITHUB_ENV
+          
+          echo "Building APKs for ${APK_VERSION_TAG} release"
+          ./gradlew assembleDebug
+
+          echo "Validating APKs"
+          for abi in universal arm64-v8a armeabi-v7a x86_64 x86; do
+            if ! test -f "${APK_DIR_PATH}/${APK_BASENAME_PREFIX}_${abi}.apk"; then
+              echo "APK not found: ${APK_DIR_PATH}/${APK_BASENAME_PREFIX}_${abi}.apk"
+              exit 1
+            fi
+          done
+
+      - name: Upload APKs to GitHub artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.package_variant }}
+          path: ./app/build/outputs/apk/debug/*.apk
+
+  upload:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+
+      - name: Upload APKs to release
+        uses: termux/upload-release-action@v4.1.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./app/build/outputs/apk/debug/*.apk
+          tag: ${{ needs.build.outputs.release_version }}
+          release_name: ${{ needs.build.outputs.release_version }}
+          checksums: sha256,sha512,md5
+          create_release: true

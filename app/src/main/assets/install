@@ -1,0 +1,313 @@
+#!/bin/bash
+# This Program will install XoDos 
+
+sleep 1
+
+YES | termux-setup-storage && 
+sleep 0.5
+YES | termux-setup-storage
+sleep 2
+# Log file
+LOG_FILE="/storage/emulated/0/Download/XoDosx64error.log"
+ 
+ 
+# Function to handle errors
+handle_error() {
+    local command="$1"
+    local error="$2"
+    local timestamp=$(date +"%Y-%m-%d %T")
+    
+
+    # Log the error
+    echo "[$timestamp] Error in command: $command" >> "$LOG_FILE"
+    echo "[$timestamp] Error message: $error" >> "$LOG_FILE"
+    echo >> "$LOG_FILE"  # Add a newline
+    
+    # Additional error handling logic
+    true
+}
+
+# Set the error handler function
+trap 'handle_error "$BASH_COMMAND" "$?"' ERR
+ps 1>> "$LOG_FILE"
+lscpu 1>> "$LOG_FILE"
+uname -a 1>> "$LOG_FILE"
+echo "checking stuff please wait"
+echo “正在检查内容，请稍候”
+echo "「確認中ですのでお待ちください"
+echo "Vérification des choses, veuillez patienter"
+echo "सामान की जाँच हो रही है कृपया प्रतीक्षा करें"
+echo "رﺎﻈﺘﻧﻹﺍ ءﺎﺟﺮﺑ ءﺎﻴﺷﻷﺍ ﻦﻣ ﻖﻘﺤﺘﻟﺍ يﺭﺎﺟ"
+sleep 1
+file1=/data/data/com.termux/files/home/xodos.tar.xz
+ 
+sleep 1
+
+go(){
+	# Check if running as 32-bit
+	case "$(uname -m)" in
+		armv8*|armv7*|i*86)
+			cat <<- EOM
+			Cannot install XoDos system x64 because: Your device is running in 32-bit
+		لا يمكن تثبيت نظام XoDos x64 للأسباب التالية: جهازك يعمل في 32
+			EOM
+			exit 2
+			;; 
+		*) ;;
+	esac
+	# Print some warning message
+	cat <<- EOM
+	WARNING: You are about to install the XoDos system 64-bit,
+سيتم تثبت نظام تشغيل XoDos
+
+	The Installation will begin in 3 seconds, please wait until the app closes  automatically 
+	EOM
+	sleep 3.5
+
+	echo "couldn't find XoDos archive in download folder"
+	case "$(uname -m)" in
+		aarch64)
+			#mv ~/bootstrap-arm.zip ~/termux-bootstrap.zip.32
+			;;
+		x86_64)
+			#mv ~/bootstrap-i686.zip ~/termux-bootstrap.zip32
+			;;
+		*) 
+			#exit 2
+	esac
+
+	# Check if file is downloaded properly
+	
+
+	# Unpack and remove existing installation
+	echo "[*] Unpacking 64bit XoDos system"
+	echo "please wait while installing system until the app automatically exit"
+	sleep 3
+	#chmod 755 $PREFIX/../usr -R ||:
+	#rm -rf $PREFIX/../usr2
+mkdir $PREFIX/../xod
+sleep 1
+	tar -xf $file1 -C /data/data/com.termux/files  --preserve-permissions 
+	sleep 1
+	mv -f ~/patch.tar.xz /data/data/com.termux/files/xod 
+sleep 2
+tar  -xvf /data/data/com.termux/files/xod/patch.tar.xz -C /data/data/com.termux/files  --preserve-permissions 2>> "$LOG_FILE"
+echo "[*] extracting patches"
+
+sleep 1
+
+	# Process Symlinks
+	
+	#cd $PREFIX/../usr2
+	#while read
+	#rm SYMLINKS.txt
+	 
+	# Create Second Stage Script
+	echo "[*] second stage fix"
+	echo "fixesHomeEnv="$fixesHomeEnv
+    echo "pathEnv="$pathEnv
+    echo "winePathEnv="$winePathEnv
+    echo $fixesHomeEnv >> ~/.bashrc
+    echo $pathEnv >> ~/.bashrc
+
+    tar -xf ~/wine.tar -C $winePathEnv/lib/
+    cp -rf ~/wfm.exe $PREFIX/glibc/opt/apps/
+    cp -rf ~/winhandler.exe $PREFIX/glibc/opt/apps/
+    #sed -i '/"dinput"="builtin,native"/d' $PREFIX/glibc/opt/prefix/user.reg
+    #sed -i '/"dinput"="native,builtin"/d' $PREFIX/glibc/opt/prefix/user.reg
+    #sed -i '/"xinput1_4"="builtin,native"/d' $PREFIX/glibc/opt/prefix/user.reg
+    #sed -i '/"xinput1_4"="native,builtin"/d' $PREFIX/glibc/opt/prefix/user.reg
+    #sed -i '/"xinputuap"="builtin,native"/d' $PREFIX/glibc/opt/prefix/user.reg
+    #sed -i '/"xinputuap"="native,builtin"/d' $PREFIX/glibc/opt/prefix/user.reg
+    #sed -i '/^$/d' $PREFIX/glibc/opt/prefix/user.reg
+    if [ $# -eq 0 ]; then
+        echo "default game pad controller set"
+        if grep -q '^"dinput' $PREFIX/glibc/opt/prefix/user.reg ;then
+            sed -i 's/"dinput8"="native,builtin"/DINPUTSET/g' $PREFIX/glibc/opt/prefix/user.reg
+            if grep -q 'DINPUTSET' $PREFIX/glibc/opt/prefix/user.reg ;then
+                sed -i '/^"dinput/d' $PREFIX/glibc/opt/prefix/user.reg
+                sed -i 's/DINPUTSET/"dinput"="builtin,native"\n"dinput8"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+            fi
+        else
+            sed -i 's/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]\n"dinput"="builtin,native"\n"dinput8"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+        fi
+        if grep -q '^"xinput' $PREFIX/glibc/opt/prefix/user.reg ;then
+            sed -i 's/"xinput1_1"="native,builtin"/XINPUTSET/g' $PREFIX/glibc/opt/prefix/user.reg
+            if grep -q 'XINPUTSET' $PREFIX/glibc/opt/prefix/user.reg ;then
+                sed -i '/^"xinput/d' $PREFIX/glibc/opt/prefix/user.reg
+                sed -i 's/XINPUTSET/"xinput1_1"="builtin,native"\n"xinput1_2"="builtin,native"\n"xinput1_3"="builtin,native"\n"xinput1_4"="builtin,native"\n"xinput9_1_0"="builtin,native"\n"xinputuap"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+            fi
+        else
+            sed -i 's/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]\n"xinput1_1"="builtin,native"\n"xinput1_2"="builtin,native"\n"xinput1_3"="builtin,native"\n"xinput1_4"="builtin,native"\n"xinput9_1_0"="builtin,native"\n"xinputuap"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+        fi
+    elif [ "$1" -eq 1 ]; then
+        echo "dinput game pad controller set"
+        if grep -q '^"dinput' $PREFIX/glibc/opt/prefix/user.reg ;then
+            sed -i 's/"dinput8"="native,builtin"/DINPUTSET/g' $PREFIX/glibc/opt/prefix/user.reg
+            if grep -q 'DINPUTSET' $PREFIX/glibc/opt/prefix/user.reg ;then
+                sed -i '/^"dinput/d' $PREFIX/glibc/opt/prefix/user.reg
+                sed -i 's/DINPUTSET/"dinput"="builtin,native"\n"dinput8"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+            fi
+        else
+            sed -i 's/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]\n"dinput"="builtin,native"\n"dinput8"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+        fi
+        if grep -q '^"xinput' $PREFIX/glibc/opt/prefix/user.reg ;then
+            sed -i 's/"xinput1_1"="builtin,native"/XINPUTSET/g' $PREFIX/glibc/opt/prefix/user.reg
+            if grep -q 'XINPUTSET' $PREFIX/glibc/opt/prefix/user.reg ;then
+                sed -i '/^"xinput/d' $PREFIX/glibc/opt/prefix/user.reg
+                sed -i 's/XINPUTSET/"xinput1_1"="native,builtin"\n"xinput1_2"="native,builtin"\n"xinput1_3"="native,builtin"\n"xinput1_4"="native,builtin"\n"xinput9_1_0"="native,builtin"\n"xinputuap"="native,builtin"/g' $PREFIX/glibc/opt/prefix/user.reg
+            fi
+        else
+            sed -i 's/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]\n"xinput1_1"="native,builtin"\n"xinput1_2"="native,builtin"\n"xinput1_3"="native,builtin"\n"xinput1_4"="native,builtin"\n"xinput9_1_0"="native,builtin"\n"xinputuap"="native,builtin"/g' $PREFIX/glibc/opt/prefix/user.reg
+        fi
+
+    elif [ "$1" -eq 2 ]; then
+        echo "xinput game pad controller set"
+        if grep -q '^"dinput' $PREFIX/glibc/opt/prefix/user.reg ;then
+            sed -i 's/"dinput8"="builtin,native"/DINPUTSET/g' $PREFIX/glibc/opt/prefix/user.reg
+            if grep -q 'DINPUTSET' $PREFIX/glibc/opt/prefix/user.reg ;then
+                sed -i '/^"dinput/d' $PREFIX/glibc/opt/prefix/user.reg
+                sed -i 's/DINPUTSET/"dinput"="native,builtin"\n"dinput8"="native,builtin"/g' $PREFIX/glibc/opt/prefix/user.reg
+            fi
+        else
+            sed -i 's/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]\n"dinput"="native,builtin"\n"dinput8"="native,builtin"/g' $PREFIX/glibc/opt/prefix/user.reg
+        fi
+        if grep -q '^"xinput' $PREFIX/glibc/opt/prefix/user.reg ;then
+            sed -i 's/"xinput1_1"="native,builtin"/XINPUTSET/g' $PREFIX/glibc/opt/prefix/user.reg
+            if grep -q 'XINPUTSET' $PREFIX/glibc/opt/prefix/user.reg ;then
+                sed -i '/^"xinput/d' $PREFIX/glibc/opt/prefix/user.reg
+                sed -i 's/XINPUTSET/"xinput1_1"="builtin,native"\n"xinput1_2"="builtin,native"\n"xinput1_3"="builtin,native"\n"xinput1_4"="builtin,native"\n"xinput9_1_0"="builtin,native"\n"xinputuap"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+            fi
+        else
+            sed -i 's/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]\n"xinput1_1"="builtin,native"\n"xinput1_2"="builtin,native"\n"xinput1_3"="builtin,native"\n"xinput1_4"="builtin,native"\n"xinput9_1_0"="builtin,native"\n"xinputuap"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+        fi
+    elif [ "$1" -eq 3 ]; then
+        echo "both dinput, and xinput game pad controller set"
+        if grep -q '^"dinput' $PREFIX/glibc/opt/prefix/user.reg ;then
+            sed -i 's/"dinput8"="native,builtin"/DINPUTSET/g' $PREFIX/glibc/opt/prefix/user.reg
+            if grep -q 'DINPUTSET' $PREFIX/glibc/opt/prefix/user.reg ;then
+                sed -i '/^"dinput/d' $PREFIX/glibc/opt/prefix/user.reg
+                sed -i 's/DINPUTSET/"dinput"="builtin,native"\n"dinput8"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+            fi
+        else
+            sed -i 's/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]\n"dinput"="builtin,native"\n"dinput8"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+        fi
+        if grep -q '^"xinput' $PREFIX/glibc/opt/prefix/user.reg ;then
+            sed -i 's/"xinput1_1"="native,builtin"/XINPUTSET/g' $PREFIX/glibc/opt/prefix/user.reg
+            if grep -q 'XINPUTSET' $PREFIX/glibc/opt/prefix/user.reg ;then
+                sed -i '/^"xinput/d' $PREFIX/glibc/opt/prefix/user.reg
+                sed -i 's/XINPUTSET/"xinput1_1"="builtin,native"\n"xinput1_2"="builtin,native"\n"xinput1_3"="builtin,native"\n"xinput1_4"="builtin,native"\n"xinput9_1_0"="builtin,native"\n"xinputuap"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+            fi
+        else
+            sed -i 's/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]/\[HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides\]\n"xinput1_1"="builtin,native"\n"xinput1_2"="builtin,native"\n"xinput1_3"="builtin,native"\n"xinput1_4"="builtin,native"\n"xinput9_1_0"="builtin,native"\n"xinputuap"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+        fi
+    else
+        echo "unsupported param"
+    fi
+#    sed -i 's/"dinput8"="native,builtin"/"dinput"="builtin,native"\n"dinput8"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+#    sed -i 's/"xinput1_1"="native,builtin"/"xinput1_1"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+#    sed -i 's/"xinput1_2"="native,builtin"/"xinput1_2"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+#    sed -i 's/"xinput1_3"="native,builtin"/"xinput1_3"="builtin,native"\n"xinput1_4"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+#    sed -i 's/"xinput9_1_0"="native,builtin"/"xinput9_1_0"="builtin,native"\n"xinputuap"="builtin,native"/g' $PREFIX/glibc/opt/prefix/user.reg
+    sed -i 's/\$PREFIX\/glibc\/opt\/apps\/tfm.exe/\$PREFIX\/glibc\/opt\/apps\/winhandler.exe/g' $PREFIX/glibc/opt/scripts/start-tfm
+    sed -i '/\$PREFIX\/glibc\/bin\/ib.exe/d' $PREFIX/glibc/opt/scripts/start-tfm
+    source ~/.bashrc
+
+if [ -f ~/.bashrc ];then
+    echo ".bashrc already exist"
+else
+    touch ~/.bashrc
+fi
+if [ -d "${PREFIX}/glibc" ];then
+	echo "fixes installed"
+	fixesHomeEnv="export fixes_HOME=\$PREFIX/glibc"
+	pathEnv="export PATH=\$PATH:\$fixes_HOME/opt/scripts"
+	prefixPath=$(echo $PREFIX)
+	winePath=$(cat $PREFIX/glibc/opt/conf/wine_path.conf|grep "WINE_PATH="|cut -d= -f2|sed 's/$PREFIX//g')
+	winePathEnv=$prefixPath$winePath
+	if [  $fixes_HOME ];then
+		echo "fixes env has been set, now update"
+		sed -i '/fixes_HOME/d' ~/.bashrc
+        if [ $# -eq 0 ]; then
+            resetfixes
+        else
+            resetfixes "$1"
+        fi
+	else
+		echo "fixes env not set, now set"
+		if [ $# -eq 0 ]; then
+            resetfixes
+        else
+            resetfixes "$1"
+        fi
+	fi
+else
+	echo "fixes not installed"
+fi
+
+	echo "just another Note"
+	#mv usr usr64-old
+	echo " almost done"
+	#cp -rf usr2 usr
+	#rm secondstage-setup.sh
+	echo "[✓] Done, Please Close and Reopen the app after 3 minutes"
+	sleep 2
+	pkg remove termux-display-nightly -y 2>> "$LOG_FILE"
+pkg remove termux-x11-nightly -y 2>> "$LOG_FILE"
+dpkg -i /data/data/com.termux/files/home/termux-x11-nightly-1.03.10-0-all.deb 2>> "$LOG_FILE"
+sleep 1
+cp /data/data/com.termux/files/usr/bin/xodos /data/data/com.termux/files/xodos-normal
+cp /data/data/com.termux/files/usr/bin/xodxx /data/data/com.termux/files/xodxx-gamemode
+cp /data/data/com.termux/files/usr/bin/xodosset /data/data/com.termux/files/xodosset-settings
+cp  /data/data/com.termux/files/usr/bin/xodx /data/data/com.termux/files/xodx-bettergpu
+cp /data/data/com.termux/files/usr/bin/xodxd /data/data/com.termux/files/xodxd-proot
+cp /data/data/com.termux/files/usr/bin/xodset /data/data/com.termux/files/xodset-settings
+cp /data/data/com.termux/files/usr/bin/xodos-mali /data/data/com.termux/files/xodos-maligpu
+cp  /data/data/com.termux/files/usr/bin/kali /data/data/com.termux/files/kali-kaliroot
+cp  /data/data/com.termux/files/usr/bin/kaliu /data/data/com.termux/files/kaliu-kaliuser
+cp  /data/data/com.termux/files/home/switch /data/data/com.termux/files/switch-container
+cp  /data/data/com.termux/files/home/switch /data/data/com.termux/files/usr/bin/switch
+sleep 1
+chmod +x /data/data/com.termux/files/usr/bin/xodos
+chmod +x /data/data/com.termux/files/usr/bin/xodos-mali
+chmod +x /data/data/com.termux/files/usr/bin/xodxx
+chmod +x /data/data/com.termux/files/usr/bin/xodosset
+chmod +x /data/data/com.termux/files/usr/bin/xodx
+chmod +x /data/data/com.termux/files/usr/bin/xod
+chmod +x  /data/data/com.termux/files/usr/bin/xodset
+chmod +x /data/data/com.termux/files/usr/bin/xodxd
+chmod +x  /data/data/com.termux/files/usr/etc/bash.bashrc
+chmod +x  /data/data/com.termux/files/home/x11
+chmod +x /data/data/com.termux/files/xodos-normal
+chmod +x /data/data/com.termux/files/xodxx-gamemode
+chmod +x /data/data/com.termux/files/xodosset-settings
+chmod +x /data/data/com.termux/files/xodx-bettergpu
+chmod +x /data/data/com.termux/files/xodxd-proot
+chmod +x  /data/data/com.termux/files/bash.bashrc
+chmod +x /data/data/com.termux/files/xodset-settings
+chmod +x /data/data/com.termux/files/xodos-maligpu
+chmod +x /data/data/com.termux/files/usr/bin/kali
+chmod +x /data/data/com.termux/files/usr/bin/kaliu
+chmod +x /data/data/com.termux/files/usr/bin/switch
+chmod +x /data/data/com.termux/files/switch
+sleep 1
+ rm -f /data/data/com.termux/files/home/xodos.tar.xz 
+sleep 2
+cd ~
+bash fix 1>> "$LOG_FILE"
+sleep 2
+exit
+	kill -KILL $PPID
+	EOM
+	#chmod 755 $PREFIX/../secondstage-setup.sh
+	cd $PREFIX/..
+
+	# Kill Current Process and Do Second Stage Setup
+	#exec /system/bin/env -i ./secondstage-setup.sh
+	
+}
+go 1>> "$LOG_FILE"
+
+
+
+# END OF MESSAGE EOM 
