@@ -1,4 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+o<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
 
 
@@ -34,13 +34,13 @@ or
   <p align="center">
     windows and Linux emulator for Android it aims to run windows and Linux games and Apps on android with x86_64 and glibc and bionic wine builds
         <br />
-    <a href="https://www.mediafire.com/file/bhxwcrpim6e8aw6/XoDos3.4.apk/file"><strong> Download XoDos 3.4 glibc APK</strong></a>
+    <a href="https://www.mediafire.com/file/yikyfbq8kxjkbhm/XoDos-debian.tar.xz/file"><strong> Download XoDos debain proot small</strong></a>
     <br />
     <br />
-    <a href="https://www.mediafire.com/file/l0zafek73qt4oyl/XoDos_V4-bionic.apk/file"><strong> Download XoDos 4 bionic APK</strong></a>
+    <a href="https://www.mediafire.com/file/mtvfho7smu0vlow/XoDos-V5_full_arm64-v8a.apk/file"><strong> Download XoDos V5 bionic+glibc full.APK</strong></a>
     <br />
     <br />
-    <a href="https://youtu.be/WPfbSrp5EFI?si=89OOBwATBGOx_4zl">View YouTube video</a>
+    <a href="">View YouTube video coming soon</a>
     &middot;
     <a href="https://github.com/xodiosx/XoDos/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
