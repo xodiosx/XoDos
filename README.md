@@ -29,8 +29,10 @@ or
 ~ $ cd XoDos
 ~ $ git submodule update --init --recursive
 ```
-
-
+or build app
+```
+git clone -b main https://github.com/xodiosx/XoDos && cd XoDos && git submodule update --init --recursive && ./gradlew syncDebugJarLibs && ./gradlew assembleDebug
+```
   <p align="center">
     windows and Linux emulator for Android it aims to run windows and Linux games and Apps on android with x86_64 and glibc and bionic wine builds
         <br />
