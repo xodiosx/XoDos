@@ -1,4 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+o<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
 
 
@@ -39,7 +39,9 @@ git clone -b main https://github.com/xodiosx/XoDos && cd XoDos && git submodule 
     <a href="https://www.mediafire.com/file/yikyfbq8kxjkbhm/XoDos-debian.tar.xz/file"><strong> Download XoDos debain proot small</strong></a>
     <br />
     <br />
-    <a href="https://www.mediafire.com/file/mtvfho7smu0vlow/XoDos-V5_full_arm64-v8a.apk/file"><strong> Download XoDos V5 bionic+glibc full.APK</strong></a>
+    <a href=""><strong> Download XoDos V5 bionic+glibc full.APK 1.86 GB
+fixing some bugs and would be released soon 
+</strong></a>
     <br />
     <br />
     <a href="https://youtu.be/iY-NcRbcofo?si=t2qnuzIf618Of8Zi">View YouTube video</a>
