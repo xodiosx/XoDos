@@ -12,7 +12,7 @@
     <img src="https://github.com/xodiosx/XoDos/blob/main/Logo.png" alt="Logo" width="330" height="300">
   </a>
 
-<h3 align="center">XoDos emulator</h3>
+## XoDos emulator
 
 # About
 it's a fully fledged X server with termux and winlator touch controls together in one App. It is built with Android NDK.
@@ -37,6 +37,9 @@ git clone -b main https://github.com/xodiosx/XoDos && cd XoDos && git submodule 
     windows and Linux emulator for Android it aims to run windows and Linux games and Apps on android with x86_64 and glibc and bionic wine builds
         <br />
     <a href="https://www.mediafire.com/file/yikyfbq8kxjkbhm/XoDos-debian.tar.xz/file"><strong> Download XoDos debain proot small</strong></a>
+    <br />
+    <br />
+      <a href="https://www.mediafire.com/file/8mkdjxq0waq26vz/XoDos-kali.tar.xz/file"><strong> Download XoDos Kali chroot full</strong></a>
     <br />
     <br />
     <a href="https://www.mediafire.com/file/37dw6t855d3xcgv/XoDos-V5_full_arm64-v8a.apk/file"><strong> Download XoDos V5 bionic+glibc full.APK 1.86 GB</strong></a>
