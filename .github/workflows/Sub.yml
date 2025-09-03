@@ -1,4 +1,4 @@
-name: xAdd Submodules to xodos
+name: xodAdd Submodules
 
 on:
   workflow_dispatch:
@@ -47,4 +47,9 @@ jobs:
 
           git add .gitmodules termux-x11/src/main/cpp/* || true
           git commit -m "5.9.0 - add/update submodules" || echo "No changes to commit"
-          git push origin HEAD:main￼Enter
+
+          # Pull latest main to avoid non-fast-forward push errors
+          git pull --rebase origin main
+
+          # Push updates
+          git push origin HEAD:main
