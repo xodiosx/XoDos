@@ -68,7 +68,7 @@ aaptOptions {
         minSdkVersion project.properties.minSdkVersion.toInteger()
         targetSdkVersion project.properties.targetSdkVersion.toInteger()
         versionCode 5
-        versionName "5.7.0"
+        versionName "5.9.0"
 
         if (appVersionName) versionName = appVersionName
         validateVersionName(versionName)
@@ -95,7 +95,7 @@ aaptOptions {
                 enable ((gradle.startParameter.taskNames.any { it.contains("Debug") } && splitAPKsForDebugBuilds == "1") ||
                     (gradle.startParameter.taskNames.any { it.contains("Release") } && splitAPKsForReleaseBuilds == "1"))
                 reset ()
-                include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+                include 'armeabi-v7a', 'arm64-v8a'
                 universalApk true
             }
         }
@@ -183,6 +183,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation files('libs/nineoldandroids-2.4.0.jar')
     implementation project(':float-ball')
+    implementation project(':wid')
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.robolectric:robolectric:4.10"
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
@@ -253,6 +254,7 @@ clean {
 }
 
 task downloadBootstraps() {
+
     doLast {
         def packageVariant = project.ext.packageVariant
         if (packageVariant == "apt-android-7") {

@@ -1,5 +1,8 @@
 package com.termux.x11;
 
+// new imports
+
+import com.termux.x11.R;
 import android.view.InputDevice; // For InputDevice.SOURCE_GAMEPAD
 import android.widget.Toast;
 import android.graphics.PointF;
@@ -7,16 +10,25 @@ import com.termux.x11.input.InputEventSender;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import static android.view.InputDevice.KEYBOARD_TYPE_ALPHABETIC;
+import static android.view.KeyEvent.KEYCODE_VOLUME_DOWN;
+import android.app.Activity;
+import android.provider.Settings;
+import android.view.WindowInsets;
+import androidx.appcompat.app.AlertDialog;
+import java.util.Objects;
+
+
+
 
 import static android.Manifest.permission.WRITE_SECURE_SETTINGS;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.os.Build.VERSION.SDK_INT;
-import static android.view.InputDevice.KEYBOARD_TYPE_ALPHABETIC;
 import static android.view.KeyEvent.ACTION_UP;
 import static android.view.KeyEvent.KEYCODE_BACK;
 import static android.view.KeyEvent.KEYCODE_META_LEFT;
 import static android.view.KeyEvent.KEYCODE_META_RIGHT;
-import static android.view.KeyEvent.KEYCODE_VOLUME_DOWN;
+import static android.view.View.VISIBLE;
 import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
@@ -26,12 +38,10 @@ import static android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_M
 import static android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
 import static com.termux.x11.CmdEntryPoint.ACTION_START;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AppOpsManager;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -51,7 +61,7 @@ import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
@@ -63,8 +73,8 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -73,7 +83,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.math.MathUtils;
 import androidx.viewpager.widget.ViewPager;
 
@@ -87,7 +96,6 @@ import com.termux.x11.controller.winhandler.WinHandler;
 import com.termux.x11.input.InputEventSender;
 import com.termux.x11.input.InputStub;
 import com.termux.x11.input.TouchInputHandler;
-import com.termux.x11.input.TouchInputHandler.RenderStub;
 import com.termux.x11.utils.FullscreenWorkaround;
 import com.termux.x11.utils.KeyInterceptor;
 import com.termux.x11.utils.SamsungDexUtils;
@@ -96,13 +104,13 @@ import com.termux.x11.utils.X11ToolbarViewPager;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 
 @SuppressLint("ApplySharedPref")
 @SuppressWarnings({"deprecation", "unused"})
-public class MainActivity extends LoriePreferences implements View.OnApplyWindowInsetsListener {
+public class MainActivity extends LoriePreferences {
     static final String ACTION_STOP = "com.termux.x11.ACTION_STOP";
+    public static final String ACTION_CUSTOM = "com.termux.x11.ACTION_CUSTOM";
     static final String REQUEST_LAUNCH_EXTERNAL_DISPLAY = "request_launch_external_display";
     public TermuxX11ExtraKeys mExtraKeys;
     protected boolean inputControllerViewHandled = false;
@@ -117,32 +125,66 @@ public class MainActivity extends LoriePreferences implements View.OnApplyWindow
     private static final int KEY_BACK = 158;
     protected static boolean hasInit = false;
     protected boolean mEnableFloatBallMenu = false;
+    private boolean isInPictureInPictureMode = false;
+    private static boolean showIMEWhileExternalConnected = true;
+    private static boolean externalKeyboardConnected = false;
+    boolean useTermuxEKBarBehaviour = false;
+    static InputMethodManager inputMethodManager;
 
-///////////////////////////////////////////////////////////////////
+    private static boolean oldFullscreen = false, oldHideCutout = false;
+    
+
+    
+    //    private final SharedPreferences.OnSharedPreferenceChangeListener preferencesChangedListener = (__, key) -> onPreferencesChanged(key);
+    private static boolean softKeyboardShown = false;
+
+
+ //////////////////////////////////////////////////////////////////
 private void checkConnectedControllers() {
     int[] deviceIds = InputDevice.getDeviceIds();
     for (int id : deviceIds) {
         InputDevice device = InputDevice.getDevice(id);
-        if ((device.getSources() & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD) {
-            String msg = "Controller:🎮" + device.getName() + " (ID:" + id + ")";
+        if ((device.getSources() & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD
+            && !isIgnoredDevice(device)) {
+            
+            String msg = "Controller:🎮 " + device.getName() + " (ID:" + id + ")";
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             Log.d("ControllerDebug", msg);
         }
     }
 }
-private boolean isGamepadConnected() {
+
+
+ /// check fingerprint sensors that acts like gamepad
+ private boolean isIgnoredDevice(InputDevice device) {
+    if (device == null) return true;
+
+    String name = device.getName().toLowerCase();
+
+    // Ignore fingerprint or virtual devices that masquerade as gamepads
+    return name.contains("uinput-fpc") ||
+           name.contains("fingerprint") ||
+           name.contains("fpc1020") ||   // common FPC models
+           name.contains("goodix")   ||  // Goodix sensors
+           device.isVirtual();          // Ignore system-generated virtual inputs
+}
+    
+       
+             private boolean isGamepadConnected() {
     int[] deviceIds = InputDevice.getDeviceIds();
     for (int id : deviceIds) {
         InputDevice device = InputDevice.getDevice(id);
+        if (device == null) continue;
+        if (isIgnoredDevice(device)) continue;
+
         if ((device.getSources() & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD ||
             (device.getSources() & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK) {
-          //  runOnUiThread(() -> Toast.makeText(this, "Gamepad connected: ", Toast.LENGTH_SHORT).show());
-            return true; // A physical gamepad is connected
+            return true;
         }
     }
-    return false; // No gamepad found
+    return false;
 }
-
+    
 public boolean isWineRunning() {
     try {
         // Use pgrep for more reliable process detection
@@ -155,45 +197,47 @@ public boolean isWineRunning() {
     }
 }
 
+    
+
+
 
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @SuppressLint("UnspecifiedRegisterReceiverFlag")
         @Override
         public void onReceive(Context context, Intent intent) {
+            prefs.recheckStoringSecondaryDisplayPreferences();
             if (ACTION_START.equals(intent.getAction())) {
-//                mClientStartedFromShell = true;
                 try {
                     Log.v("LorieBroadcastReceiver", "Got new ACTION_START intent");
-                    IBinder b = Objects.requireNonNull(intent.getBundleExtra("")).getBinder("");
-                    service = ICmdEntryInterface.Stub.asInterface(b);
-                    Objects.requireNonNull(service).asBinder().linkToDeath(() -> {
-                        service = null;
-                        CmdEntryPoint.requestConnection();
-
-                        Log.v("Lorie", "Disconnected");
-                        runOnUiThread(() -> clientConnectedStateChanged(false)); //recreate()); //onPreferencesChanged(""));
-                    }, 0);
-                    onReceiveConnection();
+                    onReceiveConnection(intent);
                 } catch (Exception e) {
                     Log.e("MainActivity", "Something went wrong while we extracted connection details from binder.", e);
                 }
             } else if (ACTION_STOP.equals(intent.getAction())) {
                 finishAffinity();
             } else if (ACTION_PREFERENCES_CHANGED.equals(intent.getAction())) {
-//                Log.d("MainActivity", "preference: " + intent.getStringExtra("key"));
-                if (!"showAdditionalKbd".equals(intent.getStringExtra("key"))) {
+                Log.d("MainActivity", "preference: " + intent.getStringExtra("key"));
+                if (!"additionalKbdVisible".equals(intent.getStringExtra("key")))
                     onPreferencesChanged("");
-                } else {
-                    toggleExtraKeys(true, false);
-                }
+            } else if (ACTION_CUSTOM.equals(intent.getAction())) {
+                android.util.Log.d("ACTION_CUSTOM", "action " + intent.getStringExtra("what"));
+                mInputHandler.extractUserActionFromPreferences(prefs, intent.getStringExtra("what")).accept(0, true);
             }
+        }
+    };
+
+    ViewTreeObserver.OnPreDrawListener mOnPredrawListener = new ViewTreeObserver.OnPreDrawListener() {
+        @Override
+        public boolean onPreDraw() {
+            if (LorieView.connected())
+                handler.post(() -> findViewById(android.R.id.content).getViewTreeObserver().removeOnPreDrawListener(mOnPredrawListener));
+            return false;
         }
     };
 
     @SuppressLint("StaticFieldLeak")
     private static MainActivity instance;
-    protected boolean mRaiseSoftKeyBoard = false;
 
 
     public MainActivity() {
@@ -204,18 +248,25 @@ public boolean isWineRunning() {
         return instance;
     }
 
+    public static Prefs getPrefs() {
+        return prefs;
+    }
+
     @Override
     @SuppressLint({"AppCompatMethod", "ObsoleteSdkInt", "ClickableViewAccessibility", "WrongConstant", "UnspecifiedRegisterReceiverFlag", "ResourceType", "MissingInflatedId"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int modeValue = Integer.parseInt(preferences.getString("touchMode", "1")) - 1;
+        int modeValue = Integer.parseInt(prefs.touchMode.get()) - 1;
         if (modeValue > 2) {
-            SharedPreferences.Editor e = Objects.requireNonNull(preferences).edit();
-            e.putString("touchMode", "1");
-            e.apply();
+            prefs.touchMode.put("1");
         }
+
+        oldFullscreen = prefs.fullscreen.get();
+        oldHideCutout = prefs.hideCutout.get();
+
+//        prefs.get().registerOnSharedPreferenceChangeListener(preferencesChangedListener);
 
 //        preferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> onPreferencesChanged(key));
         setContentView(R.layout.main_activity);
@@ -231,77 +282,55 @@ public boolean isWineRunning() {
         View lorieParent = (View) lorieView.getParent();
 //        Log.d("Mainactivity","frm==lorieParent:"+String.valueOf(frm==lorieParent));
 
-        mInputHandler = new TouchInputHandler(this, new RenderStub.NullStub() {
-            @Override
-            public void swipeDown() {
-            }
-        }, new InputEventSender(lorieView));
+        mInputHandler = new TouchInputHandler(this, new InputEventSender(lorieView));
         int touch_sensitivity = preferences.getInt("touch_sensitivity", 1);
         mInputHandler.setLongPressedDelay(touch_sensitivity);
 //        Log.d("MainActivity","touch_sensitivity:"+touch_sensitivity);
-     
-        
-           
-              
-                    mLorieKeyListener = (v, k, e) -> {
-                    if (e.getDevice() == null) {
-       return mInputHandler.sendKeyEvent(v, e);
+        mLorieKeyListener = (v, k, e) -> {
+
+///////// fixing controller binding and support
+
+if (e.getDevice() == null) {
+       return mInputHandler.sendKeyEvent(e);
    }
-if (k == KeyEvent.KEYCODE_VOLUME_UP && e.getAction() == KeyEvent.ACTION_DOWN) {
-        Log.d("MainActivity", "Volume Up Pressed - Toggling Soft Keyboard");
 
-        runOnUiThread(() -> {
-            
-                switchSoftKeyboard(false);  // keyboard
-               
-        });
 
-        return true; // Consume the event
-    }
-        
-            if (k == KEYCODE_VOLUME_DOWN && preferences.getBoolean("hideEKOnVolDown", false)) {
-                if (e.getAction() == ACTION_UP) {
-toggleExtraKeys();
-      //  runOnUiThread(() -> Toast.makeText(this, "extra keys: ", Toast.LENGTH_SHORT).show());
-        
-                }
-                return true;
-            }
 
             if (k == KEYCODE_BACK) {
-                if (!e.isFromSource(InputDevice.SOURCE_MOUSE)) {
-                switchSoftKeyboard(true);  
-                    if (mEnableFloatBallMenu && mRaiseSoftKeyBoard) {
-                        switchSoftKeyboard(false);
-                    } else if (null != termuxActivityListener && !mEnableFloatBallMenu) {
-                        termuxActivityListener.releaseSlider(true);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                loriePreferenceFragment.updatePreferencesLayout();
-                            }
-                        }, 500);
+                if (softKeyboardShown) {
+                    if (e.getAction() == ACTION_UP) {
+                        closeSoftKeyboard();
                     }
-                }
-
-                if (e.isFromSource(InputDevice.SOURCE_MOUSE) || e.isFromSource(InputDevice.SOURCE_MOUSE_RELATIVE)) {
-                    if (e.getRepeatCount() != 0) // ignore auto-repeat
-                        return true;
-                    if (e.getAction() == KeyEvent.ACTION_UP || e.getAction() == KeyEvent.ACTION_DOWN)
-                        lorieView.sendMouseEvent(-1, -1, InputStub.BUTTON_RIGHT, e.getAction() == KeyEvent.ACTION_DOWN, true);
                     return true;
                 }
-
-                if (e.getScanCode() == KEY_BACK && e.getDevice().getKeyboardType() != KEYBOARD_TYPE_ALPHABETIC || e.getScanCode() == 0) {
-//                    if (e.getAction() == ACTION_UP)
-//                        toggleKeyboardVisibility(MainActivity.this);
+                if (null != termuxActivityListener && !mEnableFloatBallMenu) {
+                    if (e.getAction() == ACTION_UP) {
+                        releaseSlider(true);
+                    }
+                }
+                if (!getX11Focus()) {
+                    if (e.getAction() == ACTION_UP) {
+                        if (!back2PreviousMenu()) {
+                            termuxActivityListener.onX11PreferenceSwitchChange(false);
+                        }
+                    }
                     return true;
                 }
             }
-        
-if (isGamepadConnected()) {
+            InputDevice dev = e.getDevice();
+            boolean result = mInputHandler.sendKeyEvent(e);
+
+    
+                
+                if (!isIgnoredDevice(dev) && isGamepadConnected()) {
     InputDevice device = e.getDevice();
-    if (device != null && (device.getSources() & InputDevice.SOURCE_GAMEPAD) != 0) {
+    
+//Toast.makeText(this,"Handled Key: " + KeyEvent.keyCodeToString(e.getKeyCode()),Toast.LENGTH_SHORT).show();
+    
+ //   Toast.makeText(this, "Handled:=" + e, Toast.LENGTH_SHORT).show();
+ //   inputControlsView.dispatchKeyEvent(e);
+ 
+ //   if (device != null && (device.getSources() & InputDevice.SOURCE_GAMEPAD) != 0) {
 
         boolean handledByWine = false;
         boolean handledByX11 = false;
@@ -315,47 +344,41 @@ if (isGamepadConnected()) {
         // call X11
         handledByX11 = inputControlsView.dispatchKeyEvent(e);
 
-        // call Termux fallback input
-        handledByInputHandler = mInputHandler.sendKeyEvent(v, e);
+        // call Termux fallback input        
+handledByInputHandler = mInputHandler.sendKeyEvent(e);
 
         // Debug toast if needed
-        // Toast.makeText(this, "Handled: wine=" + handledByWine + " x11=" + handledByX11 + " fallback=" + handledByInputHandler, Toast.LENGTH_SHORT).show();
+         //Toast.makeText(this, "Handled: wine=" + handledByWine + " x11=" + handledByX11 + " fallback=" + handledByInputHandler, Toast.LENGTH_SHORT).show();
 
         // Combine logic safely
         return handledByWine || handledByX11 || handledByInputHandler;
-    }
-}
-
-// If not a gamepad
-return mInputHandler.sendKeyEvent(v, e);
-            
+  //  }
+    
+    
+}        // Do not steal dedicated buttons from a full external keyboard.
+            if (useTermuxEKBarBehaviour && mExtraKeys != null && (dev == null || dev.isVirtual()))
+                mExtraKeys.unsetSpecialKeys();
+                
+            return result;
         };
         
-        
-        
-        // ================= Input Listeners =================
-lorieParent.setOnTouchListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
-lorieParent.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
-lorieParent.setOnGenericMotionListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
+       //////////////
+   // ================= Input Listeners =================
+//lorieParent.setOnTouchListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
+//lorieParent.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
+//lorieParent.setOnGenericMotionListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
 lorieView.setOnCapturedPointerListener((v, e) -> mInputHandler.handleTouchEvent(lorieView, lorieView, e));
-lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView, lorieView, e));
+//lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView, lorieView, e));
 // ===================================================
         
-      //  lorieParent.setOnTouchListener((v, event) -> true);
-      //   lorieParent.setOnTouchListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
-       //   lorieParent.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
-       //   lorieParent.setOnGenericMotionListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
-       //   lorieView.setOnCapturedPointerListener((v, e) -> mInputHandler.handleTouchEvent(lorieView, lorieView, e));
-      //    lorieParent.setOnCapturedPointerListener((v, e) -> mInputHandler.handleTouchEvent(lorieView, lorieView, e));
-     //   lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
-     // =================   
+  ///////////      
         
         
- 
+        lorieParent.setOnTouchListener((v, event) -> true);
+        lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieParent, lorieView, e));
         
-        
-        lorieView.setOnGenericMotionListener((v, e) -> {
-    if (isGamepadConnected() && (e.getSource() & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK) {
+    lorieView.setOnGenericMotionListener((v, e) -> {
+    if (!isIgnoredDevice(e.getDevice()) && isGamepadConnected() && (e.getSource() & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK) {
         // Send to Wine if running
         if (isWineRunning()) {
             winHandler.onGenericMotionEvent(e);
@@ -371,65 +394,52 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
         
         //=====================
         
+            
+        
         
         lorieView.setOnKeyListener(mLorieKeyListener);
 
-        lorieView.setCallback((sfc, surfaceWidth, surfaceHeight, screenWidth, screenHeight) -> {
+        lorieView.setCallback((surfaceWidth, surfaceHeight, screenWidth, screenHeight) -> {
+            String name;
             int framerate = (int) ((lorieView.getDisplay() != null) ? lorieView.getDisplay().getRefreshRate() : 30);
 
             mInputHandler.handleHostSizeChanged(surfaceWidth, surfaceHeight);
             mInputHandler.handleClientSizeChanged(screenWidth, screenHeight);
             lorieView.screenInfo.handleHostSizeChanged(surfaceWidth, surfaceHeight);
             lorieView.screenInfo.handleClientSizeChanged(screenWidth, screenHeight);
-            LorieView.sendWindowChange(screenWidth, screenHeight, framerate);
-
-            if (service != null) {
-                try {
-                    String name;
-                    if (lorieView.getDisplay() == null || lorieView.getDisplay().getDisplayId() == Display.DEFAULT_DISPLAY)
-                        name = "Builtin Display";
-                    else if (SamsungDexUtils.checkDeXEnabled(this))
-                        name = "Dex Display";
-                    else
-                        name = "External Display";
-                    service.windowChanged(sfc, name);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
+            if (lorieView.getDisplay() == null || lorieView.getDisplay().getDisplayId() == Display.DEFAULT_DISPLAY)
+                name = "Builtin Display";
+            else if (SamsungDexUtils.checkDeXEnabled(this))
+                name = "Dex Display";
+            else
+                name = "External Display";
+            LorieView.sendWindowChange(screenWidth, screenHeight, framerate, name);
         });
 
         registerReceiver(receiver, new IntentFilter(ACTION_START) {{
             addAction(ACTION_PREFERENCES_CHANGED);
             addAction(ACTION_STOP);
+            addAction(ACTION_CUSTOM);
         }}, SDK_INT >= VERSION_CODES.TIRAMISU ? RECEIVER_EXPORTED : 0);
 
-        // Taken from Stackoverflow answer https://stackoverflow.com/questions/7417123/android-how-to-adjust-layout-in-full-screen-mode-when-softkeyboard-is-visible/7509285#
-        FullscreenWorkaround.assistActivity(this);
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        CmdEntryPoint.requestConnection();
+        // Taken from Stackoverflow answer https://stackoverflow.com/questions/7417123/android-how-to-adjust-layout-in-full-screen-mode-when-softkeyboard-is-visible/7509285#
+//        FullscreenWorkaround.assistActivity(this);
+
+        if (tryConnect()) {
+            final View content = findViewById(android.R.id.content);
+            content.getViewTreeObserver().addOnPreDrawListener(mOnPredrawListener);
+            handler.postDelayed(() -> content.getViewTreeObserver().removeOnPreDrawListener(mOnPredrawListener), 500);
+        }
         onPreferencesChanged("");
 
         toggleExtraKeys(false, false);
-        checkXEvents();
 
         initStylusAuxButtons();
         initMouseAuxButtons();
         setupInputController();
-        checkConnectedControllers(); // check for gamepad controllers
-//        inputControlsView.setOnHoverListener((v, e) -> {
-//            int[] view0Location = new int[2];
-//            int[] viewLocation = new int[2];
-//
-//            lorieParent.getLocationOnScreen(view0Location);
-//            lorieView.getLocationOnScreen(viewLocation);
-//
-//            int offsetX = viewLocation[0] - view0Location[0];
-//            int offsetY = viewLocation[1] - view0Location[1];
-//            xServer.pointer.moveTo((int) (e.getRawX()-offsetX), (int) (e.getRawY()-offsetY));
-//            return false;
-//        });
-
+checkConnectedControllers(); 
         if (SDK_INT >= VERSION_CODES.TIRAMISU
             && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PERMISSION_GRANTED
             && !shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
@@ -440,6 +450,16 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
         Executors.newSingleThreadExecutor().execute(() -> {
             winHandler.start();
         });
+    }
+
+    private static void closeSoftKeyboard() {
+        inputMethodManager.hideSoftInputFromWindow(getInstance().getWindow().getDecorView().getRootView().getWindowToken(), 0);
+        softKeyboardShown = false;
+    }
+
+    private static void openSoftKeyboard() {
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        softKeyboardShown = true;
     }
 
     @Override
@@ -465,7 +485,6 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
         inputControlsView.setXServer(xServer);
         inputControlsView.setVisibility(View.GONE);
         frm.addView(inputControlsView);
-       // inputControlsView.setVisibility(View.VISIBLE);
         inputControlsManager = new InputControlsManager(this);
         String shortcutPath = getIntent().getStringExtra("shortcut_path");
         container = new Container(0);
@@ -473,9 +492,6 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
             shortcut = new Shortcut(container, new File(shortcutPath));
 
     }
-
-//////////////
-
 
     //Register the needed events to handle stylus as left, middle and right click
     @SuppressLint("ClickableViewAccessibility")
@@ -494,7 +510,7 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
         overlay.setOnHoverListener((v, e) -> true);
         overlay.setOnGenericMotionListener((v, e) -> true);
         overlay.setOnCapturedPointerListener((v, e) -> true);
-        overlay.setVisibility(stylusMenuEnabled ? View.VISIBLE : View.GONE);
+        overlay.setVisibility(stylusMenuEnabled ? VISIBLE : View.GONE);
         View.OnClickListener listener = view -> {
             TouchInputHandler.STYLUS_INPUT_HELPER_MODE = (view.equals(left) ? 1 : (view.equals(middle) ? 2 : (view.equals(right) ? 3 : 0)));
             left.setAlpha((TouchInputHandler.STYLUS_INPUT_HELPER_MODE == 1) ? menuSelectedTrasparency : menuUnselectedTrasparency);
@@ -508,13 +524,13 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
         right.setOnClickListener(listener);
 
         visibility.setOnClickListener(view -> {
-            if (buttons.getVisibility() == View.VISIBLE) {
+            if (buttons.getVisibility() == VISIBLE) {
                 buttons.setVisibility(View.GONE);
                 visibility.setAlpha(menuUnselectedTrasparency);
                 int m = TouchInputHandler.STYLUS_INPUT_HELPER_MODE;
                 visibility.setText(m == 1 ? "L" : (m == 2 ? "M" : (m == 3 ? "R" : "U")));
             } else {
-                buttons.setVisibility(View.VISIBLE);
+                buttons.setVisibility(VISIBLE);
                 visibility.setAlpha(menuUnselectedTrasparency);
                 visibility.setText("X");
 
@@ -588,7 +604,7 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
 
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
         boolean mouseHelperEnabled = p.getBoolean("showMouseHelper", false) && "1".equals(p.getString("touchMode", "1"));
-        primaryLayer.setVisibility(mouseHelperEnabled ? View.VISIBLE : View.GONE);
+        primaryLayer.setVisibility(mouseHelperEnabled ? VISIBLE : View.GONE);
 
         pos.setOnClickListener((v) -> {
             if (secondaryLayer.getOrientation() == LinearLayout.HORIZONTAL) {
@@ -670,7 +686,26 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
         });
     }
 
-    void onReceiveConnection() {
+    void onReceiveConnection(Intent intent) {
+        Bundle bundle = intent == null ? null : intent.getBundleExtra(null);
+        IBinder ibinder = bundle == null ? null : bundle.getBinder(null);
+        if (ibinder == null)
+            return;
+
+        service = ICmdEntryInterface.Stub.asInterface(ibinder);
+        try {
+            service.asBinder().linkToDeath(() -> {
+                service = null;
+
+                Log.v("Lorie", "Disconnected");
+                runOnUiThread(() -> {
+                    LorieView.connect(-1);
+                    clientConnectedStateChanged();
+                });
+            }, 0);
+        } catch (RemoteException ignored) {
+        }
+
         try {
             if (service != null && service.asBinder().isBinderAlive()) {
                 Log.v("LorieBroadcastReceiver", "Extracting logcat fd.");
@@ -679,169 +714,103 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
                     LorieView.startLogcat(logcatOutput.detachFd());
 
                 tryConnect();
+
+                if (intent != getIntent()) {
+//                    getIntent().putExtra(null, bundle);
+                    setIntent(intent);
+                }
             }
         } catch (Exception e) {
             Log.e("MainActivity", "Something went wrong while we were establishing connection", e);
         }
     }
 
-    void tryConnect() {
-        if (mClientConnected)
-            return;
+    boolean tryConnect() {
+        if (LorieView.connected())
+            return false;
+
+        if (service == null) {
+            boolean sent = LorieView.requestConnection();
+            handler.postDelayed(this::tryConnect, 250);
+            return true;
+        }
+
         try {
-            Log.v("LorieBroadcastReceiver", "Extracting X connection socket.");
-            ParcelFileDescriptor fd = service == null ? null : service.getXConnection();
+            ParcelFileDescriptor fd = service.getXConnection();
             if (fd != null) {
+                Log.v("MainActivity", "Extracting X connection socket.");
                 LorieView.connect(fd.detachFd());
                 getLorieView().triggerCallback();
-                clientConnectedStateChanged(true);
-                LorieView.setClipboardSyncEnabled(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("clipboardSync", false));
-            } else {
-                handler.postDelayed(this::tryConnect, 500);
-                Log.v("LorieBroadcastReceiver", "Try Connect.");
-            }
+                clientConnectedStateChanged();
+                getLorieView().reloadPreferences(prefs);
+            } else
+                handler.postDelayed(this::tryConnect, 250);
         } catch (Exception e) {
             Log.e("MainActivity", "Something went wrong while we were establishing connection", e);
             service = null;
 
-            // We should reset the View for the case if we have sent it's surface to the client.
-            getLorieView().regenerate();
+            handler.postDelayed(this::tryConnect, 250);
         }
+        return false;
     }
 
     public void setX11FocusedChanged(boolean x11Focused) {
         FullscreenWorkaround.setX11Focused(x11Focused);
     }
 
+    public boolean getX11Focus() {
+        return FullscreenWorkaround.getX11Focused();
+    }
+
     protected void onPreferencesChanged(String key) {
-        boolean startFresh = false;
-        if ("additionalKbdVisible".equals(key) ||
-            "showAdditionalKbd".contentEquals(key)) {
-            toggleExtraKeys(true, false);
+        if ("additionalKbdVisible".equals(key)) {
+            return;
         }
-        if ("showMouseHelper".contentEquals(key) ||
-            "forceLandscape".contentEquals(key) ||
-            "fullscreen".contentEquals(key) ||
-            "hideCutout".contentEquals(key)) {
-            startFresh = true;
+        if (key.contentEquals("enableFloatBallMenu") ||
+            key.contentEquals("enableGlobalFloatBallMenu")) {
+            boolean enableGlobalFloatBallMenu = prefs.enableGlobalFloatBallMenu.get();
+            mEnableFloatBallMenu = prefs.enableFloatBallMenu.get();
+            if (termuxActivityListener != null) {
+                termuxActivityListener.setFloatBallMenu(mEnableFloatBallMenu, enableGlobalFloatBallMenu);
+            }
+            return;
         }
 
-        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
+        handler.removeCallbacks(this::onPreferencesChangedCallback);
+        handler.postDelayed(this::onPreferencesChangedCallback, 100);
+    }
+
+    @SuppressLint("UnsafeIntentLaunch")
+    void onPreferencesChangedCallback() {
+        prefs.recheckStoringSecondaryDisplayPreferences();
+
+        onWindowFocusChanged(hasWindowFocus());
         LorieView lorieView = getLorieView();
 
-        switch (key) {
-            case "enableGlobalFloatBallMenu":
-            case "enableFloatBallMenu": {
-                boolean enableGlobalFloatBallMenu = p.getBoolean("enableGlobalFloatBallMenu", false);
-                mEnableFloatBallMenu = p.getBoolean("enableFloatBallMenu", false);
-                if (termuxActivityListener != null) {
-                    termuxActivityListener.setFloatBallMenu(mEnableFloatBallMenu, enableGlobalFloatBallMenu);
-                    if (!mEnableFloatBallMenu) {
-                        mRaiseSoftKeyBoard = false;
-                    }
-                }
-                break;
-            }
-            case "touchMode": {
-                int mode = Integer.parseInt(p.getString("touchMode", "1"));
-                mInputHandler.setInputMode(mode);
-                break;
-            }
-            case "tapToMove": {
-                mInputHandler.setTapToMove(p.getBoolean("tapToMove", false));
-                break;
-            }
-            case "preferScancodes": {
-                mInputHandler.setPreferScancodes(p.getBoolean("preferScancodes", false));
-                break;
-            }
-            case "pointerCapture": {
-                mInputHandler.setPointerCaptureEnabled(p.getBoolean("pointerCapture", false));
-                if (!p.getBoolean("pointerCapture", false) && lorieView.hasPointerCapture())
-                    lorieView.releasePointerCapture();
-                break;
-            }
-            case "scaleTouchpad": {
-                mInputHandler.setApplyDisplayScaleFactorToTouchpad(p.getBoolean("scaleTouchpad", true));
-                break;
-            }
-            case "touch_sensitivity": {
-                mInputHandler.setLongPressedDelay(p.getInt("touch_sensitivity", 1));
-                break;
-            }
-            case "dexMetaKeyCapture": {
-                SamsungDexUtils.dexMetaKeyCapture(this, p.getBoolean("dexMetaKeyCapture", false));
-                break;
-            }
-            case "filterOutWinkey": {
-                filterOutWinKey = p.getBoolean("filterOutWinkey", false);
-                break;
-            }
-            case "enableAccessibilityServiceAutomatically": {
-                if (p.getBoolean("enableAccessibilityServiceAutomatically", false)) {
-                    try {
-                        Settings.Secure.putString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES, "com.termux.x11/.utils.KeyInterceptor");
-                        Settings.Secure.putString(getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED, "1");
-                    } catch (SecurityException e) {
-                        new AlertDialog.Builder(this)
-                            .setTitle("Permission denied")
-                            .setMessage("Android requires WRITE_SECURE_SETTINGS permission to start accessibility service automatically.\n" +
-                                "Please, launch this command using ADB:\n" +
-                                "adb shell pm grant com.termux.x11 android.permission.WRITE_SECURE_SETTINGS")
-                            .setNegativeButton("OK", null)
-                            .create()
-                            .show();
+        mInputHandler.reloadPreferences(prefs);
+        lorieView.reloadPreferences(prefs);
 
-                        SharedPreferences.Editor edit = p.edit();
-                        edit.putBoolean("enableAccessibilityServiceAutomatically", false);
-                        edit.commit();
-                    }
-                } else if (checkSelfPermission(WRITE_SECURE_SETTINGS) == PERMISSION_GRANTED)
-                    KeyInterceptor.shutdown();
-                break;
-            }
-            case "clipboardSync": {
-                LorieView.setClipboardSyncEnabled(p.getBoolean("clipboardSync", false));
-                break;
-            }
-            case "forceLandscape": {
-                int requestedOrientation = p.getBoolean("forceLandscape", false) ?
-                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-
-                if (getRequestedOrientation() != requestedOrientation) {
-                    setRequestedOrientation(requestedOrientation);
-                    if (null != termuxActivityListener) {
-                        termuxActivityListener.onChangeOrientation(requestedOrientation);
-                        getLorieView().regenerate();
-                    }
-                }
-                break;
-            }
-            case "showStylusClickOverride":
-            case "showMouseHelper": {
-                findViewById(R.id.mouse_buttons).setVisibility(p.getBoolean("showMouseHelper", false) && "1".equals(p.getString("touchMode", "1")) && mClientConnected ? View.VISIBLE : View.GONE);
-                LinearLayout buttons = findViewById(R.id.mouse_helper_visibility);
-                if (p.getBoolean("showStylusClickOverride", false)) {
-                    buttons.setVisibility(View.VISIBLE);
-                } else {
-                    //Reset default input back to normal
-                    TouchInputHandler.STYLUS_INPUT_HELPER_MODE = 1;
-                    final float menuUnselectedTrasparency = 0.66f;
-                    final float menuSelectedTrasparency = 1.0f;
-                    findViewById(R.id.button_left_click).setAlpha(menuSelectedTrasparency);
-                    findViewById(R.id.button_right_click).setAlpha(menuUnselectedTrasparency);
-                    findViewById(R.id.button_middle_click).setAlpha(menuUnselectedTrasparency);
-                    findViewById(R.id.button_visibility).setAlpha(menuUnselectedTrasparency);
-                    buttons.setVisibility(View.GONE);
-                }
-                break;
-            }
-        }
         setTerminalToolbarView();
-        if (startFresh) {
-            onWindowFocusChanged(true);
-        }
+
         lorieView.triggerCallback();
+
+        filterOutWinKey = prefs.filterOutWinkey.get();
+        if (prefs.enableAccessibilityServiceAutomatically.get())
+            KeyInterceptor.launch(this);
+        else if (checkSelfPermission(WRITE_SECURE_SETTINGS) == PERMISSION_GRANTED)
+            KeyInterceptor.shutdown(true);
+
+        useTermuxEKBarBehaviour = prefs.useTermuxEKBarBehaviour.get();
+        showIMEWhileExternalConnected = prefs.showIMEWhileExternalConnected.get();
+
+        findViewById(R.id.mouse_buttons).setVisibility(prefs.showMouseHelper.get() && "1".equals(prefs.touchMode.get()) && LorieView.connected() ? VISIBLE : View.GONE);
+        showMouseAuxButtons(prefs.showMouseHelper.get());
+        showStylusAuxButtons(prefs.showStylusClickOverride.get());
+
+        getDisplayTerminalToolbarViewPager().setAlpha(isInPictureInPictureMode ? 0.f : ((float) prefs.opacityEKBar.get()) / 100);
+
+        lorieView.requestLayout();
+        lorieView.invalidate();
     }
 
     @Override
@@ -866,59 +835,47 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
     }
 
     private void setTerminalToolbarView() {
-        final ViewPager terminalToolbarViewPager = getDisplayTerminalToolbarViewPager();
+        final ViewPager pager = getDisplayTerminalToolbarViewPager();
+        ViewGroup parent = (ViewGroup) pager.getParent();
 
-        terminalToolbarViewPager.setAdapter(new X11ToolbarViewPager.PageAdapter(this, (v, k, e) -> mInputHandler.sendKeyEvent(getLorieView(), e)));
-        terminalToolbarViewPager.addOnPageChangeListener(new X11ToolbarViewPager.OnPageChangeListener(this, terminalToolbarViewPager));
+        boolean showNow = LorieView.connected() && prefs.showAdditionalKbd.get() && prefs.additionalKbdVisible.get();
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean enabled = preferences.getBoolean("showAdditionalKbd", true);
-        boolean showNow = enabled && preferences.getBoolean("additionalKbdVisible", true);
+        pager.setVisibility(showNow ? VISIBLE : View.INVISIBLE);
 
-        terminalToolbarViewPager.setVisibility(showNow ? View.VISIBLE : View.GONE);
-        findViewById(com.termux.x11.R.id.display_terminal_toolbar_view_pager).requestFocus();
+        if (showNow) {
+            pager.setAdapter(new X11ToolbarViewPager.PageAdapter(this, (v, k, e) -> mInputHandler.sendKeyEvent(e)));
+            pager.clearOnPageChangeListeners();
+            pager.addOnPageChangeListener(new X11ToolbarViewPager.OnPageChangeListener(this, pager));
+            pager.bringToFront();
+        } else {
+            parent.removeView(pager);
+            parent.addView(pager, 0);
+            if (mExtraKeys != null)
+                mExtraKeys.unsetSpecialKeys();
+        }
 
-        handler.postDelayed(() -> {
-            if (mExtraKeys != null) {
-                ViewGroup.LayoutParams layoutParams = terminalToolbarViewPager.getLayoutParams();
-                layoutParams.height = Math.round(37.5f * getResources().getDisplayMetrics().density *
-                    (mExtraKeys.getExtraKeysInfo() == null ? 0 : mExtraKeys.getExtraKeysInfo().getMatrix().length));
-                terminalToolbarViewPager.setLayoutParams(layoutParams);
-            }
-        }, 200);
+        ViewGroup.LayoutParams layoutParams = pager.getLayoutParams();
+        layoutParams.height = Math.round(37.5f * getResources().getDisplayMetrics().density *
+            (TermuxX11ExtraKeys.getExtraKeysInfo() == null ? 0 : TermuxX11ExtraKeys.getExtraKeysInfo().getMatrix().length));
+        pager.setLayoutParams(layoutParams);
+
+        frm.setPadding(0, 0, 0, prefs.adjustHeightForEK.get() && showNow ? layoutParams.height : 0);
+        getLorieView().requestFocus();
     }
 
     public void toggleExtraKeys(boolean visible, boolean saveState) {
-        runOnUiThread(() -> {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            boolean enabled = preferences.getBoolean("showAdditionalKbd", true);
-            ViewPager pager = getDisplayTerminalToolbarViewPager();
-            ViewGroup parent = (ViewGroup) pager.getParent();
-            boolean show = enabled && mClientConnected && visible;
+        boolean enabled = prefs.showAdditionalKbd.get();
 
-            if (show) {
-                setTerminalToolbarView();
-                getDisplayTerminalToolbarViewPager().bringToFront();
-            } else {
-                parent.removeView(pager);
-                parent.addView(pager, 0);
-            }
+        if (enabled && LorieView.connected() && saveState)
+            prefs.additionalKbdVisible.put(visible);
 
-            if (enabled && saveState) {
-                SharedPreferences.Editor edit = preferences.edit();
-                edit.putBoolean("additionalKbdVisible", show);
-                edit.commit();
-            }
-
-            pager.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-
-            getLorieView().requestFocus();
-        });
+        setTerminalToolbarView();
+        getWindow().setSoftInputMode(prefs.Reseed.get() ? SOFT_INPUT_ADJUST_RESIZE : SOFT_INPUT_ADJUST_PAN);
     }
 
     public void toggleExtraKeys() {
         int visibility = getDisplayTerminalToolbarViewPager().getVisibility();
-        toggleExtraKeys(visibility != View.VISIBLE, true);
+        toggleExtraKeys(visibility != VISIBLE, true);
         getLorieView().requestFocus();
     }
 
@@ -936,7 +893,7 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation != orientation) {
-            switchSoftKeyboard(true);
+            closeSoftKeyboard();
         }
 
         orientation = newConfig.orientation;
@@ -970,59 +927,47 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
         }
     }
 
-    @SuppressLint("RestrictedApi")
-    public void switchSoftKeyboard(boolean hide) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = getCurrentFocus();
-        if (view == null) {
-            view = getLorieView();
-            view.requestFocus();
-        }
-
-        if (hide) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        } else {
-            if (null != termuxActivityListener) {
-                handler.postDelayed(() -> loriePreferenceFragment.updatePreferencesLayout(), 500);
-                termuxActivityListener.onX11PreferenceSwitchChange(false);
-            }
-            imm.showSoftInput(view, 0);
-        }
-    }
-
-    public void openSoftKeyboardWithBackKeyPressed(boolean raiseSoftKeyBoard) {
-        mRaiseSoftKeyBoard = raiseSoftKeyBoard;
-    }
-
     @SuppressLint("WrongConstant")
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-
-        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
+        KeyInterceptor.recheck();
+        prefs.recheckStoringSecondaryDisplayPreferences();
         Window window = getWindow();
         View decorView = window.getDecorView();
-        boolean fullscreen = p.getBoolean("fullscreen", false);
-        boolean reseed = p.getBoolean("Reseed", true);
+        boolean fullscreen = prefs.fullscreen.get();
+        boolean hideCutout = prefs.hideCutout.get();
+        boolean reseed = prefs.Reseed.get();
 
-        Intent intent = getIntent();
-        fullscreen = fullscreen || (null != intent && intent.getBooleanExtra(REQUEST_LAUNCH_EXTERNAL_DISPLAY, false));
+        int requestedOrientation;
+        switch (prefs.forceOrientation.get()) {
+            case "portrait":
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                break;
+            case "landscape":
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                break;
+            case "reverse portrait":
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+                break;
+            case "reverse landscape":
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+                break;
+            default:
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+        }
 
-        int requestedOrientation = p.getBoolean("forceLandscape", false) ?
-            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
         if (getRequestedOrientation() != requestedOrientation)
             setRequestedOrientation(requestedOrientation);
-//        if (getOrientation() != requestedOrientation)
-//            setRequestedOrientation(requestedOrientation);
+
         if (hasFocus) {
             if (SDK_INT >= VERSION_CODES.P) {
-                if (p.getBoolean("hideCutout", false)) {
+                if (hideCutout)
                     getWindow().getAttributes().layoutInDisplayCutoutMode = (SDK_INT >= VERSION_CODES.R) ?
                         LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS :
                         LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
-                } else {
+                else
                     getWindow().getAttributes().layoutInDisplayCutoutMode = LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT;
-                }
             }
 
             window.setStatusBarColor(Color.BLACK);
@@ -1046,14 +991,14 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
             }
         }
 
-        if (p.getBoolean("keepScreenOn", true))
+        if (prefs.keepScreenOn.get())
             window.addFlags(FLAG_KEEP_SCREEN_ON);
         else
             window.clearFlags(FLAG_KEEP_SCREEN_ON);
-        window.setSoftInputMode((reseed ? SOFT_INPUT_ADJUST_RESIZE : SOFT_INPUT_ADJUST_PAN) | SOFT_INPUT_STATE_HIDDEN);
-        ((FrameLayout) findViewById(R.id.id_display_window)).getChildAt(0).setFitsSystemWindows(!fullscreen);
-        SamsungDexUtils.dexMetaKeyCapture(this, hasFocus && p.getBoolean("dexMetaKeyCapture", false));
 
+        window.setSoftInputMode(reseed ? SOFT_INPUT_ADJUST_RESIZE : SOFT_INPUT_ADJUST_PAN);
+
+//        ((FrameLayout) findViewById(android.R.id.content)).getChildAt(0).setFitsSystemWindows(!fullscreen);
         if (hasFocus) {
             getLorieView().regenerate();
             getLorieView().requestLayout();
@@ -1081,20 +1026,15 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
 
     @Override
     public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, @NonNull Configuration newConfig) {
-        toggleExtraKeys(!isInPictureInPictureMode, false);
+//        toggleExtraKeys(!isInPictureInPictureMode, false);
 
-        frm.setPadding(0, 0, 0, 0);
+//        frm.setPadding(0, 0, 0, 0);
+        this.isInPictureInPictureMode = isInPictureInPictureMode;
+        final ViewPager pager = getDisplayTerminalToolbarViewPager();
+        pager.setAlpha(isInPictureInPictureMode ? 0.f : ((float) prefs.opacityEKBar.get()) / 100);
+        findViewById(R.id.mouse_buttons).setAlpha(isInPictureInPictureMode ? 0.f : 0.7f);
+        findViewById(R.id.mouse_helper_visibility).setAlpha(isInPictureInPictureMode ? 0.f : 1.f);
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig);
-    }
-
-    /**
-     * @noinspection NullableProblems
-     */
-    @SuppressLint("WrongConstant")
-    @Override
-    public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
-        handler.postDelayed(() -> getLorieView().triggerCallback(), 100);
-        return insets;
     }
 
     /**
@@ -1103,40 +1043,166 @@ lorieView.setOnHoverListener((v, e) -> mInputHandler.handleTouchEvent(lorieView,
      * @param context calling context
      */
     public static void toggleKeyboardVisibility(Context context) {
-        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         Log.d("MainActivity", "Toggling keyboard visibility");
-        if (inputMethodManager != null)
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        if (inputMethodManager != null) {
+            android.util.Log.d("toggleKeyboardVisibility", "externalKeyboardConnected " + externalKeyboardConnected + " showIMEWhileExternalConnected " + showIMEWhileExternalConnected);
+            if (isConnected()) {
+                getInstance().getLorieView().requestFocus();
+            }
+            if (!externalKeyboardConnected || showIMEWhileExternalConnected) {
+                openSoftKeyboard();
+            } else {
+                closeSoftKeyboard();
+            }
+        }
     }
 
     @SuppressWarnings("SameParameterValue")
-    void clientConnectedStateChanged(boolean connected) {
+    void clientConnectedStateChanged() {
         runOnUiThread(() -> {
-            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
-            mClientConnected = connected;
-            toggleExtraKeys(connected && p.getBoolean("additionalKbdVisible", true), true);
-            findViewById(R.id.mouse_buttons).setVisibility(p.getBoolean("showMouseHelper", false) && "1".equals(p.getString("touchMode", "1")) && mClientConnected ? View.VISIBLE : View.GONE);
-            findViewById(R.id.stub).setVisibility(connected ? View.INVISIBLE : View.VISIBLE);
-            getLorieView().setVisibility(connected ? View.VISIBLE : View.INVISIBLE);
-            getLorieView().regenerate();
+            boolean connected = LorieView.connected();
+            setTerminalToolbarView();
+            findViewById(R.id.mouse_buttons).setVisibility(prefs.showMouseHelper.get() && "1".equals(prefs.touchMode.get()) && connected ? VISIBLE : View.GONE);
+            findViewById(R.id.stub).setVisibility(connected ? View.INVISIBLE : VISIBLE);
+            getLorieView().setVisibility(connected ? VISIBLE : View.INVISIBLE);
+            MainActivity.mLorieViewConnected = connected;
 
             // We should recover connection in the case if file descriptor for some reason was broken...
-            if (!connected)
+            if (!connected) {
                 tryConnect();
-
-            if (connected)
+            } else {
                 getLorieView().setPointerIcon(PointerIcon.getSystemIcon(this, PointerIcon.TYPE_NULL));
+                openPreference(false);
+            }
+
+            onWindowFocusChanged(hasWindowFocus());
         });
     }
 
-    private void checkXEvents() {
-        if (!mClientConnected) {
-            getLorieView().handleXEvents();
+    public static boolean isConnected() {
+        if (getInstance() == null)
+            return false;
+
+        return LorieView.connected();
+    }
+
+    public static void getRealMetrics(DisplayMetrics m) {
+        if (getInstance() != null &&
+            getInstance().getLorieView() != null &&
+            getInstance().getLorieView().getDisplay() != null)
+            getInstance().getLorieView().getDisplay().getRealMetrics(m);
+    }
+
+    public static void setCapturingEnabled(boolean enabled) {
+        if (getInstance() == null || getInstance().mInputHandler == null)
+            return;
+
+        getInstance().mInputHandler.setCapturingEnabled(enabled);
+    }
+
+    public boolean shouldInterceptKeys() {
+        View textInput = findViewById(R.id.display_terminal_toolbar_text_input);
+        if (mInputHandler == null || !hasWindowFocus() || (textInput != null && textInput.isFocused()))
+            return false;
+
+        return mInputHandler.shouldInterceptKeys();
+    }
+
+    public void setExternalKeyboardConnected(boolean connected) {
+        externalKeyboardConnected = connected;
+        EditText textInput = findViewById(R.id.display_terminal_toolbar_text_input);
+        if (textInput != null)
+            textInput.setShowSoftInputOnFocus(!connected || showIMEWhileExternalConnected);
+        if (connected && !showIMEWhileExternalConnected)
+            inputMethodManager.hideSoftInputFromWindow(getWindow().getDecorView().getRootView().getWindowToken(), 0);
+        getLorieView().requestFocus();
+    }
+
+    private void showStylusAuxButtons(boolean show) {
+        LinearLayout buttons = findViewById(R.id.mouse_helper_visibility);
+        if (LorieView.connected() && show) {
+            buttons.setVisibility(VISIBLE);
+            buttons.setAlpha(isInPictureInPictureMode ? 0.f : 1.f);
+        } else {
+            //Reset default input back to normal
+            TouchInputHandler.STYLUS_INPUT_HELPER_MODE = 1;
+            final float menuUnselectedTrasparency = 0.66f;
+            final float menuSelectedTrasparency = 1.0f;
+            findViewById(R.id.button_left_click).setAlpha(menuSelectedTrasparency);
+            findViewById(R.id.button_right_click).setAlpha(menuUnselectedTrasparency);
+            findViewById(R.id.button_middle_click).setAlpha(menuUnselectedTrasparency);
+            findViewById(R.id.button_visibility).setAlpha(menuUnselectedTrasparency);
+            buttons.setVisibility(View.GONE);
         }
-        handler.postDelayed(this::checkXEvents, 100);
+    }
+
+    private void makeSureHelpersAreVisibleAndInScreenBounds() {
+        final ViewPager pager = getDisplayTerminalToolbarViewPager();
+        View mouseAuxButtons = findViewById(R.id.mouse_buttons);
+        View stylusAuxButtons = findViewById(R.id.mouse_helper_visibility);
+        int maxYDecrement = (pager.getVisibility() == VISIBLE) ? pager.getHeight() : 0;
+
+        mouseAuxButtons.setX(MathUtils.clamp(mouseAuxButtons.getX(), frm.getX(), frm.getX() + frm.getWidth() - mouseAuxButtons.getWidth()));
+        mouseAuxButtons.setY(MathUtils.clamp(mouseAuxButtons.getY(), frm.getY(), frm.getY() + frm.getHeight() - mouseAuxButtons.getHeight() - maxYDecrement));
+
+        stylusAuxButtons.setX(MathUtils.clamp(stylusAuxButtons.getX(), frm.getX(), frm.getX() + frm.getWidth() - stylusAuxButtons.getWidth()));
+        stylusAuxButtons.setY(MathUtils.clamp(stylusAuxButtons.getY(), frm.getY(), frm.getY() + frm.getHeight() - stylusAuxButtons.getHeight() - maxYDecrement));
+    }
+
+    public void toggleStylusAuxButtons() {
+        showStylusAuxButtons(findViewById(R.id.mouse_helper_visibility).getVisibility() != VISIBLE);
+        makeSureHelpersAreVisibleAndInScreenBounds();
+    }
+
+    private void showMouseAuxButtons(boolean show) {
+        View v = findViewById(R.id.mouse_buttons);
+        v.setVisibility((LorieView.connected() && show && "1".equals(prefs.touchMode.get())) ? VISIBLE : View.GONE);
+        v.setAlpha(isInPictureInPictureMode ? 0.f : 0.7f);
+        makeSureHelpersAreVisibleAndInScreenBounds();
+    }
+
+    public void toggleMouseAuxButtons() {
+        showMouseAuxButtons(findViewById(R.id.mouse_buttons).getVisibility() != VISIBLE);
     }
 
     public void showProcessManagerDialog() {
-        (new TaskManagerDialog(this)).show();
+    // Check if activity is still valid
+    if (this == null || isFinishing() || isDestroyed()) {
+        
+        return;
+    }
+    
+    try {
+        TaskManagerDialog dialog = new TaskManagerDialog(this);
+        dialog.show();
+    } catch (WindowManager.BadTokenException e) {
+        
+    }
+}
+
+    //whether view include (x,y)
+    private boolean isTouchPointInView(View view, int x, int y) {
+        if (view == null) {
+            return false;
+        }
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int left = location[0];
+        int top = location[1];
+        int right = left + view.getMeasuredWidth();
+        int bottom = top + view.getMeasuredHeight();
+        //view.isClickable() &&
+        if (y >= top && y <= bottom && x >= left
+            && x <= right) {
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean extraKeyboardHandleTouchEvent(MotionEvent event) {
+        if (getDisplayTerminalToolbarViewPager().getVisibility() != VISIBLE) {
+            return false;
+        }
+        return isTouchPointInView((View) getDisplayTerminalToolbarViewPager(), (int) event.getRawX(), (int) event.getRawY());
     }
 }

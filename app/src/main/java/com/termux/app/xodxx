@@ -2,13 +2,33 @@
 export GREEN='\033[0;32m'
 export WHITE='\033[0;37m' 
 export RED='\033[0;31m'
+kill -9 $(pgrep -f "termux.x11") &>/dev/null
 cd
+unset XCURSOR_THEME
+################
+#check drivers
+cpu_info=$(grep -i "Hardware" /proc/cpuinfo)
+cpu_info2=$(getprop ro.hardware.chipname)
+gpu_info=$(getprop ro.hardware.gpu)
+gpu_info2=$(getprop ro.hardware.vulkan)
+gpu_info3=$(getprop ro.hardware.egl)
+# Concatenate  information into one variable
+chkgpu="$gpu_info $gpu_info2 $gpu_info3"
+chkcpu="$cpu_info $cpu_info2"
+ugpu=$(echo "$chkgpu" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+ucpu=$(echo "$chkcpu" | grep -o "\bQualcomm\b" )
+
+# Output information
+echo "your GPU is $ugpu "
+echo "your CPU is $ucpu $cpu_info2  "
+############
+
+
 mkdir -p /sdcard/Android/data/com.termux/files/Download
 #mkdir -p /sdcard/gamingtrace
-kill -9 $(pgrep -f "termux.x11") &>/dev/null
 . $PREFIX/glibc/opt/scripts/configs
 load_configs
-
+WINEPREFIXG=$WINEPREFIX
 function stop-all {
 	pkill -f "app_process / com.termux.x11"
 	rm -rf $PREFIX/tmp/pulse-*
@@ -22,29 +42,47 @@ function stop-all {
 }
 stop-all
 ##############
+. $PREFIX/glibc/opt/scripts/configs
+load_configs
 
 CFG="$HOME/xodwine.cfg"
 
 # Make sure config exists
 if [ ! -f "$CFG" ]; then
     echo "Error: Config file not found at $CFG"
-    exit 1
+   # exit 1
 fi
 
-# Load values from config
-source "$CFG"
+# If "bionic" appears anywhere in the config, skip loading
+if grep -q 'bionic' "$CFG"; then
+    echo "Skipping config load: ‘bionic’ found in $CFG"
+else
+    # Load your helper functions first
+    . "$PREFIX/glibc/opt/scripts/configs"
+    load_configs
 
+    # Then source the actual config
+    source "$CFG"
+fi
+# If "virgl" appears anywhere in the config, skip turnip
+if grep -q 'virgl-' "$CFG"; then
+    echo "virgl server starting,,,"
+    touch "${PREFIX}/glibc/opt/virgl/virgl-enabled"
+else
+    # Load without virgl
+  rm -rf "${PREFIX}/glibc/opt/virgl/virgl-enabled"
+fi
 # If glibc, source extra configs
 if [ "$SOURCE_CONFIG" = "1" ] && [ -f "$CONFIG_SCRIPT" ]; then
     source "$CONFIG_SCRIPT"
 fi
 echo "Android Version: $ANDROID_VERSION"
 echo "CPU Type: $CPU_TYPE"
-echo "Wine Type: $WINE_TYPE"
+echo "Wine Type: Glibc"
 echo "DXVK File: $DXVK_FILE"
 echo "Driver File: $DRIVER_FILE"
 echo "Cores: $PRIMARY_CORES"
-echo "WINEPREFIX: $WINEPREFIX"
+echo "WINEPREFIX: $WINEPREFIXG"
 
 # Set primary cores
 if [ "$PRIMARY_CORES" == "" ]; then
@@ -55,17 +93,8 @@ export PRIMARY_CORES=0-1
     echo "export PRIMARY_CORES=$PRIMARY_CORES" > "$PREFIX/cores"
 fi
 #
-export WINEPREFIX=$WINEPREFIX
+export WINEPREFIX=$WINEPREFIXG
 export CPU_TYPE=$CPU_TYPE
-
-if [ $CPU_TYPE == "" ]; then
-touch $PREFIX/glibc/opt/virgl/virgl-enabled 
-else 
-echo $CPU_TYPE
-fi
-
-
-
 
 
 if [ -e $PREFIX/glibc/opt/virgl/virgl-enabled ]; then
@@ -75,6 +104,7 @@ fi
 pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" --exit-idle-time=-1
 termux-x11 :0 &>/dev/null &
 sleep 1
+
 if [ -e $PREFIX/glibc/opt/virgl/virgl-enabled ]; then
 	chmod 777 $PREFIX/tmp/.virgl_test
 fi
@@ -134,6 +164,9 @@ if [ ! -e $WINEPREFIX/.update-timestamp ]; then
 	echo "Installing DirectX"
 	7z x $PREFIX/glibc/opt/prefix/directx.7z -o$WINEPREFIX/drive_c -y &>/dev/null
 	echo "Installing Start Menu shortcuts"
+#d3d &>/dev/null
+#gdrivers &>/dev/null
+#sleep 0.5
 	cp -r $PREFIX/glibc/opt/prefix/start/* "$WINEPREFIX/drive_c/ProgramData/Microsoft/Windows/Start Menu"
 	rm -rf "$WINEPREFIX/dosdevices/z:"
 	ln -sf /data/data/com.termux/files "$WINEPREFIX/dosdevices/z:"
@@ -153,52 +186,51 @@ if [ ! -e $WINEPREFIX/.update-timestamp ]; then
 	if [ ! "$STARTUP_COMPATIBILITY_MODE" = "1" ]; then
 		echo "Installing PhysX 9.10, 7-Zip, Visual C++ Redistributable"
 		DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "start Z:\\usr\\glibc\\opt\\apps\\install.bat" >${LOG_PATH}_redist.txt 2>&1
-		if [ ! -e $PREFIX/glibc/opt/virgl/virgl-enabled ]; then
+		#if [ ! -e $PREFIX/glibc/opt/virgl/virgl-enabled ]; then
 			sleep 1
-			echo "Installing dxvk-async-1.10.3"
-		#DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "cd Z:\\usr\\glibc\\opt\\prefix\\d3d && start Z:\\usr\\glibc\\opt\\prefix\\d3d\\dxvk-async-1.10.3.bat" &>/dev/null
+			############
+# Check if the CPU and GPU are supported
+if echo "$cpu_info" | grep -qi "Qualcomm" || echo "$cpu_info2" | grep -qi "sdm";  then
+    echo "Supported CPU: Snapdragon detected."
+   
+#if echo "$ugpu" | grep -qi "adreno" ; then
+    echo "Supported GPU: Adreno GPU detected"
+    # Continue with your code her
+echo "Setting up snapdragon driver"
+echo "Installing dxvk-async-1.10.3"
+		DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "cd Z:\\usr\\glibc\\opt\\prefix\\d3d && start Z:\\usr\\glibc\\opt\\prefix\\d3d\\dxvk-async-1.10.3.bat" &>/dev/null
 			sleep 1
 			echo "Installing turnip"
-			#DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "cd Z:\\usr\\glibc\\opt\\prefix\\mesa && start Z:\\usr\\glibc\\opt\\prefix\\mesa\\turnip-v24.3.0.r5.bat" &>/dev/null
-		# Set WINEPREFIX
-export WINEPREFIX="$WINEPREFIX"
-mkdir -p "$WINEPREFIX"
-
-
-# Extract DXVK
-echo "Extracting DXVK..."
-mkdir -p "$DXVK_EXTRACT_PATH"
-7z x "$DXVK_SRC" -o"$DXVK_EXTRACT_PATH" || { echo "Failed to extract DXVK"; exit 1; }
-
-# Extract Driver
-echo "Extracting GPU driver..."
-mkdir -p "$DRIVER_EXTRACT_PATH"
-7z x "$DRIVER_SRC" -o"$DRIVER_EXTRACT_PATH" || { echo "Failed to extract driver"; exit 1; }
-
-echo "Setup complete."
-		
-		else
+			DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "cd Z:\\usr\\glibc\\opt\\prefix\\mesa && start Z:\\usr\\glibc\\opt\\prefix\\mesa\\turnip-25.0.0.bat" &>/dev/null
+	
+else
+    echo "CPU and GPU are not Snapdragon or Adreno means turnip not supported you can't use turnip driver but you may use universal or Vulkan wrapper drivers"
+    # Exit or handle unsupported CPUs here
+sleep 0.5
+			echo "setting up other driver,,,"			
 			sleep 1
 			echo "Installing wined3d"
-			#DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "cd Z:\\usr\\glibc\\opt\\prefix\\d3d && start Z:\\usr\\glibc\\opt\\prefix\\d3d\\wined3d-8.0.2.bat" &>/dev/null
-		# Set WINEPREFIX
-export WINEPREFIX="$WINEPREFIX"
-mkdir -p "$WINEPREFIX"
+		#	DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "cd Z:\\usr\\glibc\\opt\\prefix\\d3d && start Z:\\usr\\glibc\\opt\\prefix\\d3d\\wined3d-8.0.2.bat" &>/dev/null
+	DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "cd Z:\\usr\\glibc\\opt\\prefix\\mesa && start Z:\\usr\\glibc\\opt\\prefix\\mesa\\virgl-mesa-24.bat" &>/dev/null
+			echo "Installing wined3d-8.0.2"
+			DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "cd Z:\\usr\\glibc\\opt\\prefix\\d3d && start Z:\\usr\\glibc\\opt\\prefix\\d3d\\wined3d-8.0.2.bat" &>/dev/null			
+			mkdir -p "${PREFIX}/glibc/opt/virgl"
+    touch "${PREFIX}/glibc/opt/virgl/virgl-enabled"
+    if [ -e $PREFIX/glibc/opt/virgl/virgl-enabled ]; then
+echo "VirGl installed"
+chmod 777 $PREFIX/tmp/.virgl_test
+	chmod +x $PREFIX/glibc/opt/virgl/libvirgl_test_server.so
+	TMPDIR=$PREFIX/tmp $PREFIX/glibc/opt/virgl/libvirgl_test_server.so &>/dev/null &
 
-# Extract DXVK
-echo "Extracting DXVK..."
-mkdir -p "$DXVK_EXTRACT_PATH"
-7z x "$DXVK_SRC" -o"$DXVK_EXTRACT_PATH" || { echo "Failed to extract DXVK"; exit 1; }
-
-# Extract Driver
-echo "Extracting GPU driver..."
-mkdir -p "$DRIVER_EXTRACT_PATH"
-7z x "$DRIVER_SRC" -o"$DRIVER_EXTRACT_PATH" || { echo "Failed to extract driver"; exit 1; }
-
+fi
+fi
+	
+	sleep 0.5
+##################
+							
+fi
 echo "Setup complete."
 
-		fi
-	fi
 	sleep 3
 	
 	if [ -e $WINE_PATH/lib/wine/i386-unix/libwine.so.1 ] || [ -e $WINE_PATH/lib64/wine/x86_64-unix/libwine.so.1 ]; then
@@ -265,11 +297,36 @@ if [ ! -f $WINEPREFIX/xodosmeta/dxdlls-fix-applied ]; then
 fi
 xusb
 #load_configs
-. $PREFIX/usr/cores
+#. $PREFIX/usr/cores
+# Extract DirectX
+echo "Extracting DirectX..."
+mkdir -p "$DXVK_EXTRACT_PATH"
+#7z x -y "$DXVK_SRC" -o"$DXVK_EXTRACT_PATH" &>/dev/null || { echo "Failed to extract DXVK"; } &>/dev/null
+
+# Extract Driver
+echo "Extracting GPU driver..."
+mkdir -p "$DRIVER_EXTRACT_PATH"
+#7z x -y "$DRIVER_SRC" -o"$DRIVER_EXTRACT_PATH" &>/dev/null || { echo "Failed to extract driver"; } &>/dev/null
+#DISPLAY=:0 taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,640x480 cmd /c "start Z:\\home\box\\wine.bat" >${LOG_PATH}_reg_fix.txt 2>&1
+echo "Setup complete."
+if [ -e $PREFIX/glibc/opt/virgl/virgl-enabled ]; then
+echo "VirGl installed"
+chmod 777 $PREFIX/tmp/.virgl_test
+	chmod +x $PREFIX/glibc/opt/virgl/libvirgl_test_server.so
+	TMPDIR=$PREFIX/tmp $PREFIX/glibc/opt/virgl/libvirgl_test_server.so &>/dev/null &
+
+fi
 export PULSE_SERVER=127.0.0.1
 ln -sf $(df -H | grep -o "/storage/....-....") "$WINEPREFIX/dosdevices/f:" &>/dev/null
-DISPLAY=:0 LC_ALL=$(cat $PREFIX/glibc/opt/locale.conf) taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,$RESOLUTION $PREFIX/glibc/opt/apps/winhandler.exe $PREFIX/glibc/opt/apps/wfm.exe >$LOG_PATH 2>&1 &
+cd $PREFIX/glibc/opt/apps/
+DISPLAY=:0 LC_ALL=$(cat $PREFIX/glibc/opt/locale.conf) taskset -c $PRIMARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,$RESOLUTION $PREFIX/glibc/opt/apps/winhandler.exe >$LOG_PATH 2>&1 &
+
+if [ -f $PREFIX/glibc/bin/ib.exe ]; then
+    echo "starting input bridge"
+   
 DISPLAY=:0 taskset -c $SECONDARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,$RESOLUTION start /min /unix $PREFIX/glibc/bin/ib.exe &>/dev/null &
+
+fi
 DISPLAY=:0 taskset -c $SECONDARY_CORES $GLIBC_BIN/box64 $GLIBC_BIN/wine explorer /desktop=shell,$RESOLUTION $PREFIX/glibc/opt/apps/f5taskmgr.exe &>/dev/null &
 
 sleep 2

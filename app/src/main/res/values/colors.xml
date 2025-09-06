@@ -32,10 +32,10 @@
 <color name="cardview_light_background">#ff310236</color>
 <color name="cardview_shadow_end_color">#03000000</color>
 <color name="cardview_shadow_start_color">#37000000</color>
-<color name="colorAccent">#ff0288d1</color>
+<color name="colorAccent">#7502D1</color>
 <color name="colorBlack">#ff000000</color>
-<color name="colorPrimary">#ff607d8b</color>
-<color name="colorPrimaryDark">#ff455a64</color>
+<color name="colorPrimary">#7C608B</color>
+<color name="colorPrimaryDark">#554564</color>
 <color name="colorWhite">#ff1038eb</color>
 <color name="design_bottom_navigation_shadow_color">#14000000</color>
 <color name="design_dark_default_color_background">#ff121212</color>

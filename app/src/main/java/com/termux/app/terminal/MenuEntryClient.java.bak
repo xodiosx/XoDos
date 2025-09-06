@@ -123,7 +123,7 @@ public class MenuEntryClient implements FileBrowser.FileSlectedAdapter {
     }
 
     private void updateMenuItems(int width, GridLayout gridLayout) {
-        LinearLayout recover = createImageButton("script", "addXoDos", width / 5);
+        LinearLayout recover = createImageButton("script", "Reinstall", width / 5);
         gridLayout.addView(recover);
 
         recover.setOnClickListener(v -> {
@@ -194,7 +194,7 @@ public class MenuEntryClient implements FileBrowser.FileSlectedAdapter {
             });
             gridLayout.addView(button);
         }
-        LinearLayout but = createImageButton("add", mTermuxActivity.getString(com.termux.x11.R.string.add), width / 5);
+        LinearLayout but = createImageButton("add", mTermuxActivity.getString(com.termux.x11.R.tx_string.add), width / 5);
         but.setGravity(Gravity.CENTER_VERTICAL);
         but.setOrientation(LinearLayout.VERTICAL);
         gridLayout.addView(but);

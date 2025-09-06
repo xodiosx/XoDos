@@ -161,6 +161,7 @@
     <item>Wine🍷Bionic：使用原生驱动包装器的模拟器（非 Snapdragon 使用 wrapper）</item>
     <item>Wine🍷：可从任意文件夹运行 EXE 文件</item>
     <item>Xbox🎮模拟器：使用 Xemu 玩原版 Xbox 游戏</item>
+            <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
     <item>设置⚙️：配置 Wine/DXVK/Box 和系统驱动</item>
     <item>AI🤖聊天：本地私有 AI 支持 DeepSeek、Llama 等</item>
     <item>恢复♻️：安装 XoDos 更新和 Kali/Proot 等系统</item>
@@ -225,4 +226,5 @@
   <string name="install_copying">正在复制系统文件…</string>
   <string name="install_extracting">正在更新系统…</string>
   <string name="install_finalizing">正在完成安装…</string>
+  <string name="stop_desktop_title">退出并停止 🛑 Wine 和桌面吗？</string>
 </resources>

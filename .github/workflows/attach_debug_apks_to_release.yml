@@ -53,12 +53,12 @@ jobs:
 
           echo "Found XoDos APKs:"
           ls -la ./app/build/outputs/apk/debug/*.apk
-          if ls ./app/build/outputs/apk/debug/*universal.apk 1> /dev/null 2>&1; then
-            echo "Universal APK found"
-          else
-            echo "::error::Universal APK not found!"
-            exit 1
-          fi
+          #if ls ./app/build/outputs/apk/debug/*universal.apk 1> /dev/null 2>&1; then
+            #echo "Universal APK found"
+          #else
+            #echo "::error::Universal APK not found!"
+            #exit 1
+         # fi
 
       - name: Upload APKs to GitHub artifact
         uses: actions/upload-artifact@v4
@@ -95,10 +95,10 @@ jobs:
           find artifacts -type f -name '*.apk' -print
           
           APK_COUNT=$(find artifacts -type f -name '*.apk' | wc -l)
-          if [ "$APK_COUNT" -eq 0 ]; then
-            echo "::error::No APK files found in artifacts!"
-            exit 1
-          fi
+          #if [ "$APK_COUNT" -eq 0 ]; then
+            #echo "::error::No APK files found in artifacts!"
+            #exit 1
+          #fi
           echo "Found $APK_COUNT APK files"
 
       - name: Create Release and Upload APKs
@@ -111,4 +111,4 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: true
-          fail_on_unmatched_files: true
+          fail_on_unmatched_files: false

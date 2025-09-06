@@ -254,6 +254,7 @@
     <item>Wine🍷Bionic: Emulación con controladores nativos (usa wrapper si no es Snapdragon)</item>
     <item>Wine🍷: Ejecuta archivos EXE desde cualquier carpeta</item>
     <item>Xbox🎮Emulador: Juega juegos de Xbox originales con Xemu</item>
+            <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
     <item>Configuración⚙️: Configura versiones de Wine/DXVK y drivers</item>
     <item>AI🤖Chat: IA local privada compatible con DeepSeek, Llama, etc.</item>
     <item>Restaurar♻️: Instala actualizaciones y sistemas como Kali/Proot</item>
@@ -318,4 +319,5 @@
   <string name="install_copying">Copie des fichiers…</string>
   <string name="install_extracting">Mise à jour du système…</string>
   <string name="install_finalizing">Finalisation…</string>
+  <string name="stop_desktop_title">¿Salir y detener 🛑 Wine y el Escritorio?</string>
 </resources>

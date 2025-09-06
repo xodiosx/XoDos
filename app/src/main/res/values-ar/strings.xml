@@ -264,6 +264,7 @@
     <item>Wine🍷Bionic: محاكي Windows مع دعم السواقات الأصلية (إن لم يكن Snapdragon استخدم wrapper)</item>
     <item>Wine🍷: شغل ملفات EXE من أي مجلد</item>
     <item>محاكي Xbox🎮: العب ألعاب Xbox الأصلية باستخدام Xemu</item>
+            <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
     <item>الإعدادات⚙️: تكوين Wine/DXVK/Box والسواقات</item>
     <item>دردشة AI🤖: ذكاء اصطناعي محلي خاص يدعم DeepSeek وLlama وأكثر</item>
     <item>استعادة♻️: تثبيت تحديثات XoDos وأنظمة أخرى مثل Kali/Proot</item>
@@ -328,4 +329,5 @@
   <string name="install_copying">جارٍ نسخ الملفات…</string>
   <string name="install_extracting">جارٍ تحديث النظام…</string>
   <string name="install_finalizing">جارٍ الإنهاء…</string>
+  <string name="stop_desktop_title">هل تريد الخروج وإيقاف 🛑 Wine وسطح المكتب؟</string>
 </resources>

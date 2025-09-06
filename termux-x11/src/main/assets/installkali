@@ -1,7 +1,0 @@
-termux-setup-storage
-sleep 3
-echo "make sure The XoDos-kali.tar.xz is in download folder"
-echo "رﺎﻈﺘﻧﻻﺍ ﻰﺟﺮﻳ زﻭﺩﻭﺯ مﺎﻈﻨﻟ ﻲﻟﺎﻛ مﺎﻈﻧ ﺖﺒﺜﺗ يﺭﺎﺟ"
-echo "installing XoDos-kali it will take some time"
-tar -xf /storage/emulated/0/Download/XoDos-kali.tar.xz -C /data/data/com.termux/files --preserve-permission
-echo "make sure The XoDos-kali.tar.xz is in download folder"

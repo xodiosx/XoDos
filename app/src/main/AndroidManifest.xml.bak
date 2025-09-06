@@ -55,25 +55,25 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
-        android:theme="@style/Theme.TermuxApp.DayNight.DarkActionBar"
+        android:theme="@style/Theme.ForceBlack"
         tools:targetApi="m">
         <!--termux-x11-->
         <activity
             android:name="com.termux.x11.controller.ControlsEditorActivity"
             android:exported="false"
             android:screenOrientation="sensor"
-            android:theme="@style/Theme.TermuxApp.DayNight.NoActionBar" />
+            android:theme="@style/Theme.ForceBlack" />
 
         <activity
             android:name="com.termux.x11.controller.ExternalControllerBindingsActivity"
             android:exported="false"
             android:screenOrientation="sensor"
-            android:theme="@style/Theme.TermuxApp.DayNight.NoActionBar" />
+            android:theme="@style/Theme.ForceBlack" />
         <activity
             android:name="com.termux.x11.controller.InputControllerActivity"
             android:exported="false"
             android:screenOrientation="sensor"
-            android:theme="@style/Theme.TermuxApp.DayNight.NoActionBar" />
+            android:theme="@style/Theme.ForceBlack" />
 
         <meta-data
             android:name="android.allow_multiple_resumed_activities"
@@ -128,7 +128,7 @@
             android:name=".app.activities.SettingsActivity"
             android:exported="true"
             android:label="@string/title_activity_termux_settings"
-            android:theme="@style/Theme.TermuxApp.DayNight.NoActionBar" />
+            android:theme="@style/Theme.ForceBlack" />
 
         <activity
             android:name=".shared.activities.ReportActivity"

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE resources [
+    <!ENTITY TERMUX_PACKAGE_NAME "com.termux">
+    <!ENTITY TERMUX_APP_NAME "Termux">
+    <!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">
+    <!ENTITY TERMUX_SHORTCUT_SCRIPTS_DIR_PATH_SHORT "~/.shortcuts/">
+    <!ENTITY TERMUX_SHORTCUT_SCRIPT_ICONS_DIR_PATH_SHORT "~/.shortcuts/icons">
+    ]>
+
+<resources>
+    <string name="app_name">&TERMUX_WIDGET_APP_NAME;</string>
+    <string name="plugin_info">&TERMUX_WIDGET_APP_NAME; is a plugin app for the &TERMUX_APP_NAME; app.
+        \n\nCheck &TERMUX_APP_NAME; app github %1$s and &TERMUX_WIDGET_APP_NAME; app github %2$s for more info.</string>
+    <string name="plugin_api_help">Visit %1$s for more info on plugin usage.</string>
+
+    <!-- TermuxWidgetMainActivity -->
+    <string name="msg_change_launcher_activity_state_info">The &TERMUX_WIDGET_APP_NAME; app does not
+        require a launcher activity/icon to function. You can optionally disable the launcher
+        activity if you want and enable it again from the main activity if required.
+        \n\nThe launcher activity is an alias for the current main activity of the app which can
+        still be opened after disabling the launcher activity. The main activity can be opened
+        from `&TERMUX_APP_NAME; app settings` -> `&TERMUX_WIDGET_APP_NAME;` -> `Open App` if the
+        option has been implemented in your installed &TERMUX_APP_NAME; app version. Otherwise,
+        running the `am start "%1$s/%2$s"` command in the &TERMUX_APP_NAME; app should open it.
+        \n\nNote that on some devices the widgets created on launcher home may not function properly
+        if the launcher activity is disabled and if the widgets have reverted to their default
+        view and show the "Open &TERMUX_WIDGET_APP_NAME; app to refresh widget" message, then
+        opening the launcher/main activity will be necessary to refresh the widgets. Additionally,
+        if the launcher activity has been disabled and the widget is in the default view, then
+        clicking the widget title may crash your launcher.</string>
+
+    <string name="msg_max_shortcuts_limit_info">The current max static and dynamic shortcuts limit
+        for the &TERMUX_WIDGET_APP_NAME; app is %1$d.
+        \n\nCheck %2$s for info on how to change the limit."</string>
+
+    <string name="msg_dynamic_shortcuts_info">Dynamic shortcuts will normally show when long
+        holding the &TERMUX_WIDGET_APP_NAME; app launcher icon and in launcher searches results.
+        To create dynamic shortcuts, put desired scripts/binaries in `%1$s` with the &TERMUX_APP_NAME;
+        app and then click the create shortcuts button."</string>
+    <string name="action_create_dynamic_shortcuts">Create Shortcuts</string>
+    <string name="action_remove_dynamic_shortcuts">Remove Shortcuts</string>
+    <string name="msg_created_dynamic_shortcuts_successfully">Created %1$d dynamic shortcuts successfully</string>
+    <string name="msg_removed_dynamic_shortcuts_successfully">Removed dynamic shortcuts successfully</string>
+    <string name="msg_no_shortcut_files_found_in_directory">No shortcut files found in `%1$s`</string>
+    <string name="msg_no_dynamic_shortcuts_currently_created">No dynamic shortcuts currently created</string>
+    <string name="msg_dynamic_shortcuts_limit_reached">Only %1$d shortcuts allowed. Check
+        &TERMUX_WIDGET_APP_NAME; github for how to increase limit</string>
+    <string name="msg_skipping_shortcut">Skipping shortcut `%1$s`</string>
+
+    <string name="msg_refresh_all_widgets_info">To manually refresh all widgets to show updated
+        shortcuts, click the refresh button.
+        \n\nThis may also be needed in some cases after app updates where widgets revert to their
+        default view and become non-responsive and show the
+        "Open &TERMUX_WIDGET_APP_NAME; app to refresh widget" message instead of showing the
+        shortcuts. In this state, the refresh buttons of the widgets itself will not work. Just
+        launching the &TERMUX_WIDGET_APP_NAME; app will also refresh the widget.</string>
+    <string name="msg_refresh_widget_from_app">Open &TERMUX_WIDGET_APP_NAME; app to refresh widget</string>
+    <string name="action_refresh_all_widgets">Refresh Widgets</string>
+
+    <!-- ShortcutFile -->
+    <string name="msg_shortcut_icon_file_used">Using file at `%1$s` as shortcut icon file</string>
+
+
+
+    <!-- ShortcutUtils -->
+    <string name="error_failed_to_get_shortcut_manager">Failed to get ShortcutManager</string>
+
+
+
+    <string name="title_widget">&TERMUX_APP_NAME;</string>
+    <string name="title_shortcut_widget_name">&TERMUX_APP_NAME; widget</string>
+    <string name="title_single_shortcut_name">&TERMUX_APP_NAME; shortcut</string>
+    <string name="title_termux_shortcuts">&TERMUX_APP_NAME; Shortcuts</string>
+
+    <string name="msg_no_shortcut_scripts">No files in\n&TERMUX_SHORTCUT_SCRIPTS_DIR_PATH_SHORT;</string>
+    <string name="msg_bad_token">This shortcut is invalid - remove and add again.</string>
+    <string name="msg_executing_task">Executing task: \"%1$s\"</string>
+    <string name="msg_executable_absolute_path">Executable Absolute Path: \"%1$s\"</string>
+    <string name="msg_icon_absolute_path">Icon Absolute Path: \"%1$s\"</string>
+    <string name="msg_request_create_pinned_shortcut">Requesting to create pinned shortcut for \"%1$s\"</string>
+    <string name="msg_request_create_static_shortcut">Requesting to create static shortcut for \"%1$s\"</string>
+    <string name="msg_widgets_refreshed">&TERMUX_APP_NAME; widgets refreshed: %1$s</string>
+    <string name="msg_no_widgets_found_to_refresh">No &TERMUX_APP_NAME; widgets found to refresh</string>
+
+    <string name="action_refresh">Refresh</string>
+
+    <string name="error_null_or_empty_executable">The executable is null or empty.</string>
+    <string name="error_executable_not_under_shortcuts_directories">An executable can only be
+        executed if its under the following directories: %1$s</string>
+    <string name="error_icon_not_under_shortcut_icons_directories">The icon is not under the following directories: %1$s</string>
+    <string name="error_icon_not_a_regular_file">The icon file is not a regular file but is instead
+        a \"%1$s\".</string>
+    <string name="error_create_pinned_shortcut_failed">Failed to create pinned shortcut for \"%1$s\"</string>
+    <string name="error_create_static_shortcut_failed">Failed to create static shortcut for \"%1$s\"</string>
+
+</resources>

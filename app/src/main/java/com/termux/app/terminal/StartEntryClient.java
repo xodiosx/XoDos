@@ -336,7 +336,7 @@ builder.setMessage(steps[mTutorialStep])
 
     // Highlight current button 
     // Update highlightOrder
-int[] highlightOrder = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}; 
+int[] highlightOrder = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17}; 
 // 
     if(mTutorialStep < highlightOrder.length) {
         View targetButton = mToolboxGrid.getChildAt(highlightOrder[mTutorialStep]);
@@ -549,6 +549,9 @@ layout.setBackgroundResource(R.drawable.button_press_effect);
 iv.setScaleType(ImageView.ScaleType.FIT_CENTER); // Add this for proper scaling
   
       switch(type) {
+       case "wid":
+    iv.setImageResource(R.drawable.iwid); 
+    break;
       case "lnk":
     iv.setImageResource(R.drawable.ilnk); 
           break;
@@ -1103,6 +1106,47 @@ xboxBtn.setOnClickListener(v -> {
     mHandler.postDelayed(() -> hideBlockingView(), 3000);
 });
 mToolboxGrid.addView(xboxBtn);
+
+
+// wid button
+LinearLayout widBtn = createToolboxButton("wid", "termux-widget");
+
+widBtn.setOnClickListener(v -> {
+   // showBlockingView();
+    mToolboxPopup.dismiss();
+
+    mTermuxActivity.runOnUiThread(() -> {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mTermuxActivity);
+        builder.setTitle("Choose an option")
+               .setItems(new CharSequence[]{"Widgets", "Settings"}, (dialog, which) -> {
+                   Intent intent = null;
+                   if (which == 0) {
+                       // "Widgets" selected
+                       intent = new Intent(mTermuxActivity, com.termux.widget.TermuxCreateShortcutActivity.class);
+                   } else if (which == 1) {
+                       // "Settings" selected
+                       intent = new Intent(mTermuxActivity, com.termux.widget.activities.TermuxWidgetMainActivity.class);
+                   }
+
+                   if (intent != null) {
+                       mTermuxActivity.startActivity(intent);
+                   }
+
+                   mHandler.postDelayed(this::hideBlockingView, 2000);
+               });
+
+        builder.setOnCancelListener(dialog -> {
+            // If user cancels dialog
+            //hideBlockingView();
+        });
+
+        builder.show();
+    });
+});
+mToolboxGrid.addView(widBtn);
+
+
+
 
 // Settings (Xset) Button
 LinearLayout settingsBtn = createToolboxButton("xset", mTermuxActivity.getString(R.string.toolbox_settings));

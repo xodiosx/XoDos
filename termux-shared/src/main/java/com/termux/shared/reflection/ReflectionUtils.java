@@ -26,18 +26,18 @@ public class ReflectionUtils {
      * https://developer.android.com/guide/app-compatibility/restrictions-non-sdk-interfaces
      */
     public static void bypassHiddenAPIReflectionRestrictions() {
-    if (HIDDEN_API_REFLECTION_RESTRICTIONS_BYPASSED || Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return;
+        if (!HIDDEN_API_REFLECTION_RESTRICTIONS_BYPASSED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Logger.logDebug(LOG_TAG, "Bypassing android hidden api reflection restrictions");
+            try {
+                HiddenApiBypass.addHiddenApiExemptions("");
+            } catch (Throwable t) {
+                Logger.logStackTraceWithMessage(LOG_TAG, "Failed to bypass hidden API reflection restrictions", t);
+            }
 
-    try {
-        Logger.logDebug(LOG_TAG, "Trying to bypass hidden API restrictions...");
-        HiddenApiBypass.addHiddenApiExemptions("L");
-        HIDDEN_API_REFLECTION_RESTRICTIONS_BYPASSED = true;
-    } catch (Throwable t) {
-        Logger.logError(LOG_TAG, "Bypass failed. Skipping hidden API exemption to prevent crash on some devices.");
-        Logger.logStackTraceWithMessage(LOG_TAG, "Exception in bypassHiddenAPIReflectionRestrictions", t);
-        // Do not crash. Allow app to continue running.
+            HIDDEN_API_REFLECTION_RESTRICTIONS_BYPASSED = true;
+        }
     }
-}
+
     /** Check if android hidden API reflection restrictions are bypassed. */
     public static boolean areHiddenAPIReflectionRestrictionsBypassed() {
         return HIDDEN_API_REFLECTION_RESTRICTIONS_BYPASSED;

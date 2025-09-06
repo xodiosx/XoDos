@@ -1,6 +1,6 @@
 package com.termux.x11.controller.widget;
 
-//import android.widget.Toast;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.InputDevice;
@@ -222,18 +222,15 @@ public class TouchpadView extends View {
         if (finger2 != null) {
             final float resolutionScale = 1000.0f / Math.min(xServer.screenInfo.screenWidth, xServer.screenInfo.screenHeight);
             float currDistance = (float) Math.hypot(finger1.x - finger2.x, finger1.y - finger2.y) * resolutionScale;
-//Toast.makeText(this, "Finger distance: " , Toast.LENGTH_SHORT).show();
 
             if (currDistance < MAX_TWO_FINGERS_SCROLL_DISTANCE) {
                 scrollAccumY += ((finger1.y + finger2.y) * 0.5f) - (finger1.lastY + finger2.lastY) * 0.5f;
 
-//Toast.makeText(this, "scroll: " , Toast.LENGTH_SHORT).show();
-
-                if (scrollAccumY < -80) {
+                if (scrollAccumY < -100) {
                     xServer.injectPointerButtonPress(Pointer.Button.BUTTON_SCROLL_DOWN);
                     xServer.injectPointerButtonRelease(Pointer.Button.BUTTON_SCROLL_DOWN);
                     scrollAccumY = 0;
-                } else if (scrollAccumY > 80) {
+                } else if (scrollAccumY > 100) {
                     xServer.injectPointerButtonPress(Pointer.Button.BUTTON_SCROLL_UP);
                     xServer.injectPointerButtonRelease(Pointer.Button.BUTTON_SCROLL_UP);
                     scrollAccumY = 0;

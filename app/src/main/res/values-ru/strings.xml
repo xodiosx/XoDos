@@ -259,6 +259,7 @@
     <item>Wine🍷Bionic: Эмуляция Windows с обёрткой драйвера (если не Snapdragon — используйте wrapper)</item>
     <item>Wine🍷: Здесь вы можете запускать EXE-файлы из любой папки</item>
     <item>Xbox🎮Эмулятор: Играйте в оригинальные игры Xbox с помощью Xemu</item>
+            <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
     <item>Настройки⚙️: Настройка версий Wine/DXVK/Box и системных драйверов</item>
     <item>AI🤖Чат: Локальный приватный ИИ с поддержкой DeepSeek, Llama и 100+ моделей</item>
     <item>Восстановить♻️: Установите обновления XoDos и другие системы, такие как Kali/Proot</item>
@@ -321,4 +322,5 @@
   <string name="install_copying">Копирование файлов…</string>
   <string name="install_extracting">Обновление системы…</string>
   <string name="install_finalizing">Завершение…</string>
+  <string name="stop_desktop_title">Выйти и остановить 🛑 Wine и Рабочий стол?</string>
 </resources>

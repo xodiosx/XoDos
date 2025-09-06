@@ -1,5 +1,10 @@
+
 include ':app', ':termux-shared', ':terminal-emulator', ':terminal-view'
 include ':shell-loader'
 include ':shell-loader:stub'
 include ':termux-x11'
 include ':float-ball'
+//include ':ps1'
+//include ':psp'
+include ':wid'
+//include ':wl'

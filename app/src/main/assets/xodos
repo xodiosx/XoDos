@@ -1,0 +1,212 @@
+#!/bin/bash
+# Kill previous sessions
+pkill -f wine
+
+export GTK_THEME="Dracula:dark"
+export XCURSOR_THEME="WineTrix"
+kill -9 $(pgrep -f "termux.x11") >/dev/null 2>&1
+pkill virgl_*
+pkill xfwm4
+echo "Booting XoDos..."
+echo "GPU Detection:"
+
+#check drivers
+cpu_info=$(grep -i "Hardware" /proc/cpuinfo)
+cpu_info2=$(getprop ro.hardware.chipname)
+gpu_info=$(getprop ro.hardware.gpu)
+gpu_info2=$(getprop ro.hardware.vulkan)
+gpu_info3=$(getprop ro.hardware.egl)
+# Concatenate  information into one variable
+chkgpu="$gpu_info $gpu_info2 $gpu_info3"
+chkcpu="$cpu_info $cpu_info2"
+ugpu=$(echo "$chkgpu" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+ucpu=$(echo "$chkcpu" | grep -o "\bQualcomm\b" )
+
+# Output information
+echo "your GPU is $ugpu "
+echo "your CPU is $ucpu $cpu_info2  "
+
+# Check if the CPU and GPU are supported
+if echo "$cpu_info" | grep -qi "Qualcomm" || echo "$cpu_info2" | grep -qi "sdm";  then
+    echo "Supported CPU: Snapdragon detected."
+    # Continue with your code here
+if echo "$ugpu" | grep -qi "adreno" ; then
+    echo "Supported GPU: Adreno GPU detected"
+    # Continue with your code her
+echo "you can use turnip driver for better performance"
+echo "Setting up turnip driver"
+	driv=/data/data/com.termux/files/usr/lib/libvulkan_wrapper.so
+if [ -f $driv ]; then
+unset VK_ICD_FILENAMES
+export VK_ICD_FILENAMES=/data/data/com.termux/files/usr/share/vulkan/icd.d/freedreno_icd.aarch64.json
+#mv /data/data/com.termux/files/usr/lib/libvulkan_wrapper.so /data/data/com.termux/files/usr/lib/libvulkan_wrapper.so.0
+fi
+else 
+echo "CPU supported for turnip driver but GPU is unknown if it's not supported with turnip driver Try universal or Vulkan wrapper"
+echo "Setting up turnip driver"
+	driv=/data/data/com.termux/files/usr/lib/libvulkan_wrapper.so
+if [ -f $driv ]; then
+unset VK_ICD_FILENAMES
+export VK_ICD_FILENAMES=/data/data/com.termux/files/usr/share/vulkan/icd.d/freedreno_icd.aarch64.json
+#mv /data/data/com.termux/files/usr/lib/libvulkan_wrapper.so /data/data/com.termux/files/usr/lib/libvulkan_wrapper.so.0
+fi
+		
+fi
+else
+    echo "CPU and GPU are not Snapdragon or Adreno means turnip not supported you can't use turnip driver but you may use universal or Vulkan wrapper drivers"
+    # Exit or handle unsupported CPUs here
+sleep 1
+			echo "setting up wrapper,,,"
+			driv=/data/data/com.termux/files/usr/lib/libvulkan_wrapper.so.0
+if [ -f $driv ]; then
+unset VK_ICD_FILENAMES
+export VK_ICD_FILENAMES=/data/data/com.termux/files/usr/share/vulkan/icd.d/wrapper_icd.aarch64.json
+mv /data/data/com.termux/files/usr/lib/libvulkan_wrapper.so.0 /data/data/com.termux/files/usr/lib/libvulkan_wrapper.so
+fi
+						
+fi
+	
+	sleep 0.5
+#export VK_ICD_FILENAMES=/data/data/com.termux/files/usr/share/vulkan/icd.d/wrapper_icd.aarch64.json
+
+# Setup audio
+pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" --exit-idle-time=-1 >/dev/null 2>&1
+
+# Start X11
+export XDG_RUNTIME_DIR=${TMPDIR}
+termux-x11 -ac :0 >/dev/null 2>&1 &
+sleep 2
+am start --user 0 -n com.termux/com.termux.x11.h.MainActivity >/dev/null 2>&1
+
+
+export VK_INSTANCE_LAYERS=VK_LAYER_KHRONOS_validation
+export MESA_VK_WSI_PRESENT_MODE=mailbox
+xfwm4 --replace &
+export GALLIUM_DRIVER=sw
+
+# Tell Vulkan where your layers live
+export VK_LAYER_PATH=$PREFIX/share/vulkan/explicit_layer.d
+
+# Enable any layer you want
+#
+export VK_INSTANCE_LAYERS=VK_LAYER_KHRONOS_synchronization2:VK_LAYER_KHRONOS_shader_object:VK_LAYER_KHRONOS_timeline_semaphore
+
+# Optional settings
+#
+#export VK_SYNCHRONIZATION2_FORCE_ENABLE=true
+#export VK_SHADER_OBJECT_FORCE_ENABLE=true
+#export VK_SHADER_OBJECT_DISABLE_PIPELINE_PRE_CACHING=true
+#export VK_INSTANCE_LAYERS=VK_LAYER_window_system_integration
+#######
+
+
+# Detect CPU and GPU
+cpu_info=$(grep -i "Hardware" /proc/cpuinfo)
+cpu_info2=$(getprop ro.hardware.chipname)
+gpu_info=$(getprop ro.hardware.gpu)
+gpu_info2=$(getprop ro.hardware.vulkan)
+gpu_info3=$(getprop ro.hardware.egl)
+
+# Format output
+chkgpu="$gpu_info $gpu_info2 $gpu_info3"
+chkcpu="$cpu_info $cpu_info2"
+ugpu=$(echo "$chkgpu" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+ucpu=$(echo "$chkcpu" | grep -o "\bQualcomm\b")
+
+# Show detected info
+#zenity --info --title="Hardware Info" --width=500 --text="✅ <b>Detected GPU:</b> $ugpu\n✅ <b>Detected CPU:</b> $ucpu $cpu_info2"
+
+# Show 2 big buttons: Turnip Driver and Vulkan Wrapper
+zenity --question \
+  --title="Choose Vulkan Driver" \
+  --width=400 --height=150 \
+  --ok-label="Turnip Driver" \
+  --extra-button="Vulkan Wrapper" \
+  --text="Turnip For Adreno and wrapper for All 👇
+  ✅ <b>Detected GPU:</b> $ugpu\n✅<b>Detected CPU:</b> $ucpu $cpu_info2"
+
+# Capture button press
+result=$?
+
+# Vulkan paths
+vulkan_dir="/data/data/com.termux/files/usr/share/vulkan/icd.d"
+lib_dir="/data/data/com.termux/files/usr/lib"
+wrapper_lib="$lib_dir/libvulkan_wrapper.so"
+backup_lib="$lib_dir/libvulkan_wrapper.so.0"
+
+# Handle user selection
+if [ $result -eq 0 ]; then
+    # OK pressed: Turnip Driver
+    echo "Turnip selected"
+    if [ -f "$wrapper_lib" ]; then
+        unset VK_ICD_FILENAMES
+        export VK_ICD_FILENAMES="$vulkan_dir/freedreno_icd.aarch64.json"
+        #zenity --info --title="Driver Applied" --text="✅ Turnip driver configured.\n\nVK_ICD_FILENAMES set."
+    fi
+else
+    # Extra button: Vulkan Wrapper
+    echo "Wrapper selected"
+    
+        unset VK_ICD_FILENAMES
+        export VK_ICD_FILENAMES="$vulkan_dir/wrapper_icd.aarch64.json"
+        mv "$backup_lib" "$wrapper_lib"
+       # zenity --info --title="Driver Applied" --text="✅ Vulkan wrapper driver set.\n\nVK_ICD_FILENAMES updated."
+    
+fi
+
+# Big button selection
+choice=$(env DISPLAY=:0 zenity --question \
+--title="XoDos Rendering Mode-وضع العرض" \
+--text="Select acceleration method:حدد طريقة التسارع:" \
+--ok-label="HARDWARE-الأجهزة (Zink+VirGL)(fast-سريع)" \
+--cancel-label="VIRGL-فرجل (Linux-apps-برامج-لينكس)" \
+--extra-button="CPU-المعالج (stable-مستقر)" \
+--width=500 --height=300)
+
+unset GTK_THEME
+case $? in
+    0)  # Hardware acceleration
+        unset GALLIUM_DRIVER
+        pkill xfwm4
+        echo "Starting with Zink+VirGL..."
+        echo $case
+        MESA_LOADER_DRIVER_OVERRIDE=zink GALLIUM_DRIVER=zink ZINK_DESCRIPTORS=lazy virgl_test_server --use-egl-surfaceless --use-gles & >/dev/null 2>&1
+    
+    env DISPLAY=:0 MESA_NO_ERROR=1 MESA_LOADER_DRIVER_OVERRIDE=zink GALLIUM_DRIVER=zink MESA_GL_VERSION_OVERRIDE=4.6COMPAT MESA_GLES_VERSION_OVERRIDE=3.2 dbus-launch --exit-with-session xfce4-session & >/dev/null 2>&1
+        ;;
+
+    1)  if [ "$choice" == "CPU-المعالج (stable-مستقر)" ]; then
+            # CPU mode
+unset GALLIUM_DRIVER
+pkill xfwm4
+            echo "Starting with CPU rendering..."
+            env DISPLAY=:0 MESA_LOADER_DRIVER_OVERRIDE=swrast GALLIUM_DRIVER=llvmpipe \
+            dbus-launch --exit-with-session xfce4-session & >/dev/null 2>&1
+        else
+            # VirGL mode
+unset GALLIUM_DRIVER
+pkill xfwm4
+            echo "Starting with VirGL..."
+            MESA_LOADER_DRIVER_OVERRIDE=zink GALLIUM_DRIVER=zink ZINK_DESCRIPTORS=lazy virgl_test_server --use-egl-surfaceless --use-gles & >/dev/null 2>&1
+    
+            env DISPLAY=:0 MESA_LOADER_DRIVER_OVERRIDE=virpipe GALLIUM_DRIVER=virpipe \
+            dbus-launch --exit-with-session xfce4-session & >/dev/null 2>&1
+        fi
+        ;;
+    *)  # User closed window
+        echo "Session cancelled"
+        kill -9 $(pgrep -f "termux.x11") >/dev/null 2>&1
+        pkill xfwm4
+        exit 1
+        ;;
+esac
+
+# Post-launch
+
+xusb
+# Set audio server
+#export PULSE_SERVER=127.0.0.1 > /dev/null 2>&1
+
+sleep 5
+process_id=$(ps -aux | grep '[x]fce4-screensaver' | awk '{print $2}')
+kill "$process_id" > /dev/null 2>&1

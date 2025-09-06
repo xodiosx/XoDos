@@ -1,127 +1,247 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [
-    <!ENTITY TERMUX_PACKAGE_NAME "com.termux">
-    <!ENTITY TERMUX_APP_NAME "XoDos">
-    <!ENTITY TERMUX_DISPLAY_APP_NAME "Termux:X11">
-]>
+<!DOCTYPE resources [<!ENTITY TERMUX_PACKAGE_NAME "com.termux"><!ENTITY TERMUX_APP_NAME "XoDos"><!ENTITY TERMUX_DISPLAY_APP_NAME "Termux:X11">]>
 <resources>
     <string name="app_name">&TERMUX_DISPLAY_APP_NAME; </string>
-    <string name="plugin_info">&TERMUX_DISPLAY_APP_NAME; est une application plugin pour &TERMUX_APP_NAME;.\n\nConsultez le GitHub de &TERMUX_APP_NAME; %1$s et celui de &TERMUX_DISPLAY_APP_NAME; %2$s pour plus d\'informations.</string>
+    <string name="plugin_info">&TERMUX_DISPLAY_APP_NAME; est une application plugin pour l\'application &TERMUX_APP_NAME;.
+        \n\nConsultez le GitHub de l\'application &TERMUX_APP_NAME; %1$s et le GitHub de l\'application &TERMUX_DISPLAY_APP_NAME; %2$s pour plus d\'informations.</string>
 
     <!-- TermuxX11Activity -->
-    <string name="msg_storage_permission_not_granted_warning">L\'autorisation de stockage doit être accordée à &TERMUX_DISPLAY_APP_NAME; pour...</string>
-    <string name="action_grant_storage_permission">Autoriser l\'accès au stockage</string>
+    <string name="msg_storage_permission_not_granted_warning">L\'autorisation de stockage doit être accordée à l\'application &TERMUX_DISPLAY_APP_NAME; pour...</string>
+    <string name="action_grant_storage_permission">Accorder l\'autorisation de stockage</string>
 
-    <string name="msg_battery_optimization_not_disabled_warning">Les optimisations de batterie Android doivent être désactivées pour &TERMUX_DISPLAY_APP_NAME;.\nConsultez %1$s et %2$s pour plus d\'informations.\n\nVoir aussi %3$s pour les spécificités des constructeurs. Selon votre appareil, vous devrez peut-être activer le démarrage automatique, désactiver DuraSpeed, ou autoriser l\'affichage des fenêtres pop-up en arrière-plan.</string>
+    <string name="msg_battery_optimization_not_disabled_warning">Les optimisations de batterie Android doivent être désactivées pour l\'application &TERMUX_DISPLAY_APP_NAME; afin que…
+        Consultez https://developer.android.com/about/versions/oreo/background pour plus d\'informations et
+        https://developer.android.com/guide/components/foreground-services#background-start-restrictions
+        pour plus de détails.
+
+        \n\nConsultez également https://dontkillmyapp.com pour des informations sur les tueurs d\'applications spécifiques aux fabricants.
+        Selon le fabricant, vous devrez peut-être activer AutoStart, désactiver DuraSpeed,
+        activer `Afficher les fenêtres pop-up lors de l\'exécution en arrière-plan` pour l\'application.</string>
     <string name="action_disable_battery_optimizations">Désactiver les optimisations de batterie</string>
 
-    <string name="msg_display_over_other_apps_permission_not_granted_warning">L\'autorisation d\'affichage au-dessus des autres applications est requise pour &TERMUX_DISPLAY_APP_NAME;.\nConsultez %1$s pour plus d\'informations.</string>
-    <string name="action_grant_display_over_other_apps_permission">Autoriser l\'affichage au-dessus</string>
+    <string name="msg_display_over_other_apps_permission_not_granted_warning">L\'autorisation d\'affichage au-dessus des autres applications doit être accordée à &TERMUX_DISPLAY_APP_NAME; pour démarrer des activités au premier plan depuis l\'arrière-plan. Consultez https://developer.android.com/guide/components/activities/background-starts
+        pour plus d\'informations.
+    </string>
+    <string name="action_grant_display_over_other_apps_permission">Accorder l\'autorisation d\'affichage au-dessus des autres applications</string>
 
     <string name="action_already_granted">Déjà accordé</string>
     <string name="action_already_disabled">Déjà désactivé</string>
     <string name="not_connected">Non connecté</string>
     <string name="help_button_text">   Aide   </string>
     <string name="preferences_button_text">   Préférences   </string>
-    <string name="extra_keys_config_desc">Configurez la variable extra-keys comme dans Termux (<a href="http://wiki.termux.com/wiki/Touch_Keyboard#Extra_Keys_Row">documentation</a>) avec des options supplémentaires comme META.</string>
-    
-    <!-- Préférences -->
-    <string name="output">Sortie</string>
-    <string name="display_resolution_mode">Mode de résolution</string>
-    <string name="display_scale">Échelle d\'affichage (%)</string>
-    <string name="display_resolution">Résolution</string>
-    <string name="display_resolution_summary">Exemple : 1280x1024</string>
-    <string name="touch_sensitivity">Sensibilité tactile (x300ms)</string>
-    <string name="open_keyboard">Ouvrir clavier</string>
-    <string name="open_controller">Ouvrir contrôleur</string>
-    <string name="close_controller">Fermer contrôleur</string>
-    <string name="progress_manager">Gestionnaire de progression</string>
-    <string name="install_x11_server_bridge">installer Fix to XoDos</string>
-    <string name="stop_desktop">Arrêter le bureau</string>
-    <string name="stretch_to_fit_display">Étirer à l\'écran</string>
-    <string name="reseed_screen">Redimensionner avec clavier</string>
-    <string name="reseed_screen_summary">Ajuste la taille d\'écran lors de l\'ouverture du clavier</string>
-    <string name="pip_mode">Mode PIP</string>
-    <string name="pip_mode_summary">Afficher en mode picture-in-picture</string>
-    <string name="fullscreen_on_device_display">Plein écran</string>
-    <string name="fullscreen_on_device_display_summary">Active le mode immersif</string>
-    <string name="force_landscape_orientation">Forcer paysage</string>
-    <string name="ignore_cutout_operation">Ignorer les découpes d\'écran</string>
-    <string name="ignore_cutout_operation_summary">Corrige les problèmes d\'affichage</string>
-    <string name="hide_display_cutout">Masquer les découpes</string>
-    <string name="keep_screen_on">Maintenir l\'écran actif</string>
-    <string name="pointer">Pointeur</string>
-    <string name="touchscreen_input_mode">Mode d\'entrée tactile</string>
-    <string name="apply_display_scale_factor_to_touchpad">Ajuster l\'échelle du pavé tactile</string>
-    <string name="show_stylus_click_options">Options du stylet</string>
-    <string name="show_stylus_click_options_summary">Clic gauche/droit via stylet</string>
-    <string name="show_mouse_click_helper_overlay">Aide visuelle souris</string>
-    <string name="show_mouse_click_helper_overlay_summary">Boutons souris à l\'écran</string>
-    <string name="capture_external_mouse_when_possible">Capturer souris externe</string>
-    <string name="capture_external_mouse_when_possible_summary">Intercepte tous les événements souris</string>
-    <string name="enable_tap_to_move_for_touchpads">Activer tap-to-move</string>
-    <string name="show_additional_keyboard">Clavier supplémentaire</string>
-    <string name="show_additional_keyboard_summary">Afficher un clavier étendu</string>
-    <string name="hide_additional_keyboard_on_volume_down_key_press">Masquer avec Volume -</string>
-    <string name="show_ime_with_external_keyboard">Afficher IME avec clavier physique</string>
-    <string name="show_ime_with_external_keyboard_summary">Nécessite WRITE_SECURE_SETTINGS</string>
-    <string name="prefer_scancodes_when_possible">Privilégier les scancodes</string>
-    <string name="prefer_scancodes_when_possible_summary">Gestion par le serveur X</string>
-    <string name="intercept_system_shortcuts">Intercepter les raccourcis</string>
-    <string name="intercept_system_shortcuts_summary">Pour Samsung Dex (Alt+F4, Meta+D, etc.)</string>
-    <string name="open_accessibility_settings">Paramètres d\'accessibilité</string>
-    <string name="open_accessibility_settings_summary">Activer le service d\'accessibilité</string>
-    <string name="requires_write_secure_settings">Nécessite WRITE_SECURE_SETTINGS</string>
-    <string name="requires_write_secure_settings_summary">Permission système requise</string>
-    <string name="filter_out_intercepted">Filtrer la touche Meta interceptée</string>
-    <string name="filter_out_intercepted_summary">Permet l\'utilisation des raccourcis Dex</string>
-    <string name="extra_keys_config">Configuration extra-keys</string>
-    <string name="other">Autre</string>
-    <string name="automatic_uploading_clipboard">Synchronisation presse-papiers</string>
-    <string name="request_notification_permission">Demander les notifications</string>
+    <string name="extra_keys_config_desc">Ici, vous pouvez définir la valeur de la variable extra-keys comme dans l\'application Termux (lisez <a href="http://wiki.termux.com/wiki/Touch_Keyboard#Extra_Keys_Row">ceci</a>) et plus (par exemple, META).</string>
+    <!--    preference-->
+    <string name="pref_main">Préférences</string>
+    <string name="pref_output">Sortie🖥️</string>
+    <string name="pref_pointer">Pointeur🖱️</string>
+    <string name="pref_kbd">Clavier⌨️</string>
+    <string name="pref_other">Autres⚙️</string>
+    <string name="pref_version">Version</string>
+    <string name="pref_ekbar">Préférences de la barre de touches supplémentaires</string>
+    <string name="pref_userActions">Réponse aux actions de l\'utilisateur</string>
 
-    <!-- Journalisation -->
+
+    <string name="pref_displayResolutionMode">Mode de résolution d\'affichage</string>
+    <string name="pref_displayScale">Échelle d\'affichage, %</string>
+    <string name="pref_displayResolutionExact">Résolution d\'affichage</string>
+    <string name="pref_displayResolutionCustom">Résolution d\'affichage</string>
+    <string name="pref_adjustResolution">Ajuster la résolution définie pour s\'adapter à l\'orientation de l\'écran</string>
+    <string name="pref_displayStretch">Étirer pour s\'adapter à l\'écran</string>
+    <string name="pref_Reseed">Réinitialiser l\'écran pendant que le clavier logiciel est ouvert</string>
+    <string name="pref_Reseed_summary">La taille de l\'écran sera ajustée pendant que le clavier logiciel est ouvert.</string>
+    <string name="pref_PIP">Mode PIP</string>
+    <string name="pref_PIP_summary">Afficher l\'application en mode picture-in-picture lorsque le bouton d\'accueil ou le bouton des applications récentes est pressé</string>
+    <string name="pref_fullscreen">Plein écran</string>
+    <string name="pref_fullscreen_summary">Activer le mode immersif sur l\'écran de votre appareil</string>
+    <string name="pref_forceOrientation">Orientation de l\'écran</string>
+    <string name="pref_hideCutout">Masquer l\'encoche d\'affichage (le cas échéant)</string>
+    <string name="pref_keepScreenOn">Garder l\'écran allumé</string>
+
+    <string name="pref_touchMode">Mode d\'entrée tactile</string>
+    <string name="pref_scaleTouchpad">Appliquer le facteur d\'échelle d\'affichage au pavé tactile</string>
+    <string name="pref_showStylusClickOverride">Afficher les options de clic du stylet</string>
+    <string name="pref_showStylusClickOverride_summary">Remplacement du toucher du stylet, clic gauche, milieu ou droit (stylet uniquement)</string>
+    <string name="pref_stylusIsMouse">Activer le mode souris pour le stylet</string>
+    <string name="pref_stylusIsMouse_summary">Fait fonctionner votre stylet comme une souris. Lorsqu\'il est activé, le stylet ne déplace que le curseur et envoie des clics de souris, ignorant la pression, l\'angle et l\'inclinaison.</string>
+    <string name="pref_stylusButtonContactModifierMode">Mode modificateur de contact du bouton du stylet</string>
+    <string name="pref_stylusButtonContactModifierMode_summary">Activez cette option pour envoyer les boutons droit ou milieu de la souris uniquement lorsque le stylet touche l\'écran tout en appuyant sur le bouton.</string>
+    <string name="pref_showMouseHelper">Afficher l\'aide de clic de souris</string>
+    <string name="pref_showMouseHelper_summary">Boutons de souris à l\'écran utilisables avec le pavé tactile</string>
+    <string name="pref_pointerCapture">Capturer les périphériques de pointage externes lorsque possible</string>
+    <string name="pref_pointerCapture_summary">Intercepte tous les événements de pointage matériel. Le pointeur revient à Android après avoir appuyé sur la touche Échap.</string>
+    <string name="pref_transformCapturedPointer">Transformer les mouvements du pointeur capturé</string>
+    <string name="pref_capturedPointerSpeedFactor">Facteur de vitesse du pointeur capturé, %</string>
+    <string name="pref_tapToMove">Activer tap-to-move pour les pavés tactiles</string>
+
+    <string name="pref_showAdditionalKbd">Afficher le clavier supplémentaire</string>
+    <string name="pref_showAdditionalKbd_summary">Afficher un clavier avec des touches supplémentaires.</string>
+    <string name="pref_showIMEWhileExternalConnected">Afficher IME avec un clavier externe</string>
+    <string name="pref_showIMEWhileExternalConnected_summary">Afficher le clavier logiciel lorsqu\'un clavier matériel est connecté.</string>
+    <string name="pref_preferScancodes">Préférer les scancodes lorsque possible</string>
+    <string name="pref_preferScancodes_summary">Laisser le serveur X gérer la disposition du clavier matériel (avec les paramètres DE ou setxkbmap).</string>
+    <string name="pref_hardwareKbdScancodesWorkaround">Solution de contournement pour les scancodes du clavier matériel</string>
+    <string name="pref_hardwareKbdScancodesWorkaround_summary">Corrige les scancodes sur certains appareils. Peut causer des problèmes avec plusieurs dispositions.</string>
+    <string name="pref_dexMetaKeyCapture">Intercepter les raccourcis système</string>
+    <string name="pref_dexMetaKeyCapture_summary">Samsung Dex uniquement. Permet d\'intercepter &quot;Alt+F4&quot;, &quot;Meta+D&quot;, &quot;Meta+E&quot;, etc.</string>
+    <string name="pref_enableAccessibilityService">Activer le service d\'accessibilité pour intercepter manuellement les raccourcis système.</string>
+    <string name="pref_enableAccessibilityService_summary">Ouvrir les paramètres d\'accessibilité.</string>
+    <string name="pref_enableAccessibilityServiceAutomatically">Activer automatiquement le service d\'accessibilité pour intercepter les raccourcis système.</string>
+    <string name="pref_enableAccessibilityServiceAutomatically_summary">Nécessite l\'autorisation WRITE_SECURE_SETTINGS.</string>
+    <string name="pref_pauseKeyInterceptingWithEsc">Mettre en pause l\'interception des touches avec Échap</string>
+    <string name="pref_filterOutWinkey">Filtrer la touche Win (Meta/Mod4) interceptée.</string>
+    <string name="pref_filterOutWinkey_summary">Permet d\'utiliser les raccourcis Dex tout en interceptant. Nécessite que le service d\'accessibilité soit activé.</string>
+    <string name="pref_enforceCharBasedInput">Forcer la saisie basée sur les caractères</string>
+    <string name="pref_enforceCharBasedInput_summary">Supprime les suggestions, la saisie prédictive et les langues CJK</string>
+
+    <string name="pref_clipboardEnable">Partage du presse-papiers</string>
+    <string name="pref_requestNotificationPermission">Demander l\'autorisation de notification</string>
+    <string name="pref_xrMode">Mode Meta Oculus XR</string>
+    <string name="pref_configureResponseToUserActions">Configurer la réponse aux actions de l\'utilisateur</string>
+    <string name="pref_storeSecondaryDisplayPreferencesSeparately">Stocker les préférences pour les écrans secondaires séparément</string>
+    <string name="pref_storeSecondaryDisplayPreferencesSeparately_summary">Ouvrez cet écran sur l\'écran que vous souhaitez configurer</string>
+
+    <string name="pref_adjustHeightForEK">Ajuster la hauteur d\'affichage pour la barre de touches supplémentaires</string>
+    <string name="pref_adjustHeightForEK_summary">Peut provoquer un scintillement de l\'écran lors de l\'activation/désactivation de la barre EK.</string>
+    <string name="pref_useTermuxEKBarBehaviour">Désactiver les touches spéciales sur la barre de touches supplémentaires après chaque pression</string>
+    <string name="pref_useTermuxEKBarBehaviour_summary">Utilisez un appui long pour verrouiller les touches spéciales</string>
+    <string name="pref_opacityEKBar">Opacité de la barre de touches supplémentaires, %</string>
+    <string name="pref_extra_keys_config">Configuration des touches supplémentaires</string>
+
+    <string name="pref_swipeUpAction">Balayage vers le haut avec trois doigts</string>
+    <string name="pref_swipeDownAction">Balayage vers le bas avec trois doigts</string>
+    <string name="pref_volumeUpAction">Augmenter le volume</string>
+    <string name="pref_volumeDownAction">Diminuer le volume</string>
+    <string name="pref_backButtonAction">Bouton de retour</string>
+    <string name="pref_notificationTapAction">Appui sur la notification</string>
+    <string name="pref_notificationButton0Action">Premier bouton de notification</string>
+    <string name="pref_notificationButton1Action">Deuxième bouton de notification</string>
+    <string name="pref_mediaKeysAction">Touches multimédias</string>
+
+    <string name="pref_summary_requiresExactOrCustom">Nécessite que le &quot;mode de résolution d\'affichage&quot; soit &quot;exact&quot; ou &quot;personnalisé&quot;</string>
+    <string name="pref_summary_requiresIntercepting">Nécessite d\'intercepter les raccourcis système avec le mode Dex ou avec le service d\'accessibilité</string>
+    <string name="pref_summary_requiresTrackpadAndNative">Nécessite que le &quot;Mode d\'entrée tactile&quot; soit &quot;Pavé tactile&quot; et le &quot;Mode de résolution d\'affichage&quot; ne soit pas &quot;natif&quot;</string>
+
+
+<!--    <string name="pref_main">Préférences</string>-->
+<!--    <string name="pref_output">Sortie</string>-->
+<!--    <string name="pref_pointer">Pointeur</string>-->
+<!--    <string name="pref_kbd">Clavier</string>-->
+<!--    <string name="pref_other">Autres</string>-->
+<!--    <string name="pref_version">Version</string>-->
+<!--    <string name="pref_ekbar">Préférences de la barre de touches supplémentaires</string>-->
+<!--    <string name="pref_userActions">Réponse aux actions de l\'utilisateur</string>-->
+
+<!--    <string name="output">Sortie</string>-->
+<!--    <string name="display_resolution_mode">Mode de résolution d\'affichage</string>-->
+<!--    <string name="display_scale">Échelle d\'affichage, %</string>-->
+<!--    <string name="display_resolution">Résolution d\'affichage</string>-->
+<!--    <string name="display_resolution_summary">Exemple: 1280x1024</string>-->
+    <string name="touch_sensitivity">Sensibilité tactile, x300ms</string>
+    <string name="open_keyboard">Ouvrir le clavier⌨️</string>
+    <string name="select_controller">Sélectionner le contrôleur🎮</string>
+    <string name="select_controller_summary">Pour utiliser la fonction de saisie, activez préférences->clavier->code de balayage</string>
+    <string name="progress_manager">Gestionnaire de progression📊</string>
+    <string name="install_x11_server_bridge">Installer XoDos x11</string>
+    <string name="stop_desktop">Arrêter le bureau🚫</string>
+<!--    <string name="stretch_to_fit_display">Étirer pour s\'adapter à l\'écran</string>-->
+<!--    <string name="reseed_screen">Réinitialiser l\'écran pendant que le clavier logiciel est ouvert</string>-->
+<!--    <string name="reseed_screen_summary">La taille de l\'écran sera ajustée pendant que le clavier logiciel est ouvert.</string>-->
+<!--    <string name="pip_mode">Mode PIP</string>-->
+<!--    <string name="pip_mode_summary">Afficher l\'application en mode picture-in-picture lorsque le bouton d\'accueil ou le bouton des applications récentes est pressé</string>-->
+<!--    <string name="fullscreen_on_device_display">Plein écran sur l\'écran de l\'appareil</string>-->
+<!--    <string name="fullscreen_on_device_display_summary">Active le mode immersif sur l\'écran de votre appareil</string>-->
+<!--    <string name="force_landscape_orientation">Forcer l\'orientation paysage</string>-->
+<!--    <string name="ignore_cutout_operation">Ignorer l\'ajustement de l\'encoche d\'affichage</string>-->
+<!--    <string name="ignore_cutout_operation_summary">Activez ceci pour résoudre les problèmes d\'affichage sur certains appareils</string>-->
+<!--    <string name="hide_display_cutout">Masquer l\'encoche d\'affichage (le cas échéant)</string>-->
+<!--    <string name="keep_screen_on">Garder l\'écran allumé</string>-->
+<!--    <string name="pointer">Pointeur</string>-->
+<!--    <string name="touchscreen_input_mode">Mode d\'entrée tactile</string>-->
+<!--    <string name="apply_display_scale_factor_to_touchpad">Appliquer le facteur d\'échelle d\'affichage au pavé tactile</string>-->
+<!--    <string name="show_stylus_click_options">Afficher les options de clic du stylet</string>-->
+<!--    <string name="show_stylus_click_options_summary">Remplacement du toucher du stylet, clic gauche, milieu ou droit (Stylet uniquement)</string>-->
+<!--    <string name="show_mouse_click_helper_overlay">Afficher l\'aide de clic de souris</string>-->
+<!--    <string name="show_mouse_click_helper_overlay_summary">Boutons de souris à l\'écran utilisables avec le pavé tactile</string>-->
+<!--    <string name="capture_external_mouse_when_possible">Capturer la souris externe lorsque possible</string>-->
+<!--    <string name="capture_external_mouse_when_possible_summary">Intercepte tous les événements de souris matérielle. Le pointeur revient à Android après avoir appuyé sur la touche Échap.</string>-->
+<!--    <string name="enable_tap_to_move_for_touchpads">Activer tap-to-move pour les pavés tactiles</string>-->
+<!--    <string name="show_additional_keyboard">Afficher le clavier supplémentaire</string>-->
+<!--    <string name="show_additional_keyboard_summary">Afficher un clavier avec des touches supplémentaires.</string>-->
+<!--    <string name="hide_additional_keyboard_on_volume_down_key_press">Masquer le clavier supplémentaire lors de l\'appui sur la touche de diminution du volume</string>-->
+<!--    <string name="show_ime_with_external_keyboard">Afficher IME avec un clavier externe</string>-->
+<!--    <string name="show_ime_with_external_keyboard_summary">Afficher le clavier logiciel lorsqu\'un clavier matériel est connecté. Nécessite l\'autorisation WRITE_SECURE_SETTINGS.</string>-->
+<!--    <string name="prefer_scancodes_when_possible">Préférer les scancodes lorsque possible</string>-->
+<!--    <string name="prefer_scancodes_when_possible_summary">Laisser le serveur X gérer la disposition du clavier matériel (avec les paramètres DE ou setxkbmap).</string>-->
+<!--    <string name="intercept_system_shortcuts">Intercepter les raccourcis système</string>-->
+<!--    <string name="intercept_system_shortcuts_summary">Samsung Dex uniquement. Permet d\'intercepter-->
+<!--        &quot;Alt+F4&quot;, &quot;Meta+D&quot;, &quot;Meta+E&quot;, etc. </string>-->
+<!--    <string name="open_accessibility_settings">Ouvrir les paramètres d\'accessibilité.</string>-->
+<!--    <string name="open_accessibility_settings_summary">Activer le service d\'accessibilité pour intercepter manuellement les raccourcis système.</string>-->
+<!--    <string name="requires_write_secure_settings">Activer automatiquement le service d\'accessibilité pour intercepter les raccourcis système.</string>-->
+<!--    <string name="requires_write_secure_settings_summary">Nécessite l\'autorisation WRITE_SECURE_SETTINGS.</string>-->
+<!--    <string name="filter_out_intercepted">Filtrer la touche Win (Meta/Mod4) interceptée.</string>-->
+<!--    <string name="filter_out_intercepted_summary">Permet d\'utiliser les raccourcis Dex tout en interceptant.</string>-->
+<!--    <string name="extra_keys_config">Configuration des touches supplémentaires</string>-->
+<!--    <string name="other">Autres</string>-->
+<!--    <string name="automatic_uploading_clipboard">Téléchargement automatique du presse-papiers vers Android</string>-->
+<!--    <string name="request_notification_permission">Demander l\'autorisation de notification</string>-->
+
+
+    <string name="add_button">ajouter une touche</string>
+    <string name="launch_button_text">lancer</string>
+    <string name="enabl_float_ball_menu">activer le menu de la balle flottante</string>
+    <string name="enable_global_float_ball_menu">menu global de la balle flottante</string>
+    <string name="start_keyboard_x11">cliquer sur le bouton de retour ouvre le clavier logiciel</string>
+    <string name="stop_keyboard_x11">arrêter la saisie du clavier logiciel x11</string>
+    <string name="enabl_float_ball_menu_notice">une fois activé, le glissement pour déverrouiller le contenu de l\'application et d\'autres fonctions seront déplacés vers le menu de la balle flottante</string>
+    <string name="open_x11_settings">afficher les paramètres x11</string>
+    <string name="hide_x11_settings">masquer les paramètres x11</string>
+    <string name="enable_touch_screen">écran tactile</string>
+    <string name="command">commande</string>
+    <string name="title">titre</string>
+
+
+    <!-- Log Level -->
     <string name="log_level_title">Niveau de journal</string>
     <string name="log_level_off">Désactivé</string>
     <string name="log_level_normal">Normal</string>
     <string name="log_level_debug">Débogage</string>
     <string name="log_level_verbose">Verbeux</string>
     <string name="log_level_unknown">*Inconnu*</string>
-    <string name="log_level_value">Niveau Logcat : \"%1$s\"</string>
-    <string name="start_button_start_x11">Démarrer X11</string>
+    <string name="log_level_value">Niveau de journal Logcat défini sur \"%1$s\"</string>
+    <string name="start_button_start_x11">démarrer le serveur x11</string>
     <string name="exit_button_exit_app">Quitter</string>
-    <string name="x11_server_bridge_config">Installation de XoDos + xinput en cours... Cette opération peut prendre plusieurs minutes. En cas de blocage, consultez les journaux d\'erreur dans le dossier Téléchargements. Par XOD M.aleiwi.</string>
+    <string name="x11_server_bridge_config">Réinstallez le pont utilisé par le serveur x11 pour communiquer avec termux. L\'installation arrêtera l\'interface graphique actuelle et nécessitera un redémarrage. Si un fichier n\'est pas enregistré, enregistrez-le et réessayez.</string>
 
-    <!-- Contrôleur d'entrée -->
+    <!--inpt controller-->
     <string name="run">Exécuter</string>
     <string name="edit">Modifier</string>
     <string name="remove">Supprimer</string>
     <string name="add">Ajouter</string>
     <string name="shortcuts">Raccourcis</string>
     <string name="containers">Conteneurs</string>
-    <string name="input_controls">Contrôles</string>
+    <string name="input_controls">Contrôles de saisie</string>
     <string name="no_items_to_display">Aucun élément à afficher</string>
     <string name="new_container">Nouveau conteneur</string>
-    <string name="edit_container">Modifier conteneur</string>
+    <string name="edit_container">Modifier le conteneur</string>
     <string name="creating_container">Création du conteneur...</string>
     <string name="removing_container">Suppression du conteneur...</string>
     <string name="duplicating_container">Duplication du conteneur...</string>
     <string name="installing_system_files">Installation des fichiers système...</string>
     <string name="starting_up">Démarrage...</string>
-    <string name="unable_to_install_system_files">Échec d\'installation</string>
+    <string name="unable_to_install_system_files">Impossible d\'installer les fichiers système</string>
     <string name="keyboard">Clavier</string>
-    <string name="toggle_fullscreen">Plein écran</string>
+    <string name="toggle_fullscreen">Basculer en plein écran</string>
     <string name="exit">Quitter</string>
-    <string name="no_control_element_selected">Aucun élément sélectionné</string>
+    <string name="no_control_element_selected">Aucun élément de contrôle sélectionné</string>
     <string name="scale">Échelle</string>
     <string name="shape">Forme</string>
     <string name="type">Type</string>
-    <string name="binding">Assignation</string>
-    <string name="binding_up">Haut</string>
-    <string name="binding_right">Droite</string>
-    <string name="binding_down">Bas</string>
-    <string name="binding_left">Gauche</string>
-    <string name="overlay_opacity">Opacité</string>
+    <string name="binding">Liaison</string>
+    <string name="binding_up">Liaison haut</string>
+    <string name="binding_right">Liaison droite</string>
+    <string name="binding_down">Liaison bas</string>
+    <string name="binding_left">Liaison gauche</string>
+    <string name="overlay_opacity">Opacité de superposition</string>
     <string name="profile">Profil</string>
     <string name="select_profile">Sélectionner un profil</string>
     <string name="profile_name">Nom du profil</string>
@@ -130,69 +250,69 @@
     <string name="cancel">Annuler</string>
     <string name="untitled">Sans titre</string>
     <string name="no_profile_selected">Aucun profil sélectionné</string>
-    <string name="too_much_key">Maximum 4 touches</string>
+    <string name="too_much_key">Trop de touches, pas plus de quatre touches</string>
     <string name="cheat_code">Code de triche</string>
     <string name="set_cheat_code">Définir</string>
     <string name="no_profile_found">Aucun profil trouvé</string>
-    <string name="do_you_want_to_remove_this_profile">Supprimer ce profil ?</string>
-    <string name="do_you_want_to_duplicate_this_profile">Dupliquer ce profil ?</string>
-    <string name="do_you_want_to_duplicate_this_preset">Dupliquer ce préréglage ?</string>
-    <string name="do_you_want_to_remove_this_container">Supprimer ce conteneur ?</string>
-    <string name="do_you_want_to_duplicate_this_container">Dupliquer ce conteneur ?</string>
-    <string name="do_you_want_to_remove_this_shortcut">Supprimer ce raccourci ?</string>
-    <string name="do_you_want_to_remove_this_controller">Supprimer ce contrôleur ?</string>
-    <string name="do_you_want_to_remove_this_wine_version">Supprimer cette version de Wine ?</string>
-    <string name="do_you_want_to_remove_this_preset">Supprimer ce préréglage ?</string>
-    <string name="do_you_want_to_end_this_process">Arrêter ce processus ?</string>
+    <string name="do_you_want_to_remove_this_profile">Voulez-vous supprimer ce profil?</string>
+    <string name="do_you_want_to_duplicate_this_profile">Voulez-vous dupliquer ce profil?</string>
+    <string name="do_you_want_to_duplicate_this_preset">Voulez-vous dupliquer ce préréglage?</string>
+    <string name="do_you_want_to_remove_this_container">Voulez-vous supprimer ce conteneur?</string>
+    <string name="do_you_want_to_duplicate_this_container">Voulez-vous dupliquer ce conteneur?</string>
+    <string name="do_you_want_to_remove_this_shortcut">Voulez-vous supprimer ce raccourci?</string>
+    <string name="do_you_want_to_remove_this_controller">Voulez-vous supprimer ce contrôleur?</string>
+    <string name="do_you_want_to_remove_this_wine_version">Voulez-vous supprimer cette version de Wine?</string>
+    <string name="do_you_want_to_remove_this_preset">Voulez-vous supprimer ce préréglage?</string>
+    <string name="do_you_want_to_end_this_process">Voulez-vous terminer ce processus?</string>
     <string name="controls_editor">Éditeur de contrôles</string>
     <string name="enabled">Activé</string>
     <string name="disabled">Désactivé</string>
     <string name="container">Conteneur</string>
-    <string name="screen_size">Taille d\'écran</string>
-    <string name="new_environment_variable">Nouvelle variable</string>
+    <string name="screen_size">Taille de l\'écran</string>
+    <string name="new_environment_variable">Nouvelle variable d\'environnement</string>
     <string name="environment_variables">Variables d\'environnement</string>
     <string name="value">Valeur</string>
     <string name="processor_affinity">Affinité du processeur</string>
     <string name="cursor_speed">Vitesse du curseur</string>
-    <string name="lock_cursor">Verrouiller curseur</string>
-    <string name="toggle_switch">Basculer</string>
-    <string name="toggle_model">Basculer/Appui long</string>
+    <string name="lock_cursor">Verrouiller le curseur</string>
+    <string name="toggle_switch">Basculer l\'interrupteur</string>
+    <string name="toggle_model">Basculer (non coché)/Appui long (coché)</string>
     <string name="profile_exported_to">Profil exporté vers</string>
-    <string name="unable_to_import_profile">Échec d\'import</string>
-    <string name="wine_configuration">Configuration Wine</string>
+    <string name="unable_to_import_profile">Impossible d\'importer le profil</string>
+    <string name="wine_configuration">Configuration de Wine</string>
     <string name="registry_keys">Clés de registre</string>
     <string name="csmt">CSMT (Command Stream Multi-Thread)</string>
     <string name="gpu_name">Nom du GPU</string>
     <string name="offscreen_rendering_mode">Mode de rendu hors écran</string>
-    <string name="strict_shader_math">Calculs stricts des shaders</string>
-    <string name="video_memory_size">Mémoire vidéo</string>
-    <string name="show_fps">Afficher FPS</string>
+    <string name="strict_shader_math">Mathématiques strictes des shaders</string>
+    <string name="video_memory_size">Taille de la mémoire vidéo</string>
+    <string name="show_fps">Afficher les FPS</string>
     <string name="none">Aucun</string>
     <string name="custom_text">Texte personnalisé</string>
     <string name="icon">Icône</string>
-    <string name="import_profile">Importer profil</string>
-    <string name="export_profile">Exporter profil</string>
-    <string name="touchpad_help">Aide pavé tactile</string>
-    <string name="touchpad_help_mouse_left_click_title">Clic gauche</string>
-    <string name="touchpad_help_mouse_left_click_description">Toucher court à un doigt</string>
-    <string name="touchpad_help_mouse_right_click_title">Clic droit</string>
-    <string name="touchpad_help_mouse_right_click_description">Toucher à deux doigts</string>
-    <string name="touchpad_help_mouse_scroll_wheel_title">Molette de défilement</string>
-    <string name="touchpad_help_mouse_scroll_wheel_description">Déplacer deux doigts</string>
+    <string name="import_profile">Importer un profil</string>
+    <string name="export_profile">Exporter le profil</string>
+    <string name="touchpad_help">Aide du pavé tactile</string>
+    <string name="touchpad_help_mouse_left_click_title">Clic gauche de la souris</string>
+    <string name="touchpad_help_mouse_left_click_description">Appui court avec un doigt</string>
+    <string name="touchpad_help_mouse_right_click_title">Clic droit de la souris</string>
+    <string name="touchpad_help_mouse_right_click_description">Appui avec un doigt et appui court avec un autre doigt</string>
+    <string name="touchpad_help_mouse_scroll_wheel_title">Molette de défilement de la souris</string>
+    <string name="touchpad_help_mouse_scroll_wheel_description">Appui avec deux doigts et déplacement</string>
     <string name="touchpad_help_main_menu_title">Menu principal</string>
-    <string name="touchpad_help_main_menu_description">Toucher à quatre doigts</string>
+    <string name="touchpad_help_main_menu_description">Appui avec quatre doigts</string>
     <string name="duplicate">Dupliquer</string>
     <string name="about">À propos</string>
-    <string name="credits_and_third_party_apps">Crédits et tiers</string>
+    <string name="credits_and_third_party_apps">Crédits et applications tierces</string>
     <string name="external_controllers">Contrôleurs externes</string>
     <string name="graphics_driver">Pilote graphique</string>
     <string name="audio_driver">Pilote audio</string>
     <string name="loading">Chargement...</string>
-    <string name="press_any_button_on_your_controller">Appuyez sur un bouton</string>
-    <string name="bindings">Assignations</string>
-    <string name="show_touchscreen_controls">Afficher contrôles tactiles</string>
-    <string name="dxwrapper">Wrapper DX</string>
-    <string name="mouse_warp_override">Contournement souris</string>
+    <string name="press_any_button_on_your_controller">Appuyez sur n\'importe quel bouton de votre contrôleur</string>
+    <string name="bindings">liaisons</string>
+    <string name="show_touchscreen_controls">Afficher les contrôles tactiles</string>
+    <string name="dxwrapper">DX Wrapper</string>
+    <string name="mouse_warp_override">Remplacement du déplacement de la souris</string>
     <string name="direct3d">Direct3D</string>
     <string name="directsound">DirectSound</string>
     <string name="directmusic">DirectMusic</string>
@@ -203,7 +323,7 @@
     <string name="exec_arguments">Arguments d\'exécution</string>
     <string name="win_components">Composants Windows</string>
     <string name="drives">Lecteurs</string>
-    <string name="force_fullscreen">Forcer plein écran</string>
+    <string name="force_fullscreen">Forcer le plein écran</string>
     <string name="range">Plage</string>
     <string name="enable">Activer</string>
     <string name="disable">Désactiver</string>
@@ -212,121 +332,104 @@
     <string name="install_wine">Installer Wine</string>
     <string name="arch">Architecture</string>
     <string name="version">Version</string>
-    <string name="unable_to_install_wine">Échec d\'installation</string>
-    <string name="unable_to_remove_this_wine_version">Échec de suppression</string>
+    <string name="unable_to_install_wine">Impossible d\'installer Wine</string>
+    <string name="unable_to_remove_this_wine_version">Impossible de supprimer cette version de Wine</string>
     <string name="wine_version">Version de Wine</string>
     <string name="removing_wine">Suppression de Wine...</string>
-    <string name="preparing_installation">Préparation...</string>
-    <string name="finishing_installation">Finalisation...</string>
-    <string name="storage_info">Stockage</string>
+    <string name="preparing_installation">Préparation de l\'installation...</string>
+    <string name="finishing_installation">Finalisation de l\'installation...</string>
+    <string name="storage_info">Informations de stockage</string>
     <string name="drive_c">Lecteur C:</string>
     <string name="cache">Cache</string>
     <string name="total">Total</string>
-    <string name="clear_cache">Vider le cache</string>
+    <string name="clear_cache">Effacer le cache</string>
     <string name="estimated_used_space">Espace utilisé estimé</string>
     <string name="advanced">Avancé</string>
     <string name="box86_box64">Box86/Box64</string>
-    <string name="stop_services_on_startup">Arrêter services au démarrage</string>
+    <string name="stop_services_on_startup">Arrêter les services au démarrage</string>
     <string name="system">Système</string>
     <string name="box86_preset">Préréglage Box86</string>
     <string name="box64_preset">Préréglage Box64</string>
-    <string name="box86_version">Version Box86</string>
-    <string name="box64_version">Version Box64</string>
+    <string name="box86_version">Version de Box86</string>
+    <string name="box64_version">Version de Box64</string>
     <string name="letter">Lettre</string>
     <string name="target_path">Chemin cible</string>
     <string name="xserver">XServer</string>
-    <string name="use_dri3_extension">Utiliser DRI3</string>
+    <string name="use_dri3_extension">Utiliser l\'extension DRI3</string>
     <string name="width">Largeur</string>
     <string name="height">Hauteur</string>
-    <string name="old">Ancien</string>
-    <string name="_new">Nouveau</string>
+    <string name="old">ancien</string>
+    <string name="_new">nouveau</string>
     <string name="task_manager">Gestionnaire de tâches</string>
-    <string name="process_name">Processus</string>
+    <string name="process_name">Nom du processus</string>
     <string name="pid">PID</string>
     <string name="memory">Mémoire</string>
-    <string name="end_process">Terminer</string>
+    <string name="end_process">Terminer le processus</string>
     <string name="new_task">Nouvelle tâche</string>
     <string name="processes">Processus</string>
     <string name="orientation">Orientation</string>
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertical</string>
-    <string name="open_file">Ouvrir fichier</string>
-    <string name="download_file">Télécharger fichier</string>
-    <string name="do_you_want_to_download_the_selected_profiles">Télécharger les profils sélectionnés ?</string>
-    <string name="downloading_file">Téléchargement...</string>
-    <string name="unable_to_load_profile_list">Échec de chargement</string>
+    <string name="open_file">Ouvrir un fichier</string>
+    <string name="download_file">Télécharger un fichier</string>
+    <string name="do_you_want_to_download_the_selected_profiles">Voulez-vous télécharger les profils sélectionnés?</string>
+    <string name="downloading_file">Téléchargement du fichier...</string>
+    <string name="unable_to_load_profile_list">Impossible de charger la liste des profils</string>
     <string name="copy">Copier</string>
     <string name="installed_version">Version installée</string>
-    <string name="unable_to_download_file">Échec de téléchargement</string>
+    <string name="unable_to_download_file">Impossible de télécharger le fichier</string>
     <string name="stability">Stabilité</string>
     <string name="compatibility">Compatibilité</string>
     <string name="intermediate">Intermédiaire</string>
     <string name="performance">Performance</string>
     <string name="preset">Préréglage</string>
-    <string name="you_cannot_remove_this_preset">Préréglage protégé</string>
-
-    <!-- Aide technique -->
+    <string name="you_cannot_remove_this_preset">Vous ne pouvez pas supprimer ce préréglage</string>
     <string name="dxwrapper_help_content"><![CDATA[
-        <i><b>WineD3D</b></i> : Couche de traduction DirectX 1-11 vers OpenGL<br /><br />
-        <i><b>DXVK</b></i> : Couche de traduction Direct3D 9-11 vers Vulkan<br /><br />
-        <i><b>D8VK</b></i> : Couche de traduction Direct3D 8 vers Vulkan<br /><br />
-        <i><b>CNC DDraw</b></i> : Implémentation DirectDraw pour jeux classiques
+        <i><b>WineD3D</b></i> est une couche de traduction pour DirectX 1-11 vers OpenGL.<br /><br />
+        <i><b>DXVK</b></i> est une couche de traduction pour Direct3D 9-11 vers Vulkan.<br /><br />
+        <i><b>D8VK</b></i> est une couche de traduction pour Direct3D 8 vers Vulkan.<br /><br />
+        <i><b>CNC DDraw</b></i> est une implémentation de DirectDraw pour une meilleure compatibilité avec les jeux classiques.
     ]]></string>
-
     <string name="box86_64_env_var_help__dynarec_safeflags"><![CDATA[
-        Gestion des flags CALL/RET<br /><br />
-        <b>0</b> : Ignorer les flags (rapide, instable)<br />
-        <b>1</b> : Flags pour RET seulement<br />
-        <b>2</b> : Flags systématiques (lent)
+        Gestion des drapeaux sur les opcodes CALL/RET<br /><br />
+        <b>0</b> : Traite CALL/RET comme s\'ils n\'avaient jamais besoin de drapeaux (plus rapide, instable)<br />
+        <b>1</b> : La plupart des RET auront besoin de drapeaux, la plupart des CALLS non<br />
+        <b>2</b> : Tous les CALL/RET auront besoin de drapeaux (plus lent)
     ]]></string>
-
-    <string name="box86_64_env_var_help__dynarec_fastnan">Génération de -NAN x86</string>
-    <string name="box86_64_env_var_help__dynarec_fastround">Arrondi précis x86</string>
-    <string name="box86_64_env_var_help__dynarec_x87double">Utilisation Float/Double</string>
+    <string name="box86_64_env_var_help__dynarec_fastnan">Génération de -NAN comme sur x86</string>
+    <string name="box86_64_env_var_help__dynarec_fastround">Génération d\'un arrondi précis x86</string>
+    <string name="box86_64_env_var_help__dynarec_x87double">Utilisation de Float/Double pour l\'émulation x86</string>
     <string name="box86_64_env_var_help__dynarec_bigblock"><![CDATA[
-        Taille des blocs Dynarec<br /><br />
-        <b>0</b> : Blocs standards<br />
-        <b>1</b> : Blocs étendus<br />
-        <b>2</b> : Blocs ELF étendus<br />
-        <b>3</b> : Blocs illimités
+        Dynarec construisant BigBlock<br /><br />
+        <b>0</b> : Ne pas essayer de construire des blocs aussi grands que possible<br />
+        <b>1</b> : Construire des blocs Dynarec aussi grands que possible<br />
+        <b>2</b> : Construire des blocs Dynarec plus grands (continuer lorsque les blocs se chevauchent, mais uniquement pour les blocs en mémoire elf)<br />
+        <b>3</b> : Construire des blocs Dynarec plus grands (continuer lorsque les blocs se chevauchent, pour tous types de mémoire)
     ]]></string>
-
     <string name="box86_64_env_var_help__dynarec_strongmem"><![CDATA[
-        Modèle mémoire strict<br /><br />
-        <b>0</b> : Désactivé<br />
-        <b>1</b> : Barrières partielles<br />
-        <b>2</b> : Barrières complètes<br />
-        <b>3</b> : Barrières étendues
+        Simulation du modèle de mémoire forte<br /><br />
+        <b>0</b> : Ne rien essayer de spécial<br />
+        <b>1</b> : Activer certaines barrières mémoire lors de l\'écriture en mémoire (sur certains opcodes MOV)<br />
+        <b>2</b> : Tout ce qui est en 1 plus une barrière mémoire sur chaque écriture en mémoire utilisant MOV<br />
+        <b>2</b> : Tout ce qui est en 2 plus des barrières mémoire lors de la lecture en mémoire et sur certains opcodes SSE/SSE2
     ]]></string>
-
-    <string name="box86_64_env_var_help__dynarec_forward">Avance maximale des blocs</string>
-    <string name="box86_64_env_var_help__dynarec_callret">Optimisation CALL/RET</string>
-    <string name="box86_64_env_var_help__dynarec_wait">Attente FillBlock</string>
-
-    <!-- UI supplémentaire -->
+    <string name="box86_64_env_var_help__dynarec_forward">Définit la valeur maximale autorisée vers l\'avant lors de la construction de blocs</string>
+    <string name="box86_64_env_var_help__dynarec_callret">Optimisation des opcodes CALL/RET</string>
+    <string name="box86_64_env_var_help__dynarec_wait">Définit si Dynarec attendra ou non que FillBlock soit prêt</string>
     <string name="columns">Colonnes</string>
-    <string name="directinput_mapper_type">Type de mappage DirectInput</string>
+    <string name="directinput_mapper_type">Type de mappeur DirectInput</string>
     <string name="desktop">Bureau</string>
     <string name="theme">Thème</string>
     <string name="background">Arrière-plan</string>
-    <string name="max_device_memory">Mémoire max du périphérique</string>
-    <string name="frame_rate">Fréquence d\'images</string>
+    <string name="max_device_memory">Mémoire maximale de l\'appareil</string>
+    <string name="frame_rate">Taux de rafraîchissement</string>
     <string name="configuration">Configuration</string>
     <string name="browse">Parcourir</string>
     <string name="magnifier">Loupe</string>
     <string name="bring_to_front">Mettre au premier plan</string>
     <string name="options">Options</string>
-    <string name="add_button">Ajouter touche</string>
-    <string name="launch_button_text">Lancer</string>
-    <string name="enabl_float_ball_menu">Menu flottant</string>
-    <string name="enable_global_float_ball_menu">Menu global</string>
-    <string name="start_keyboard_x11">Clavier logiciel</string>
-    <string name="stop_keyboard_x11">Arrêter clavier</string>
-    <string name="enabl_float_ball_menu_notice">Déverrouille des fonctions via le menu flottant</string>
-    <string name="open_x11_settings">Afficher paramètres</string>
-    <string name="hide_x11_settings">Masquer paramètres</string>
-    <string name="enable_touch_screen">Écran tactile</string>
-    <string name="command">Commande</string>
-    <string name="title">Titre</string>
-    <string name="toolbox_button_text2">DÉMARRER</string>
+
+
+    <string name="toolbox_button_text2">Démarrer</string>
+
 </resources>

@@ -278,6 +278,7 @@
     <item>Wine🍷Bionic: Windows emulation with native driver wrapping (if not snapdragon Use wrapper)</item>
     <item>Wine🍷:Here you can Run EXE files from any folder on your device</item>
     <item>Xbox🎮Emulator: Play original Xbox games using Xemu</item>
+            <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
       <item>Settings⚙️: Configure Wine/DXVK/Box versions and system drivers</item> 
     <item>AI🤖Chat: Local private AI supporting DeepSeek, Llama, and 100+ models</item>
     <item>Restore♻️: Install XoDos system updates and more systems like Kali/Proot</item>
@@ -355,4 +356,9 @@
 <string name="install_copying">Copying system files…</string>
 <string name="install_extracting">updating system…</string>
 <string name="install_finalizing">Finalizing installation…</string>
+
+
+    <string name="unlock_exit_toast_text">back/unlocked</string>
+
+    <string name="stop_desktop_title">Exit and stop 🛑 Wine and Desktop?</string>
 </resources>

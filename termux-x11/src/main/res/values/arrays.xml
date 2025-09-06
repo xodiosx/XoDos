@@ -10,6 +10,20 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+    <string-array name="transformCapturedPointerEntries">
+        <item>No</item>
+        <item>Clockwise</item>
+        <item>Counter clockwise</item>
+        <item>Upside down</item>
+        <item>Automatic (for touchpad)</item>
+    </string-array>
+    <string-array name="transformCapturedPointerValues">
+        <item>no</item>
+        <item>c</item>
+        <item>cc</item>
+        <item>ud</item>
+        <item>at</item>
+    </string-array>
     <string-array name="displayResolutionVariants">
         <item>native</item>
         <item>scaled</item>
@@ -41,6 +55,35 @@
         <item>2560x2048</item>
         <item>3840x2160</item>
         <item>7680x4320</item>
+    </string-array>
+    <string-array name="userActionsValues">
+        <item>no action</item>
+        <item>toggle soft keyboard</item>
+        <item>toggle additional key bar</item>
+        <item>open preferences</item>
+        <item>release pointer and keyboard capture</item>
+        <item>toggle fullscreen</item>
+        <item>restart activity</item>
+        <item>exit</item>
+    </string-array>
+    <string-array name="userActionsVolumeDownValues">
+        <item>@array/userActionsValues</item>
+        <item>send volume down</item>
+    </string-array>
+    <string-array name="userActionsVolumeUpValues">
+        <item>@array/userActionsValues</item>
+        <item>send volume up</item>
+    </string-array>
+    <string-array name="userActionsMediaKeyValues">
+        <item>@array/userActionsValues</item>
+        <item>send media action</item>
+    </string-array>
+    <string-array name="forceOrientationVariants">
+        <item>auto</item>
+        <item>portrait</item>
+        <item>landscape</item>
+        <item>reverse portrait</item>
+        <item>reverse landscape</item>
     </string-array>
     <string-array name="screen_size_entries">
         <item>Custom</item>

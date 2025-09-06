@@ -227,6 +227,7 @@
         <item>Wine🍷Bionic : Émulation avec pilotes natifs</item>
         <item>Wine🍷 : Exécutez des EXE depuis n\'importe où</item>
         <item>Émulateur Xbox🎮 : Jeux Xbox via Xemu</item>
+                <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
         <item>Paramètres⚙️ : Configurez Wine/DXVK/Box</item>
         <item>IA🤖Chat : IA locale (DeepSeek, Llama)</item>
         <item>Restaurer♻️ : Mises à jour XoDos/Kali</item>
@@ -291,4 +292,5 @@
   <string name="install_copying">Copiando archivos…</string>
   <string name="install_extracting">Actualizando sistema…</string>
   <string name="install_finalizing">Finalizando…</string>
+  <string name="stop_desktop_title">Quitter et arrêter 🛑 Wine et le Bureau ?</string>
 </resources>

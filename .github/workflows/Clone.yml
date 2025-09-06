@@ -1,0 +1,58 @@
+name: clone cpp from Another Repo
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Reset repo before pull
+        run: |
+         git fetch origin
+         git checkout main
+         git branch --set-upstream-to=origin/main main    
+         echo "🔁 Resetting local changes"
+         git reset --hard HEAD
+         git clean -fd    
+         echo "⬇️ Pulling with rebase"
+         #git pull --rebase origin main
+      
+      
+      - name: Fetch folder from external repo
+        run: |
+          pwd
+          mkdir -p termux-x11/src/main/cpp
+          git clone -b main https://github.com/xodiosx/Xodoshw temprepo
+          cd temprepo
+          ls
+           
+          git submodule update --init --recursive
+          #git clone --depth=1 --filter=blob:none --sparse https://github.com/xodiosx/XoDos-test temprepo
+          
+          #cd temprepo
+          git sparse-checkout set termux-x11/src/main/cpp
+          ls termux-x11/src/main/cpp
+          rm -rf ../termux-x11/src/main/cpp/*
+          cp -r termux-x11/src/main/cpp ../termux-x11/src/main/
+          cd ..
+          rm -rf temprepo
+
+      - name: Commit and push changes
+        run: |
+         git config user.name "github-actions"
+         git config user.email "github-actions@github.com"
+         git add termux-x11/src/main/cpp         
+         git commit -m "Update cpp and restore"
+         sleep 2
+         git push
+         

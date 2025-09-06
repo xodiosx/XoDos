@@ -808,13 +808,12 @@ public final class TermuxService extends Service implements AppShell.AppShellCli
         int priority = (wakeLockHeld) ? Notification.PRIORITY_HIGH : Notification.PRIORITY_LOW;
 
 
-        //
-    // Build the notification
-    Notification.Builder builder =  NotificationUtils.geNotificationBuilder(this,
-        TermuxConstants.TERMUX_APP_NOTIFICATION_CHANNEL_ID, priority,
-        "XoDos", notificationText, null, // Changed the notification name here
-        contentIntent, null, NotificationUtils.NOTIFICATION_MODE_SILENT);
-    if (builder == null)  return null;
+        // Build the notification
+        Notification.Builder builder =  NotificationUtils.geNotificationBuilder(this,
+            TermuxConstants.TERMUX_APP_NOTIFICATION_CHANNEL_ID, priority,
+            TermuxConstants.TERMUX_APP_NAME, notificationText, null,
+            contentIntent, null, NotificationUtils.NOTIFICATION_MODE_SILENT);
+        if (builder == null)  return null;
 
         // No need to show a timestamp:
         builder.setShowWhen(false);

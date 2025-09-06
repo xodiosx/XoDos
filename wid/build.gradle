@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.library' // Correct plugin for library modules
+}
+
+android {
+    namespace "com.termux.widget"
+    compileSdk project.properties.compileSdkVersion.toInteger()
+
+    // NDK version (optional for widgets, but retained if needed)
+    ndkVersion '27.1.12297006'
+
+    defaultConfig {
+        minSdk project.properties.minSdkVersion.toInteger()
+        targetSdk project.properties.targetSdkVersion.toInteger()
+        versionCode 1000
+        versionName "0.14.0"
+
+        // Validate version format (SemVer)
+        validateVersionName(versionName)
+
+        // Manifest placeholders for app metadata
+        manifestPlaceholders = [
+            TERMUX_PACKAGE_NAME: "com.termux",
+            TERMUX_APP_NAME: "Termux",
+            TERMUX_WIDGET_APP_NAME: "Termux:Widget"
+        ]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            zipAlignEnabled true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    // Exclude conflicting native libs from termux-shared
+    packagingOptions {
+        exclude 'lib/*/libtermux.so'
+    }
+}
+
+dependencies {
+    // RxJava for reactive components
+    implementation "org.reactivestreams:reactive-streams:1.0.3"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.10"
+
+    // AndroidX libraries
+    implementation "androidx.annotation:annotation:1.9.1"
+    implementation "com.google.android.material:material:1.12.0"
+
+    // Termux core dependency (local or published)
+     implementation project(":termux-shared")
+
+    // Guava compatibility
+    implementation "com.google.guava:guava:24.1-jre"
+    implementation "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
+}
+
+// Validate version name format (Semantic Versioning)
+def validateVersionName(String versionName) {
+    if (!java.util.regex.Pattern.matches("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?\$", versionName)) {
+        throw new GradleException("Invalid versionName '$versionName'. Must follow SemVer 2.0.0 format: major.minor.patch(-prerelease)(+build).")
+    }
+}

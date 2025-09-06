@@ -1,11 +1,6 @@
 package com.termux.x11.controller.core;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
-////////
-import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
@@ -43,21 +38,6 @@ public abstract class FileUtils {
         }
     }
 
-////////// New
-
-public static String getRealPath(Context context, Uri uri) {
-    // Implementation for URI to path conversion
-    Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-    if (cursor == null) return uri.getPath();
-    cursor.moveToFirst();
-    int idx = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
-    String path = cursor.getString(idx);
-    cursor.close();
-    return path;
-}
-
-
-////////////
     public static byte[] read(File file) {
         try (InputStream inStream = new BufferedInputStream(new FileInputStream(file))) {
             return StreamUtils.copyToByteArray(inStream);

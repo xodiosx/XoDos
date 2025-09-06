@@ -550,11 +550,11 @@ iv.setScaleType(ImageView.ScaleType.FIT_CENTER); // Add this for proper scaling
   
       switch(type) {
       case "lnk":
-      break;
     iv.setImageResource(R.drawable.ilnk); 
+          break;
       case "upda":
-      break;
     iv.setImageResource(R.drawable.iupdate); 
+          break;
       case "clean":
     iv.setImageResource(R.drawable.idel); 
     break;

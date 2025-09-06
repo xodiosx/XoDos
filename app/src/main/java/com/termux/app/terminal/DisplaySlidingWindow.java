@@ -1,10 +1,9 @@
 package com.termux.app.terminal;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.HorizontalScrollView;
 import com.nineoldandroids.view.ViewHelper;
 import com.termux.app.TermuxActivity;
 import com.termux.app.terminal.utils.ScreenUtils;
+import com.termux.x11.MainActivity;
 
 public class DisplaySlidingWindow extends HorizontalScrollView {
     public enum ContentType {
@@ -111,8 +111,11 @@ public class DisplaySlidingWindow extends HorizontalScrollView {
             mMenuWidth = mContentWidth - mMenuRightPadding;
             mHalfMenuWidth = mMenuWidth / 2;
             mLeftMenu.getLayoutParams().width = mMenuWidth;
+            mLeftMenu.getLayoutParams().height = MATCH_PARENT;
             mContent.getLayoutParams().width = mContentWidth;
+            mContent.getLayoutParams().height =MATCH_PARENT;
             mRightMenu.getLayoutParams().width = mMenuWidth;
+            mRightMenu.getLayoutParams().height=MATCH_PARENT;
 //            Log.d("changeLayoutOrientation", "landscape:" + String.valueOf(landscape) + ", mContentWidth" + ":" + String.valueOf(mContentWidth) + ",mScreenHeight:" + String.valueOf(mScreenHeight) + ",mScreenWidth:" + String.valueOf(mScreenWidth));
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -121,8 +124,7 @@ public class DisplaySlidingWindow extends HorizontalScrollView {
     private void remeasure() {
         mContentWidth = ScreenUtils.getScreenWidth(getContext());
         mStatusHeight = ScreenUtils.getStatusHeight();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        boolean hideCutout = preferences.getBoolean("hideCutout", false);
+        boolean hideCutout = mTermuxActivity.getPrefs().hideCutout.get();
         if (mLandscape) {
             if (hideCutout) {
                 mStatusHeight = 0;
@@ -146,6 +148,9 @@ public class DisplaySlidingWindow extends HorizontalScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if(!MainActivity.mLorieViewConnected&&!mLockContentSlider){
+            return super.onInterceptTouchEvent(ev);
+        }
 //        Log.d("onInterceptTouchEvent",String.valueOf(ev.getAction()));
         if (!mLockContentSlider) {
             mTermuxActivity.sendTouchEvent(ev);

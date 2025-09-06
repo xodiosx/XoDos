@@ -5,6 +5,4 @@
     <integer name="file_request_backup_code">101</integer>
     <integer name="load_profile_code">102</integer>
     <integer name="load_button_icon_code">103</integer>
-    <!-- For portrait -->
-    <!-- Text sizes -->
 </resources>

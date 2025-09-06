@@ -1,0 +1,681 @@
+package com.termux.app;
+
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.prefs.Preferences;
+
+public class WineSettingsManager {
+    // Constants
+    private static final String PREFIX = System.getenv("PREFIX");
+    private static final String HOME = System.getProperty("user.home");
+    private static final String DEFAULT_WINE_RUNNER = HOME + "/run_wine.sh";
+    
+    // Mode definitions
+    public enum RuntimeMode { GLIBC, BIONIC, HANGOVER }
+    public enum GlibcSubmode { WOW64, BOX86 }
+    
+    // Settings structures
+    private Map<String, Object> appSettings = new HashMap<>();
+    private Map<RuntimeMode, Map<String, Object>> modeSettings = new EnumMap<>(RuntimeMode.class);
+    private Map<RuntimeMode, Map<String, String>> selectedFiles = new EnumMap<>(RuntimeMode.class);
+    
+    // Current state
+    private String currentConfigPath = "";
+    private String currentAppPath = "";
+    private RuntimeMode currentMode = RuntimeMode.GLIBC;
+    private ScheduledExecutorService watchExecutor;
+    private long lastConfigModified = 0;
+    
+    public WineSettingsManager() {
+        initializeDefaultSettings();
+        loadAppSettings();
+    }
+
+    private void initializeDefaultSettings() {
+        // Initialize mode settings
+        for (RuntimeMode mode : RuntimeMode.values()) {
+            Map<String, Object> settings = new HashMap<>();
+            Map<String, String> files = new HashMap<>();
+            
+            String modePath = mode.name().toLowerCase();
+            settings.put("box64_path", PREFIX + "/" + modePath + "/opt/box");
+            settings.put("dxvk_path", PREFIX + "/" + modePath + "/opt/libs/d3d");
+            settings.put("render_path", PREFIX + "/" + modePath + "/opt/libs/mesa");
+            
+            // Create directories if needed
+            createDirectories(Arrays.asList(
+                (String) settings.get("box64_path"),
+                (String) settings.get("dxvk_path"),
+                (String) settings.get("render_path")
+            ));
+            
+            // Initialize dynarec settings
+            if (mode != RuntimeMode.HANGOVER) {
+                Map<String, String> dynarecSettings = new HashMap<>();
+                dynarecSettings.put("BOX64_DYNAREC_ALIGNED_ATOMICS", "-");
+                dynarecSettings.put("BOX64_DYNAREC_BIGBLOCK", "-");
+                // ... add all dynarec settings ...
+                settings.put("dynarec_settings", dynarecSettings);
+                
+                if (mode == RuntimeMode.GLIBC) {
+                    Map<String, String> box86Settings = new HashMap<>();
+                    box86Settings.put("BOX86_DYNAREC_ALIGNED_ATOMICS", "-");
+                    box86Settings.put("BOX86_DYNAREC_BIGBLOCK", "-");
+                    // ... add all box86 settings ...
+                    settings.put("box86_dynarec_settings", box86Settings);
+                    settings.put("submode", GlibcSubmode.WOW64);
+                }
+            } else {
+                Map<String, String> fexSettings = new HashMap<>();
+                fexSettings.put("FEX_X87", "-");
+                fexSettings.put("FEX_CORE", "-");
+                // ... add all FEX settings ...
+                settings.put("fex_settings", fexSettings);
+            }
+            
+            settings.put("wine_version", "");
+            modeSettings.put(mode, settings);
+            
+            // Initialize selected files
+            files.put("box64", "");
+            files.put("dxvk", "");
+            files.put("render", "");
+            selectedFiles.put(mode, files);
+        }
+        
+        // Initialize app settings
+        appSettings.put("fps_show", "off");
+        appSettings.put("watch_config", true);
+        appSettings.put("wine_runner_script", DEFAULT_WINE_RUNNER);
+        appSettings.put("cpu_current", "0,1,2,3,4,5,6,7");
+        appSettings.put("runtime_mode", RuntimeMode.GLIBC);
+        appSettings.put("mangohud_config", "");
+        appSettings.put("dxvk_hud", "");
+        appSettings.put("resolution", "800x600");
+        appSettings.put("fullscreen", false);
+        appSettings.put("last_processed_file", "");
+    }
+
+    private void createDirectories(List<String> paths) {
+        for (String path : paths) {
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+        }
+    }
+
+    public void loadAppSettings() {
+        Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+        
+        // Load simple settings
+        appSettings.put("fps_show", prefs.get("fps_show", (String) appSettings.get("fps_show")));
+        appSettings.put("wine_runner_script", prefs.get("wine_runner_script", (String) appSettings.get("wine_runner_script")));
+        appSettings.put("cpu_current", prefs.get("cpu_current", (String) appSettings.get("cpu_current")));
+        appSettings.put("runtime_mode", RuntimeMode.valueOf(prefs.get("runtime_mode", ((RuntimeMode) appSettings.get("runtime_mode")).name())));
+        appSettings.put("mangohud_config", prefs.get("mangohud_config", (String) appSettings.get("mangohud_config")));
+        appSettings.put("dxvk_hud", prefs.get("dxvk_hud", (String) appSettings.get("dxvk_hud")));
+        appSettings.put("resolution", prefs.get("resolution", (String) appSettings.get("resolution")));
+        appSettings.put("fullscreen", prefs.getBoolean("fullscreen", (Boolean) appSettings.get("fullscreen")));
+        appSettings.put("watch_config", prefs.getBoolean("watch_config", (Boolean) appSettings.get("watch_config")));
+        appSettings.put("last_processed_file", prefs.get("last_processed_file", (String) appSettings.get("last_processed_file")));
+        
+        // Load mode settings
+        for (RuntimeMode mode : RuntimeMode.values()) {
+            String modeName = mode.name().toLowerCase();
+            Preferences modePrefs = prefs.node(modeName + "_settings");
+            
+            Map<String, Object> settings = modeSettings.get(mode);
+            Map<String, String> files = selectedFiles.get(mode);
+            
+            // Load dynarec settings
+            if (mode != RuntimeMode.HANGOVER) {
+                Map<String, String> dynarec = (Map<String, String>) settings.get("dynarec_settings");
+                for (String key : dynarec.keySet()) {
+                    dynarec.put(key, modePrefs.get(key, dynarec.get(key)));
+                }
+                
+                if (mode == RuntimeMode.GLIBC) {
+                    Map<String, String> box86 = (Map<String, String>) settings.get("box86_dynarec_settings");
+                    for (String key : box86.keySet()) {
+                        box86.put(key, modePrefs.get(key, box86.get(key)));
+                    }
+                    settings.put("submode", GlibcSubmode.valueOf(
+                        modePrefs.get("submode", ((GlibcSubmode) settings.get("submode")).name())));
+                }
+            } else {
+                Map<String, String> fex = (Map<String, String>) settings.get("fex_settings");
+                for (String key : fex.keySet()) {
+                    fex.put(key, modePrefs.get(key, fex.get(key)));
+                }
+            }
+            
+            settings.put("wine_version", modePrefs.get("wine_version", ""));
+            
+            // Load selected files
+            files.put("box64", modePrefs.get("cur_box64", ""));
+            files.put("dxvk", modePrefs.get("cur_dxvk", ""));
+            files.put("render", modePrefs.get("cur_render", ""));
+        }
+        
+        // Restore last processed file if it exists
+        String lastFile = (String) appSettings.get("last_processed_file");
+        if (!lastFile.isEmpty() && new File(lastFile).exists()) {
+            processFile(lastFile, false);
+        }
+    }
+
+    public void saveAppSettings() {
+        Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+        
+        // Save simple settings
+        prefs.put("fps_show", (String) appSettings.get("fps_show"));
+        prefs.put("wine_runner_script", (String) appSettings.get("wine_runner_script"));
+        prefs.put("cpu_current", (String) appSettings.get("cpu_current"));
+        prefs.put("runtime_mode", ((RuntimeMode) appSettings.get("runtime_mode")).name());
+        prefs.put("mangohud_config", (String) appSettings.get("mangohud_config"));
+        prefs.put("dxvk_hud", (String) appSettings.get("dxvk_hud"));
+        prefs.put("resolution", (String) appSettings.get("resolution"));
+        prefs.putBoolean("fullscreen", (Boolean) appSettings.get("fullscreen"));
+        prefs.putBoolean("watch_config", (Boolean) appSettings.get("watch_config"));
+        prefs.put("last_processed_file", (String) appSettings.get("last_processed_file"));
+        
+        // Save mode settings
+        for (RuntimeMode mode : RuntimeMode.values()) {
+            String modeName = mode.name().toLowerCase();
+            Preferences modePrefs = prefs.node(modeName + "_settings");
+            
+            Map<String, Object> settings = modeSettings.get(mode);
+            Map<String, String> files = selectedFiles.get(mode);
+            
+            // Save dynarec settings
+            if (mode != RuntimeMode.HANGOVER) {
+                Map<String, String> dynarec = (Map<String, String>) settings.get("dynarec_settings");
+                for (Map.Entry<String, String> entry : dynarec.entrySet()) {
+                    modePrefs.put(entry.getKey(), entry.getValue());
+                }
+                
+                if (mode == RuntimeMode.GLIBC) {
+                    Map<String, String> box86 = (Map<String, String>) settings.get("box86_dynarec_settings");
+                    for (Map.Entry<String, String> entry : box86.entrySet()) {
+                        modePrefs.put(entry.getKey(), entry.getValue());
+                    }
+                    modePrefs.put("submode", ((GlibcSubmode) settings.get("submode")).name());
+                }
+            } else {
+                Map<String, String> fex = (Map<String, String>) settings.get("fex_settings");
+                for (Map.Entry<String, String> entry : fex.entrySet()) {
+                    modePrefs.put(entry.getKey(), entry.getValue());
+                }
+            }
+            
+            modePrefs.put("wine_version", (String) settings.get("wine_version"));
+            
+            // Save selected files
+            modePrefs.put("cur_box64", files.get("box64"));
+            modePrefs.put("cur_dxvk", files.get("dxvk"));
+            modePrefs.put("cur_render", files.get("render"));
+        }
+    }
+
+    public void processFile(String filePath, boolean showMessages) {
+        try {
+            Path path = Paths.get(filePath);
+            if (!Files.exists(path)) {
+                if (showMessages) {
+                    System.err.println("File doesn't exist: " + filePath);
+                }
+                return;
+            }
+            
+            // Resolve symbolic links
+            if (Files.isSymbolicLink(path)) {
+                path = Files.readSymbolicLink(path);
+            }
+            
+            if (!Files.isRegularFile(path)) {
+                if (showMessages) {
+                    System.err.println("Not a regular file: " + path);
+                }
+                return;
+            }
+            
+            currentAppPath = path.toString();
+            currentConfigPath = getConfigPath(filePath);
+            
+            if (!Files.exists(Paths.get(currentConfigPath))) {
+                saveCurrentConfig();
+            } else {
+                loadFromCurrentConfig();
+            }
+            
+            lastConfigModified = Files.getLastModifiedTime(Paths.get(currentConfigPath)).toMillis();
+            startFileWatching();
+            
+            if (showMessages) {
+                System.out.println("Settings file: " + currentConfigPath);
+            }
+            
+            // Update last processed file
+            appSettings.put("last_processed_file", currentConfigPath);
+            saveAppSettings();
+            
+        } catch (IOException e) {
+            if (showMessages) {
+                System.err.println("Failed to process file: " + e.getMessage());
+            }
+        }
+    }
+
+    private String getConfigPath(String filePath) {
+        Path path = Paths.get(filePath);
+        Path parent = path.getParent();
+        String baseName = path.getFileName().toString();
+        String configName = "." + baseName;
+        
+        try {
+            if (parent != null && !Files.exists(parent)) {
+                Files.createDirectories(parent);
+            }
+            
+            Path configPath = parent.resolve(configName);
+            if (!Files.exists(configPath)) {
+                Files.createFile(configPath);
+            }
+            
+            return configPath.toString();
+        } catch (IOException e) {
+            System.err.println("Failed to create config path: " + e.getMessage());
+            return parent.resolve(configName).toString();
+        }
+    }
+
+    public void saveCurrentConfig() {
+        if (currentConfigPath == null || currentConfigPath.isEmpty()) {
+            System.err.println("No config file selected");
+            return;
+        }
+        
+        try (PrintWriter writer = new PrintWriter(new FileWriter(currentConfigPath))) {
+            // Save app settings
+            writer.println("fps_show=" + appSettings.get("fps_show"));
+            writer.println("runtime_mode=" + ((RuntimeMode) appSettings.get("runtime_mode")).name());
+            writer.println("cpu_current=" + appSettings.get("cpu_current"));
+            writer.println("mangohud_config=" + appSettings.get("mangohud_config"));
+            writer.println("dxvk_hud=" + appSettings.get("dxvk_hud"));
+            writer.println("resolution=" + appSettings.get("resolution"));
+            writer.println("fullscreen=" + appSettings.get("fullscreen"));
+            
+            // Save mode-specific settings
+            for (RuntimeMode mode : RuntimeMode.values()) {
+                String modePrefix = mode.name().toLowerCase();
+                Map<String, Object> settings = modeSettings.get(mode);
+                Map<String, String> files = selectedFiles.get(mode);
+                
+                // Save selected files
+                writer.println(modePrefix + "_cur_box64=" + files.get("box64"));
+                writer.println(modePrefix + "_cur_dxvk=" + files.get("dxvk"));
+                writer.println(modePrefix + "_cur_render=" + files.get("render"));
+                
+                // Save dynarec settings
+                if (mode != RuntimeMode.HANGOVER) {
+                    Map<String, String> dynarec = (Map<String, String>) settings.get("dynarec_settings");
+                    for (Map.Entry<String, String> entry : dynarec.entrySet()) {
+                        writer.println(modePrefix + "_" + entry.getKey() + "=" + entry.getValue());
+                    }
+                    
+                    if (mode == RuntimeMode.GLIBC) {
+                        Map<String, String> box86 = (Map<String, String>) settings.get("box86_dynarec_settings");
+                        for (Map.Entry<String, String> entry : box86.entrySet()) {
+                            writer.println(modePrefix + "_" + entry.getKey() + "=" + entry.getValue());
+                        }
+                        writer.println("glibc_submode=" + settings.get("submode"));
+                    }
+                } else {
+                    Map<String, String> fex = (Map<String, String>) settings.get("fex_settings");
+                    for (Map.Entry<String, String> entry : fex.entrySet()) {
+                        writer.println(modePrefix + "_" + entry.getKey() + "=" + entry.getValue());
+                    }
+                }
+                
+                // Save Wine version
+                writer.println(modePrefix + "_wine_version=" + settings.get("wine_version"));
+            }
+            
+        } catch (IOException e) {
+            System.err.println("Failed to save config: " + e.getMessage());
+        }
+    }
+
+    public void loadFromCurrentConfig() {
+        if (currentConfigPath == null || currentConfigPath.isEmpty()) {
+            System.err.println("No config file selected");
+            return;
+        }
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(currentConfigPath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty() || !line.contains("=")) continue;
+                
+                String[] parts = line.split("=", 2);
+                String key = parts[0].trim();
+                String value = parts[1].trim();
+                
+                // Parse and store settings
+                switch (key) {
+                    case "fps_show":
+                        appSettings.put("fps_show", value);
+                        break;
+                    case "runtime_mode":
+                        appSettings.put("runtime_mode", RuntimeMode.valueOf(value.toUpperCase()));
+                        currentMode = (RuntimeMode) appSettings.get("runtime_mode");
+                        break;
+                    case "cpu_current":
+                        appSettings.put("cpu_current", value);
+                        break;
+                    case "mangohud_config":
+                        appSettings.put("mangohud_config", value);
+                        break;
+                    case "dxvk_hud":
+                        appSettings.put("dxvk_hud", value);
+                        break;
+                    case "resolution":
+                        appSettings.put("resolution", value);
+                        break;
+                    case "fullscreen":
+                        appSettings.put("fullscreen", Boolean.parseBoolean(value));
+                        break;
+                    default:
+                        parseModeSpecificSetting(key, value);
+                        break;
+                }
+            }
+            
+            lastConfigModified = Files.getLastModifiedTime(Paths.get(currentConfigPath)).toMillis();
+            
+        } catch (IOException e) {
+            System.err.println("Failed to load config: " + e.getMessage());
+        }
+    }
+
+    private void parseModeSpecificSetting(String key, String value) {
+        for (RuntimeMode mode : RuntimeMode.values()) {
+            String modePrefix = mode.name().toLowerCase();
+            
+            // Check for file selections
+            if (key.startsWith(modePrefix + "_cur_")) {
+                String fileType = key.substring(modePrefix.length() + 5);
+                selectedFiles.get(mode).put(fileType, value);
+                return;
+            }
+            
+            // Check for Wine version
+            if (key.equals(modePrefix + "_wine_version")) {
+                modeSettings.get(mode).put("wine_version", value);
+                return;
+            }
+            
+            // Check for Glibc submode
+            if (key.equals("glibc_submode")) {
+                modeSettings.get(RuntimeMode.GLIBC).put("submode", GlibcSubmode.valueOf(value.toUpperCase()));
+                return;
+            }
+            
+            // Check for dynarec/FEX settings
+            if (key.startsWith(modePrefix + "_")) {
+                String settingName = key.substring(modePrefix.length() + 1);
+                Map<String, Object> settings = modeSettings.get(mode);
+                
+                if (mode != RuntimeMode.HANGOVER) {
+                    Map<String, String> dynarec = (Map<String, String>) settings.get("dynarec_settings");
+                    if (dynarec.containsKey(settingName)) {
+                        dynarec.put(settingName, value);
+                        return;
+                    }
+                    
+                    if (mode == RuntimeMode.GLIBC) {
+                        Map<String, String> box86 = (Map<String, String>) settings.get("box86_dynarec_settings");
+                        if (box86.containsKey(settingName)) {
+                            box86.put(settingName, value);
+                            return;
+                        }
+                    }
+                } else {
+                    Map<String, String> fex = (Map<String, String>) settings.get("fex_settings");
+                    if (fex.containsKey(settingName)) {
+                        fex.put(settingName, value);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public void runWithWine() {
+        if (currentAppPath == null || currentAppPath.isEmpty()) {
+            System.err.println("No application selected");
+            return;
+        }
+        
+        String runnerScript = (String) appSettings.get("wine_runner_script");
+        if (!new File(runnerScript).exists()) {
+            System.err.println("Runner script not found: " + runnerScript);
+            return;
+        }
+        
+        try {
+            List<String> command = new ArrayList<>();
+            command.add(runnerScript);
+            command.add(currentAppPath);
+            command.add(currentConfigPath);
+            
+            // Add mode-specific parameters
+            RuntimeMode mode = (RuntimeMode) appSettings.get("runtime_mode");
+            Map<String, Object> modeSettings = this.modeSettings.get(mode);
+            Map<String, String> selectedFiles = this.selectedFiles.get(mode);
+            
+            // Add selected files
+            addFileParameter(command, "box64", selectedFiles, modeSettings);
+            addFileParameter(command, "dxvk", selectedFiles, modeSettings);
+            addFileParameter(command, "render", selectedFiles, modeSettings);
+            
+            // Add Glibc submode if needed
+            if (mode == RuntimeMode.GLIBC) {
+                command.add("--submode");
+                command.add(((GlibcSubmode) modeSettings.get("submode")).name().toLowerCase());
+            }
+            
+            // Add Wine version
+            String wineVersion = (String) modeSettings.get("wine_version");
+            if (wineVersion != null && !wineVersion.isEmpty()) {
+                String winePath = PREFIX + "/" + mode.name().toLowerCase() + "/" + wineVersion;
+                command.add("--wine");
+                command.add(winePath);
+            }
+            
+            // Add CPU settings
+            command.add("--cpu");
+            command.add((String) appSettings.get("cpu_current"));
+            
+            // Add runtime mode
+            command.add("--runtime");
+            command.add(mode.name().toLowerCase());
+            
+            // Add dynarec/FEX settings
+            addSettingsParameters(command, mode, modeSettings);
+            
+            // Add additional parameters
+            command.add("--fps");
+            command.add((String) appSettings.get("fps_show"));
+            
+            String mangohud = (String) appSettings.get("mangohud_config");
+            if (mangohud != null && !mangohud.isEmpty()) {
+                command.add("--mangohud_config");
+                command.add(mangohud);
+            }
+            
+            String dxvkHud = (String) appSettings.get("dxvk_hud");
+            if (dxvkHud != null && !dxvkHud.isEmpty()) {
+                command.add("--dxvk_hud");
+                command.add(dxvkHud);
+            }
+            
+            // Add display parameters
+            command.add("--resolution");
+            command.add((String) appSettings.get("resolution"));
+            
+            command.add("--fullscreen");
+            command.add((Boolean) appSettings.get("fullscreen") ? "1" : "0");
+            
+            // Execute command
+            ProcessBuilder pb = new ProcessBuilder(command);
+            pb.inheritIO();
+            Process process = pb.start();
+            int exitCode = process.waitFor();
+            
+            if (exitCode == 0) {
+                System.out.println("Successfully executed with Wine");
+            } else {
+                System.err.println("Wine execution failed with code: " + exitCode);
+            }
+            
+        } catch (IOException | InterruptedException e) {
+            System.err.println("Failed to run Wine: " + e.getMessage());
+        }
+    }
+
+    private void addFileParameter(List<String> command, String fileType, 
+                                 Map<String, String> selectedFiles,
+                                 Map<String, Object> modeSettings) {
+        String fileName = selectedFiles.get(fileType);
+        if (fileName != null && !fileName.isEmpty()) {
+            String path = (String) modeSettings.get(fileType + "_path");
+            command.add("--" + fileType);
+            command.add(new File(path, fileName).getAbsolutePath());
+        }
+    }
+
+    private void addSettingsParameters(List<String> command, RuntimeMode mode, 
+                                      Map<String, Object> modeSettings) {
+        if (mode != RuntimeMode.HANGOVER) {
+            Map<String, String> dynarec = (Map<String, String>) modeSettings.get("dynarec_settings");
+            for (Map.Entry<String, String> entry : dynarec.entrySet()) {
+                if (!entry.getValue().equals("-")) {
+                    command.add("--" + entry.getKey().toLowerCase());
+                    command.add(entry.getValue());
+                }
+            }
+            
+            if (mode == RuntimeMode.GLIBC) {
+                Map<String, String> box86 = (Map<String, String>) modeSettings.get("box86_dynarec_settings");
+                for (Map.Entry<String, String> entry : box86.entrySet()) {
+                    if (!entry.getValue().equals("-")) {
+                        command.add("--" + entry.getKey().toLowerCase());
+                        command.add(entry.getValue());
+                    }
+                }
+            }
+        } else {
+            Map<String, String> fex = (Map<String, String>) modeSettings.get("fex_settings");
+            for (Map.Entry<String, String> entry : fex.entrySet()) {
+                if (!entry.getValue().equals("-")) {
+                    command.add("--" + entry.getKey().toLowerCase());
+                    command.add(entry.getValue());
+                }
+            }
+        }
+    }
+
+    public void startFileWatching() {
+        if (watchExecutor != null && !watchExecutor.isShutdown()) {
+            watchExecutor.shutdown();
+        }
+        
+        if ((boolean) appSettings.get("watch_config") && !currentConfigPath.isEmpty()) {
+            watchExecutor = Executors.newSingleThreadScheduledExecutor();
+            watchExecutor.scheduleAtFixedRate(this::checkConfigChanges, 1, 1, TimeUnit.SECONDS);
+        }
+    }
+
+    private void checkConfigChanges() {
+        try {
+            Path configPath = Paths.get(currentConfigPath);
+            if (Files.exists(configPath)) {
+                long currentModified = Files.getLastModifiedTime(configPath).toMillis();
+                if (currentModified > lastConfigModified) {
+                    lastConfigModified = currentModified;
+                    loadFromCurrentConfig();
+                    System.out.println("Config reloaded due to changes");
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error checking config: " + e.getMessage());
+        }
+    }
+
+    // Getters and setters for settings
+    public RuntimeMode getCurrentMode() {
+        return currentMode;
+    }
+
+    public void setCurrentMode(RuntimeMode mode) {
+        appSettings.put("runtime_mode", mode);
+        currentMode = mode;
+        saveAppSettings();
+    }
+
+    public void setWineVersion(RuntimeMode mode, String version) {
+        modeSettings.get(mode).put("wine_version", version);
+        saveAppSettings();
+    }
+
+    public String getWineVersion(RuntimeMode mode) {
+        return (String) modeSettings.get(mode).get("wine_version");
+    }
+
+    public void setSelectedFile(RuntimeMode mode, String fileType, String fileName) {
+        selectedFiles.get(mode).put(fileType, fileName);
+        saveAppSettings();
+    }
+
+    public String getSelectedFile(RuntimeMode mode, String fileType) {
+        return selectedFiles.get(mode).get(fileType);
+    }
+
+    public List<String> getAvailableFiles(RuntimeMode mode, String fileType) {
+        String path = (String) modeSettings.get(mode).get(fileType + "_path");
+        File dir = new File(path);
+        File[] files = dir.listFiles(File::isFile);
+        
+        if (files == null) {
+            return new ArrayList<>();
+        }
+        
+        List<String> fileNames = new ArrayList<>();
+        for (File file : files) {
+            fileNames.add(file.getName());
+        }
+        return fileNames;
+    }
+
+    // ... additional getters and setters for other settings ...
+
+    public static void main(String[] args) {
+        WineSettingsManager manager = new WineSettingsManager();
+        
+        // Example usage
+        manager.setCurrentMode(RuntimeMode.GLIBC);
+        manager.setWineVersion(RuntimeMode.GLIBC, "wine-8.0");
+        manager.setSelectedFile(RuntimeMode.GLIBC, "box64", "box64-v2.0.so");
+        
+        // Process a file
+        manager.processFile("/path/to/application.exe", true);
+        
+        // Run with Wine
+        manager.runWithWine();
+    }
+}

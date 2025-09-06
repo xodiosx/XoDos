@@ -9,18 +9,12 @@
         style="@style/ComboBox"
         android:layout_width="0dp"
         android:layout_weight="4"
-        android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-    
         android:entries="@array/binding_type_entries" />
 
     <Spinner
         android:id="@+id/SCBBinding"
         style="@style/ComboBox"
         android:layout_width="0dp"
-        android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         
         android:layout_weight="4" />
 
     <ImageButton

@@ -2,44 +2,29 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         android:background="#AA000000"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/TVTitle"
-        android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         android:background="#AA000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         android:background="#AA000000"
         android:orientation="horizontal">
 
         <Spinner
             style="@style/ComboBox"
             android:id="@+id/SBindingType"
             android:layout_width="140dp"
-            android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         android:background="#000000"
             android:entries="@array/binding_type_entries" />
 
         <Spinner
             style="@style/ComboBox"
             android:id="@+id/SBinding"
             android:layout_width="0dp"
-            android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         android:background="#000000"
             android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>

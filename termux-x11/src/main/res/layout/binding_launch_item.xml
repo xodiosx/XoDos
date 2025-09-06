@@ -6,18 +6,17 @@
     android:gravity="center"
     android:orientation="vertical">
 
-   
- <Button
+    <Button
         android:id="@+id/BLaunch_item"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="0dp"
         android:text="@string/launch_button_text"
         android:maxLines="1"
-        android:textColor="@color/colorWhite"
+        android:textColor="#FFFFFFFF"
         android:visibility="gone" />
-        
+
 <Button
     android:id="@+id/toggle_tool_box2"
     android:layout_width="wrap_content"
@@ -28,7 +27,8 @@
         android:maxLines="1"
         android:textColor="#00FF56"
         android:visibility="visible" />
-
+        
+        
     <LinearLayout
         android:id="@+id/LConfigStartItems"
         android:layout_width="wrap_content"

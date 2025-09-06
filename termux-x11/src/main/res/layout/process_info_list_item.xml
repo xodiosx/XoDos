@@ -3,18 +3,12 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="38dp"
-    android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         android:background="#AA000000"
     android:gravity="center_vertical">
 
     <ImageView
         android:id="@+id/IVIcon"
         android:layout_width="26dp"
         android:layout_height="26dp"
-        android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         
         android:paddingLeft="4dp" />
 
     <TextView
@@ -24,26 +18,17 @@
         android:layout_weight="1"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         android:background="#AA000000"
         android:paddingLeft="6dp" />
 
     <TextView
         android:id="@+id/TVPID"
         android:layout_width="60dp"
-        android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         
         android:layout_height="wrap_content"
         android:paddingLeft="4dp" />
 
     <TextView
         android:id="@+id/TVMemoryUsage"
         android:layout_width="110dp"
-        android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         android:background="#AA000000"
         android:layout_height="wrap_content"
         android:paddingLeft="4dp" />
 
@@ -55,9 +40,6 @@
         <ImageButton
             style="@style/ListMenuButton"
             android:id="@+id/BTMenu"
-            android:textColor="#FFFFFF" 
-        android:buttonTint="#FFFFFF"
-         
             android:src="@drawable/icon_list_item_menu" />
     </RelativeLayout>
 </LinearLayout>

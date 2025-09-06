@@ -1,5 +1,5 @@
 package com.termux.app;
-// ======== Imports ========
+// ======== Imports =========
 
 import android.Manifest;
 import androidx.core.content.ContextCompat;
@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import java.io.InputStream;
 import java.io.FileOutputStream;
 // ======== Imports ========
+import com.termux.x11.MainActivity;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static com.termux.shared.termux.TermuxConstants.TERMUX_FILES_DIR_PATH;
@@ -249,7 +250,7 @@ public static final int FILE_REQUEST_WINE_CODE = 1002;
 
 
     public void onMenuOpen(boolean isOpen, int flag) {
-        if (isOpen && flag == 0) {
+if (isOpen /*&& flag == 0*/) {
             setX11FocusedChanged(false);
         } else {
             setX11FocusedChanged(true);
@@ -279,8 +280,14 @@ public static final int FILE_REQUEST_WINE_CODE = 1002;
             int offsetY = viewLocation[1] - view0Location[1];
 
             getLorieView().screenInfo.offsetX = offsetX;
-            getLorieView().screenInfo.offsetY = offsetY;
+        //    getLorieView().screenInfo.offsetY = offsetY;
+     getLorieView().screenInfo.offsetY = offsetY+ScreenUtils.getStatusHeight();       
+            if (extraKeyboardHandleTouchEvent(ev)) {
+                return true;
+            }
+//            ev.offsetLocation(0, -ScreenUtils.getStatusHeight());
             inputControlsView.handleTouchEvent(ev);
+            //            ev.offsetLocation(0, ScreenUtils.getStatusHeight());
             return true;
         }
         if (ev.isFromSource(InputDevice.SOURCE_MOUSE)) {
@@ -288,7 +295,7 @@ public static final int FILE_REQUEST_WINE_CODE = 1002;
         }
 //                Log.d("sendTouchEvent",String.valueOf(inputControllerViewHandled));
         if (null != mInputHandler) {
-            if (!inputControllerViewHandled) {
+         if (!inputControllerViewHandled && !extraKeyboardHandleTouchEvent(ev)) {
                 mInputHandler.handleTouchEvent(mMainContentView, getLorieView(), ev);
             }
         }
@@ -304,6 +311,9 @@ public static final int FILE_REQUEST_WINE_CODE = 1002;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Logger.logDebug(LOG_TAG, "onCreate");
+        
+          //    Toast.makeText(this, "🟡 loading,,,", Toast.LENGTH_SHORT).show(); // ✅ DEBUG   
+    
         mIsOnResumeAfterOnCreate = true;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (savedInstanceState != null)
@@ -327,8 +337,10 @@ public static final int FILE_REQUEST_WINE_CODE = 1002;
         DisplayWindowLinearLayout viewContainer = (DisplayWindowLinearLayout) vGroup.getChildAt(0);
         LinearLayout lorieLayout = (LinearLayout) viewContainer.getChildAt(1);
         lorieLayout.addView(lorieContentView);
-        getSupportFragmentManager().beginTransaction().replace(R.id.id_window_preference, loriePreferenceFragment).commit();
-
+        /* getSupportFragmentManager().beginTransaction().replace(R.id.id_window_preference, loriePreferenceFragment).commit();
+*/
+setPreferenceViewId(R.id.id_window_preference);
+        showFragment(new LoriePreferenceFragment(null));
 
         // Load termux shared preferences
         // This will also fail if TermuxConstants.TERMUX_PACKAGE_NAME does not equal applicationId
@@ -372,7 +384,9 @@ public static final int FILE_REQUEST_WINE_CODE = 1002;
         
 // After initializing mTermuxTerminalSessionActivityClient
     mStartEntryClient = new StartEntryClient(this, mTermuxTerminalSessionActivityClient);
-    mStartEntryClient.init();
+  //  mStartEntryClient.init();
+  mStartEntryClient.init();
+  
     
 
         registerForContextMenu(mTerminalView);
@@ -442,11 +456,12 @@ FileUtils.copyAssetsFile2Phone(activity, "fix");
                     CommandUtils.exec(activity, "chmod", new ArrayList<>(Arrays.asList("+x", TERMUX_FILES_DIR_PATH + "/home/install")));
                     CommandUtils.exec(activity, "chmod", new ArrayList<>(Arrays.asList("+x", TERMUX_FILES_DIR_PATH + "/home/collect_process_info")));
                     FileUtils.copyAssetsFile2Phone(activity, "termux-x11-nightly-1.03.10-0-all.deb");
+                    FileUtils.copyAssetsFile2Phone(activity, "xkeyboard-config_2.45_all.deb");
                     CommandUtils.execInPath(activity, "install", null, "/home/");
                 });
             }
 
-            @Override
+      /*      @Override
             public void stopDesktop(Activity activity) {
                 CommandUtils.exec(activity, "stopserver", null);
             }
@@ -465,6 +480,28 @@ FileUtils.copyAssetsFile2Phone(activity, "fix");
             public void changePreference(String key) {
                 onPreferencesChanged(key);
             }
+*/
+
+@Override
+            public void stopDesktop() {
+                stopXserver();
+            }
+
+            @Override
+            public void openSoftwareKeyboard() {
+                MainActivity.toggleKeyboardVisibility(TermuxActivity.this);
+            }
+
+            @Override
+            public void showProcessManager() {
+                showProcessManagerDialog();
+            }
+
+            @Override
+            public void changePreference(String key) {
+                TermuxActivity.this.onPreferencesChanged(key);
+            }
+
 
             @Override
             public List<ProcessInfo> collectProcessorInfo(String tag) {
@@ -532,7 +569,7 @@ FileUtils.copyAssetsFile2Phone(activity, "fix");
                                 handler.postDelayed(() -> {
                                     mFloatBallMenuClient = new FloatBallMenuClient(TermuxActivity.this);
                                     mFloatBallMenuClient.onCreate();
-                                }, 2000);
+                                }, 200);
                             }
 
                         }
@@ -544,7 +581,8 @@ FileUtils.copyAssetsFile2Phone(activity, "fix");
                     }
                 }
             }
-        };
+ 
+        /*       };
     }
 
     private void setFloatBallMenuClient() {
@@ -561,6 +599,23 @@ FileUtils.copyAssetsFile2Phone(activity, "fix");
         mFloatBallMenuClient.onCreate(); // ✅ Recreate only if preference is enabled
     }
 }
+*/
+
+@Override
+            public void onExitApp() {
+                TermuxActivity.this.unlockOrExitApp();
+            }
+        };
+    }
+
+    private void setFloatBallMenuClient() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEnableFloatBallMenu = preferences.getBoolean("enableFloatBallMenu", false);
+        if (mEnableFloatBallMenu) {
+            mFloatBallMenuClient = new FloatBallMenuClient(this);
+            mFloatBallMenuClient.onCreate();
+        }
+    }
 
     @Override
     public void onStart() {
@@ -702,16 +757,19 @@ FileUtils.copyAssetsFile2Phone(activity, "fix");
                      // ======== Add Permission Check  ========
             checkStoragePermissionsAndRun(() -> {
                 TermuxInstaller.setupBootstrapIfNeeded(TermuxActivity.this, () -> {
-                    if (mTermuxService == null) return;
+                    if (mTermuxService == null) return; // Activity might have been destroyed.
                     try {
-                        boolean launchFailsafe = (intent != null && intent.getExtras() != null) 
-                            && intent.getExtras().getBoolean(TERMUX_ACTIVITY.EXTRA_FAILSAFE_SESSION, false);
+                        boolean launchFailsafe = false;
+                        if (intent != null && intent.getExtras() != null) {
+                            launchFailsafe = intent.getExtras().getBoolean(TERMUX_ACTIVITY.EXTRA_FAILSAFE_SESSION, false);
+                        }
                         mTermuxTerminalSessionActivityClient.addNewSession(launchFailsafe, null);
                     } catch (WindowManager.BadTokenException e) {
+                        // Activity finished - ignore.
                         finishActivityIfNotFinishing();
                     }
                 });
-            });
+                });
             } else {
                 // The service connected while not in foreground - just bail out.
                 finishActivityIfNotFinishing();
@@ -807,25 +865,46 @@ private boolean hasStoragePermissions() {
 
     private void setX11Server() {
         findViewById(com.termux.x11.R.id.exit_button).setOnClickListener((v) -> {
-            if (isExit) {
-                finishActivityIfNotFinishing();
-                Intent exitIntent = new Intent(this, TermuxService.class)
-                    .setAction(TermuxConstants.TERMUX_APP.TERMUX_SERVICE.ACTION_STOP_SERVICE);
-                startService(exitIntent);
-                finishActivityIfNotFinishing();
-            } else {
-                Toast.makeText(this, R.string.exit_toast_text, Toast.LENGTH_SHORT).show();
-                isExit = true;
-                handler.postDelayed(() -> isExit = false, 2000);
-            }
+            exitApp();
         });
-      //  StartEntryClient startEntryClient = new StartEntryClient(this, mTermuxTerminalSessionActivityClient);
-        mStartEntryClient.init();
+        StartEntryClient startEntryClient = new StartEntryClient(this, mTermuxTerminalSessionActivityClient);
+      //  startEntryClient.init();
+      mStartEntryClient.init();
+    }
+
+    private void exitApp() {
+        if (isExit) {
+            Intent exitIntent = new Intent(this, TermuxService.class)
+                .setAction(TermuxConstants.TERMUX_APP.TERMUX_SERVICE.ACTION_STOP_SERVICE);
+            startService(exitIntent);
+           
+           System.exit(0);
+           finishActivityIfNotFinishing();
+            
+        } else {
+            Toast.makeText(this, R.string.exit_toast_text, Toast.LENGTH_SHORT).show();
+            isExit = true;
+            handler.postDelayed(() -> isExit = false, 2000);
+        }
+    }
+
+        private void unlockOrExitApp() {
+        if (isExit) {
+            Intent exitIntent = new Intent(this, TermuxService.class)
+                .setAction(TermuxConstants.TERMUX_APP.TERMUX_SERVICE.ACTION_STOP_SERVICE);
+            startService(exitIntent);
+            finishActivityIfNotFinishing();
+        } else {
+   
+   //                             Toast.makeText(this, R.string.unlock_exit_toast_text, Toast.LENGTH_SHORT).show();
+            isExit = false;
+            handler.postDelayed(() -> isExit = false, 1000);
+        }
     }
 
     private void startX11Display() {
         ArrayList<String> args = new ArrayList<>();
-        args.add(":1");
+        args.add(":0");
         CommandUtils.exec(this, "termux-x11", args);
     }
 
@@ -986,6 +1065,11 @@ private boolean hasStoragePermissions() {
 //            finishActivityIfNotFinishing();
             if (!mEnableFloatBallMenu || mFloatBallMenuClient == null) {
                 mMainContentView.releaseSlider(true);
+                if (!getX11Focus()) {
+                    if (!back2PreviousMenu()) {
+                        termuxActivityListener.onX11PreferenceSwitchChange(false);
+                    }
+                }
             }
         }
     }
@@ -1407,7 +1491,10 @@ String commandPrefix = new File(getFilesDir(), "home/storage").exists() ?
         stylingIntent.putExtra(TERMUX_ACTIVITY.EXTRA_RECREATE_ACTIVITY, recreateActivity);
         context.sendBroadcast(stylingIntent);
     }
-
+    
+    
+/*
+    
     private void registerTermuxActivityBroadcastReceiver() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(TERMUX_ACTIVITY.ACTION_NOTIFY_APP_CRASH);
@@ -1415,7 +1502,22 @@ String commandPrefix = new File(getFilesDir(), "home/storage").exists() ?
         intentFilter.addAction(TERMUX_ACTIVITY.ACTION_REQUEST_PERMISSIONS);
 
         registerReceiver(mTermuxActivityBroadcastReceiver, intentFilter);
+    }    
+    */
+    
+    private void registerTermuxActivityBroadcastReceiver() {
+    IntentFilter intentFilter = new IntentFilter();
+    intentFilter.addAction(TERMUX_ACTIVITY.ACTION_NOTIFY_APP_CRASH);
+    intentFilter.addAction(TERMUX_ACTIVITY.ACTION_RELOAD_STYLE);
+    intentFilter.addAction(TERMUX_ACTIVITY.ACTION_REQUEST_PERMISSIONS);
+
+    // Add export specification for Android 13+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        registerReceiver(mTermuxActivityBroadcastReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+    } else {
+        registerReceiver(mTermuxActivityBroadcastReceiver, intentFilter);
     }
+}
 
     private void unregisterTermuxActivityBroadcastReceiver() {
         unregisterReceiver(mTermuxActivityBroadcastReceiver);
@@ -1505,4 +1607,42 @@ String commandPrefix = new File(getFilesDir(), "home/storage").exists() ?
     public DisplaySlidingWindow getMainContentView() {
         return mMainContentView;
     }
+private void stopXserver(){
+        final AlertDialog.Builder b = new AlertDialog.Builder(this );
+        b.setIcon(android.R.drawable.ic_dialog_alert);
+        b.setMessage(R.string.stop_desktop_title);
+        b.setPositiveButton(android.R.string.yes, (dialog, id) -> {
+            dialog.dismiss();
+            openPreference(false);
+            handler.postDelayed(() -> {
+                mLorieViewConnected = false;
+//
+
+        new Thread(() -> {
+                try {
+                    // Execute commands directly using Runtime
+                    String[] commands = {
+                        "/data/data/com.termux/files/usr/bin/box64 /data/data/com.termux/files/usr/opt/wine/bin/wineserver -k",
+                        "/data/data/com.termux/files/usr/glibc/bin/box64 /data/data/com.termux/files/usr/glibc/bin/wineserver -k",
+                        "pkill -f wine",
+                        "pkill -f \"virgl_*\""                    
+                    };
+                    
+                    for (String cmd : commands) {
+                        Process process = Runtime.getRuntime().exec(cmd);
+                        process.waitFor();
+                    }
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();        
+                                
+                CommandUtils.exec(this, "stopserver", null);
+            }, 500);
+            mLorieViewConnected=false;
+        });
+        b.setNegativeButton(android.R.string.no, null);
+        b.show();
+    }
 }
+

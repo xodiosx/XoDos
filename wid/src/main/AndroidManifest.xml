@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:sharedUserId="${TERMUX_PACKAGE_NAME}">
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+
+    <application
+        
+        android:allowBackup="false"
+        
+        
+        
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <receiver
+            android:name=".TermuxWidgetProvider"
+            android:exported="false"
+            android:label="@string/title_shortcut_widget_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/termux_appwidget_info" />
+        </receiver>
+
+        <receiver android:name=".TermuxWidgetControlExecutorReceiver" />
+
+        <activity
+            android:name=".activities.TermuxWidgetMainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.BaseActivity.DayNight.NoActionBar">
+        </activity>
+
+        <activity-alias
+            android:name=".activities.TermuxWidgetLauncherActivity"
+            android:exported="true"
+            android:targetActivity=".activities.TermuxWidgetMainActivity">
+
+        </activity-alias>
+
+        <activity
+            android:name=".TermuxCreateShortcutActivity"
+            android:exported="true"
+            android:label="@string/title_single_shortcut_name"
+            android:theme="@style/Theme.BaseActivity.DayNight.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".TermuxLaunchShortcutActivity"
+            android:exported="true"
+            android:noHistory="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=".TermuxLaunchShortcutActivity"
+            android:theme="@android:style/Theme.NoDisplay" />
+
+        <receiver
+            android:name=".receivers.SystemEventReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.MY_PACKAGE_UNSUSPENDED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".TermuxWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service
+            android:name=".TermuxWidgetControlsProviderService"
+            android:exported="true"
+            android:label="@string/title_termux_shortcuts"
+            android:permission="android.permission.BIND_CONTROLS"
+            tools:targetApi="r">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>
