@@ -1,4 +1,4 @@
-name: Upload XoDos versions
+name: Upload XoDos full versions
 
 on:
   workflow_dispatch:
