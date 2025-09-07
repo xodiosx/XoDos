@@ -1,12 +1,12 @@
-name: Upload XoDos Release
+name: Upload XoDos versions
 
 on:
   workflow_dispatch:
     inputs:
       version_tag:
-        description: 'Version tag (5.5.0)'
+        description: 'Version tag (5.9.0)'
         required: true
-        default: '5.5.0'
+        default: '5.9.0'
 
 permissions:
   contents: write
@@ -30,12 +30,11 @@ jobs:
 
       - name: Download Main APK
         run: |
-          pip install gdown
-          gdown "1-UjOF8B_7ZZyUTBR5VQJPjlzmjx74c5n" -O XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk || exit 1
+          curl -L -o XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk "https://drive.google.com/uc?export=download&id=1ERgkZDNKI-jgXcN0U-DUknkW8K7DVMev"
 
       - name: Download Additional File
         run: |
-          gdown "1--Nqu2iD7RdfLEsACqeGuc_75JHHSZOG" -O XoDos-debian-5.5.tar.xz || exit 1
+          curl -L -o xodos_proot-5.9.tar.xz "https://drive.google.com/uc?export=download&id=1D7X64n1rlszrmDg_uMaG0QL0109fJdPE"
 
       - name: Create Release with Both Files
         uses: softprops/action-gh-release@v1
@@ -46,7 +45,7 @@ jobs:
           name: XoDos ${{ github.event.inputs.version_tag }}
           files: |
             XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk
-            XoDos-debian-5.5.tar.xz
+            xodos_proot-5.9.tar.xz
           body: | 
             New XoDos release for arm64
             What's new?
