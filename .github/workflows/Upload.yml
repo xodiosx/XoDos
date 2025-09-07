@@ -30,13 +30,11 @@ jobs:
 
       - name: Download Main APK
         run: |
-          pip install gdown
-          gdown "1ERgkZDNKI-jgXcN0U-DUknkW8K7DVMev" -O XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk || exit 1
+          curl -L -o XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk "https://drive.google.com/uc?export=download&id=1ERgkZDNKI-jgXcN0U-DUknkW8K7DVMev"
 
       - name: Download Additional File
         run: |
-          gdown "1D7X64n1rlszrmDg_uMaG0QL0109fJdPE" -O xodos_proot-5.9.tar.xz || exit 1
-          
+          curl -L -o xodos_proot-5.9.tar.xz "https://drive.google.com/uc?export=download&id=1D7X64n1rlszrmDg_uMaG0QL0109fJdPE"
 
       - name: Create Release with Both Files
         uses: softprops/action-gh-release@v1
@@ -48,8 +46,6 @@ jobs:
           files: |
             XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk
             xodos_proot-5.9.tar.xz
-            
-            
           body: | 
             New XoDos release for arm64
             What's new?
