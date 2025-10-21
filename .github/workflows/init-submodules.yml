@@ -1,4 +1,4 @@
-name: Copy Files from Another Repo
+name: Copy cpp Files from Another Repo
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
         run: |
           pwd
           mkdir -p termux-x11/src/main/cpp
-          git clone -b master-x11-submodule https://github.com/jiaxinchen-max/termux-app temprepo
+          git clone -b main https://github.com/xodiosx/XoDos2 temprepo
           cd temprepo
           ls
            
