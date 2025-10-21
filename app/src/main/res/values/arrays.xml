@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string-array name="wine_types">
+        <item>glibc</item>
+        <item>bionic</item>
+    </string-array>
+    <string-array name="wine_options">
+    <item>glibc</item>
+    <item>bionic</item>
+</string-array>
 </resources>

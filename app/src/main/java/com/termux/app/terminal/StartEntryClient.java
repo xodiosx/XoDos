@@ -1,6 +1,6 @@
 package com.termux.app.terminal;
 import android.util.DisplayMetrics;
-
+import com.termux.app.XoDosShortcuts;
 import static com.termux.shared.termux.TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH;
 import android.content.res.AssetManager;
 import android.widget.GridLayout;
@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 // Add with other imports
 // Add these imports at the top
+import com.termux.app.XoDosFileManager;
 import android.util.Log;
 import static com.termux.shared.termux.TermuxConstants.TERMUX_FILES_DIR_PATH;
 import java.util.HashMap;
@@ -72,6 +73,14 @@ import com.termux.app.TermuxActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+// --- Add at top of StartEntryClient.java ---
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+// Add SharedPreferences import
+import android.content.SharedPreferences;
+
 
 ///
 public class StartEntryClient implements FileBrowser.FileSlectedAdapter{
@@ -104,6 +113,15 @@ private View mConfigPopupContent;
     private int mCurrentCommand;
     private FileBrowser mFileBrowser;
 
+    // Tutorial tracking members
+    private SharedPreferences mSharedPreferences;
+    private static final String PREF_NAME = "termux_toolbox_prefs";
+    private static final String KEY_TUTORIAL_OPENED = "tutorial_opened";
+    private Handler mFlashHandler = new Handler();
+    private Runnable mFlashRunnable;
+    private boolean mIsFlashing = false;
+    private LinearLayout mHelpButton;
+
     //// helper ////////
 // Add this method any
 private void showRestoreProgressDialog() {
@@ -116,7 +134,8 @@ private void showRestoreProgressDialog() {
     mRestoreProgressDialog.show();
     mRestoreInProgress = true;
 }
-
+private static final String USR_PREFIX = "/data/data/com.termux/files/usr";
+private String winePrefixFromConf = "";
 
 // Add this method in the class
 private void handleRestoreError(Exception e) {
@@ -264,7 +283,88 @@ private void updateRestoreProgress(int progress, String message) {
     });
 }
 
+// Tutorial tracking methods
+private void initTutorialTracking() {
+    mSharedPreferences = mTermuxActivity.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+}
+
+private boolean isTutorialOpened() {
+    return mSharedPreferences.getBoolean(KEY_TUTORIAL_OPENED, false);
+}
+
+private void markTutorialOpened() {
+    SharedPreferences.Editor editor = mSharedPreferences.edit();
+    editor.putBoolean(KEY_TUTORIAL_OPENED, true);
+    editor.apply();
+    stopHelpButtonFlashing();
+}
+
+private void startHelpButtonFlashing() {
+    if (mIsFlashing || mHelpButton == null) return;
+    
+    mIsFlashing = true;
+    final int highlightColor = Color.argb(150, 255, 165, 0); // Orange
+    final int normalColor = Color.TRANSPARENT;
+    
+    mFlashRunnable = new Runnable() {
+        boolean highlighted = false;
+        
+        @Override
+        public void run() {
+            if (!mIsFlashing || mHelpButton == null) return;
+            
+            if (highlighted) {
+                mHelpButton.setBackgroundColor(normalColor);
+            } else {
+                mHelpButton.setBackgroundColor(highlightColor);
+            }
+            highlighted = !highlighted;
+            
+            mFlashHandler.postDelayed(this, 600); // Flash every 600ms
+        }
+    };
+    
+    mFlashHandler.post(mFlashRunnable);
+}
+
+private void stopHelpButtonFlashing() {
+    mIsFlashing = false;
+    if (mFlashHandler != null && mFlashRunnable != null) {
+        mFlashHandler.removeCallbacks(mFlashRunnable);
+    }
+    if (mHelpButton != null) {
+        mHelpButton.setBackgroundColor(Color.TRANSPARENT);
+    }
+}
+
+private void checkTutorialState() {
+    // Find the help button in the grid
+    for (int i = 0; i < mToolboxGrid.getChildCount(); i++) {
+        View child = mToolboxGrid.getChildAt(i);
+        if (child instanceof LinearLayout) {
+            // Check if this is the help button by looking at its content
+            LinearLayout layout = (LinearLayout) child;
+            if (layout.getChildCount() >= 2) {
+                View secondChild = layout.getChildAt(1);
+                if (secondChild instanceof TextView) {
+                    TextView textView = (TextView) secondChild;
+                    if (textView.getText().toString().equals(mTermuxActivity.getString(R.string.toolbox_help))) {
+                        mHelpButton = layout;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    // Start flashing if tutorial hasn't been opened
+    if (!isTutorialOpened() && mHelpButton != null) {
+        startHelpButtonFlashing();
+    }
+}
+
 private void startTutorial() {
+    markTutorialOpened(); // Mark as opened when tutorial starts
     mTutorialStep = 0;
     showTutorialStep();
 }
@@ -336,7 +436,7 @@ builder.setMessage(steps[mTutorialStep])
 
     // Highlight current button 
     // Update highlightOrder
-int[] highlightOrder = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17}; 
+int[] highlightOrder = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18}; 
 // 
     if(mTutorialStep < highlightOrder.length) {
         View targetButton = mToolboxGrid.getChildAt(highlightOrder[mTutorialStep]);
@@ -549,6 +649,9 @@ layout.setBackgroundResource(R.drawable.button_press_effect);
 iv.setScaleType(ImageView.ScaleType.FIT_CENTER); // Add this for proper scaling
   
       switch(type) {
+      case "FM":
+    iv.setImageResource(R.drawable.ifm); 
+    break;
        case "wid":
     iv.setImageResource(R.drawable.iwid); 
     break;
@@ -559,7 +662,7 @@ iv.setScaleType(ImageView.ScaleType.FIT_CENTER); // Add this for proper scaling
     iv.setImageResource(R.drawable.iupdate); 
           break;
       case "clean":
-    iv.setImageResource(R.drawable.idel); 
+    iv.setImageResource(R.drawable.idel_l); 
     break;
        case "wizard":
     iv.setImageResource(R.drawable.iwiz); 
@@ -580,7 +683,7 @@ iv.setScaleType(ImageView.ScaleType.FIT_CENTER); // Add this for proper scaling
     iv.setImageResource(R.drawable.iproot); // 
     break;
     case "wine":
-    iv.setImageResource(R.drawable.iwine); // 
+    iv.setImageResource(R.drawable.idel); // 
     break;
     case "xset":
     iv.setImageResource(R.drawable.iset); 
@@ -593,6 +696,9 @@ iv.setScaleType(ImageView.ScaleType.FIT_CENTER); // Add this for proper scaling
     break;
     case "xbox":
     iv.setImageResource(R.drawable.ixbox); 
+    break;
+    case "shortcuts":
+    iv.setImageResource(R.drawable.igame); 
     break;
     case "xodos":
     iv.setImageResource(R.drawable.idesk); 
@@ -674,11 +780,12 @@ private LinearLayout createToolboxButton(StartEntry.Entry entry) {
     }
 
     public void init() {
-  
+        // Initialize tutorial tracking
+        initTutorialTracking();
     
         // Load from both formats for backward compatibility
-    StartEntry.loadStartItems(); // Original .startItemEntries
-    loadFromStartMenuEntries(); // New .startMenuEntries
+        StartEntry.loadStartItems(); // Original .startItemEntries
+        loadFromStartMenuEntries(); // New .startMenuEntries
         
         mStartItemEntriesConfig = mTermuxActivity.findViewById(com.termux.x11.R.id.LConfigStartItems);
         mLaunchButton = mTermuxActivity.findViewById(com.termux.x11.R.id.BLaunch_item);
@@ -731,6 +838,7 @@ mToolboxPopup.setOnDismissListener(() -> {
        // StartEntry.saveStartItems();
        saveToStartMenuEntries();
         refreshToolboxItems();
+        stopHelpButtonFlashing(); // Stop flashing when popup is dismissed
     });
 
 
@@ -955,6 +1063,9 @@ for (StartEntry.Entry entry : StartEntry.getStartItemList()) {
     ////////////////////////////
     // Add system buttons after user entries
     addSystemButtons();
+    
+    // Check tutorial state after adding all buttons
+    checkTutorialState();
 }
 
 private void addSystemButtons() {
@@ -1058,8 +1169,8 @@ xbioBtn.setOnClickListener(v -> {
 }); // Removed duplicate code block
 mToolboxGrid.addView(xbioBtn);
 
-// Wine Button
 LinearLayout wineBtn = createToolboxButton("wine", mTermuxActivity.getString(R.string.toolbox_wine));
+
 wineBtn.setOnClickListener(v -> {
     new AlertDialog.Builder(mTermuxActivity)
         .setTitle(mTermuxActivity.getString(R.string.choose_wine_env))
@@ -1067,46 +1178,68 @@ wineBtn.setOnClickListener(v -> {
                 mTermuxActivity.getString(R.string.wine_glibc),
                 mTermuxActivity.getString(R.string.wine_bionic)
             }, (dialog, which) -> {
-                String pathToCheck = (which == 0) ? 
-                    "/data/data/com.termux/files/usr/glibc" :
-                    "/data/data/com.termux/files/usr/opt/wine";
-                    
+
+                String pathToCheck = (which == 0)
+                        ? "/data/data/com.termux/files/usr/glibc"
+                        : "/data/data/com.termux/files/usr/opt/wine";
+
                 File wineDir = new File(pathToCheck);
-                
                 if (!wineDir.exists()) {
-                    int messageRes = (which == 0) ? 
-                        R.string.wine_glibc_missing : 
-                        R.string.wine_bionic_missing;
-                        
+                    int messageRes = (which == 0)
+                            ? R.string.wine_glibc_missing
+                            : R.string.wine_bionic_missing;
+
                     new AlertDialog.Builder(mTermuxActivity)
                         .setMessage(messageRes)
                         .setPositiveButton(android.R.string.ok, null)
                         .show();
                     return;
                 }
-                
-                showBlockingView();
-                mSelectedWineCommand = wineCommands[which];
-                launchWineFilePicker();
-                mHandler.postDelayed(() -> hideBlockingView(), 4000);
+
+                new AlertDialog.Builder(mTermuxActivity)
+                    .setTitle(mTermuxActivity.getString(R.string.confirm_delete))
+                    .setMessage(mTermuxActivity.getString(R.string.delete_wine_prefix_warning))
+                    .setPositiveButton(android.R.string.ok, (d, w) -> {
+                        showBlockingView();
+
+                        if (which == 0) {
+                            // --- GLIBC WINE ---
+                            loadWinePathConf();
+                            if (winePrefixFromConf != null && !winePrefixFromConf.isEmpty()) {
+                                runShellDeleteCommand(winePrefixFromConf);
+                            } else {
+                                Toast.makeText(mTermuxActivity,
+                                    mTermuxActivity.getString(R.string.error_no_wineprefix_in_conf),
+                                    Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            // --- BIONIC WINE ---
+                            runShellDeleteCommand("/data/data/com.termux/files/home/.wine");
+                        }
+
+                        mHandler.postDelayed(this::hideBlockingView, 2000);
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
             })
         .setNegativeButton(android.R.string.cancel, null)
         .show();
 });
+
 mToolboxGrid.addView(wineBtn);
 
-
-// With proper implementations:
-// Xbox Button
-LinearLayout xboxBtn = createToolboxButton("xbox", mTermuxActivity.getString(R.string.toolbox_xbox));
-xboxBtn.setOnClickListener(v -> {
+// FM button
+LinearLayout FMBtn = createToolboxButton("FM", mTermuxActivity.getString(R.string.toolbox_fm));
+FMBtn.setOnClickListener(v -> {
     showBlockingView();
-    mTermuxTerminalSessionActivityClient.getCurrentStoredSessionOrLast().write("/data/data/com.termux/files/usr/bin/xbox-z\n");
     mToolboxPopup.dismiss();
-    mHandler.postDelayed(() -> hideBlockingView(), 3000);
-});
-mToolboxGrid.addView(xboxBtn);
 
+    mHandler.postDelayed(() -> {
+        new XoDosFileManager(mTermuxActivity).start();
+        hideBlockingView();
+    }, 1000);
+});
+mToolboxGrid.addView(FMBtn);
 
 // wid button
 LinearLayout widBtn = createToolboxButton("wid", "termux-widget");
@@ -1144,9 +1277,6 @@ widBtn.setOnClickListener(v -> {
     });
 });
 mToolboxGrid.addView(widBtn);
-
-
-
 
 // Settings (Xset) Button
 LinearLayout settingsBtn = createToolboxButton("xset", mTermuxActivity.getString(R.string.toolbox_settings));
@@ -1205,6 +1335,18 @@ wizardBtn.setOnClickListener(v -> {
     }, 1000); // 2-second delay
 });
 mToolboxGrid.addView(wizardBtn);
+
+//shortcuts button
+LinearLayout shortcutsBtn = createToolboxButton("shortcuts", mTermuxActivity.getString(R.string.toolbox_shortcuts));
+shortcutsBtn.setOnClickListener(v -> {
+    showBlockingView();
+    mToolboxPopup.dismiss();
+    mHandler.postDelayed(() -> {
+        new XoDosShortcuts(mTermuxActivity).start();
+        hideBlockingView();
+    }, 1000);
+});
+mToolboxGrid.addView(shortcutsBtn);
 
 // Switch Button
 LinearLayout switchBtn = createToolboxButton("switch", mTermuxActivity.getString(R.string.toolbox_switch));
@@ -1432,21 +1574,18 @@ updateBtn.setOnClickListener(v -> {
 });
 mToolboxGrid.addView(updateBtn);
 
-
-  
-  
-  // Add Clean Wine Button
+// Add Clean Wine Button
     LinearLayout cleanWineBtn = createToolboxButton("clean", mTermuxActivity.getString(R.string.toolbox_clean_wine));
     cleanWineBtn.setOnClickListener(v -> showWineCleanDialog());
     mToolboxGrid.addView(cleanWineBtn);
 
-      // Help Button
-LinearLayout helpBtn = createToolboxButton("help", mTermuxActivity.getString(R.string.toolbox_help));
-helpBtn.setOnClickListener(v -> {
-   // mToolboxPopup.dismiss();
+      // Help Button - Updated with tutorial tracking
+mHelpButton = createToolboxButton("help", mTermuxActivity.getString(R.string.toolbox_help));
+mHelpButton.setOnClickListener(v -> {
+    markTutorialOpened(); // Mark as opened when clicked
     startTutorial();
 });
-mToolboxGrid.addView(helpBtn);
+mToolboxGrid.addView(mHelpButton);
 }
 ////////////////
     
@@ -1706,4 +1845,54 @@ private void executeBackupCommand() {
         Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 120
     );
     }
+    
+    private void loadWinePathConf() {
+    File confFile = new File(USR_PREFIX + "/glibc/opt/conf/wine_path.conf");
+    if (!confFile.exists()) return;
+
+    try (BufferedReader br = new BufferedReader(new FileReader(confFile))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.startsWith("export WINEPREFIX=")) {
+                String[] parts = line.split("=", 2);
+                if (parts.length == 2) {
+                    winePrefixFromConf = parts[1].replace("\"", "").trim();
+                }
+            }
+        }
+    } catch (IOException e) {
+        Toast.makeText(mTermuxActivity,
+            "Error reading wine_path.conf: " + e.getMessage(),
+            Toast.LENGTH_LONG).show();
+    }
+}
+
+private void runShellDeleteCommand(String targetPath) {
+    try {
+        Process process = new ProcessBuilder("sh", "-c", "rm -rf \"" + targetPath + "\"").start();
+        int exitCode = process.waitFor();
+
+        if (exitCode == 0) {
+            Toast.makeText(mTermuxActivity,
+                "Wine prefix deleted successfully ✅",
+                Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mTermuxActivity,
+                "Failed to delete prefix (exit " + exitCode + ")",
+                Toast.LENGTH_LONG).show();
+        }
+    } catch (Exception e) {
+        Toast.makeText(mTermuxActivity,
+            "Error deleting prefix: " + e.getMessage(),
+            Toast.LENGTH_LONG).show();
+    }
+}
+
+// Add cleanup method to prevent memory leaks
+public void cleanup() {
+    stopHelpButtonFlashing();
+    if (mFlashHandler != null) {
+        mFlashHandler.removeCallbacksAndMessages(null);
+    }
+}
 }

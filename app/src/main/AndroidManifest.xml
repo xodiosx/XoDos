@@ -5,8 +5,6 @@
     android:sharedUserId="${TERMUX_PACKAGE_NAME}"
     android:sharedUserLabel="@string/shared_user_label">
 
-
-
     <uses-sdk tools:overrideLibrary="com.termux.x11" />
 
     <uses-feature
@@ -65,16 +63,7 @@
 
         <!-- PS1 Emulator Activities (example if included as module) -->
 
-<activity
-    android:name="info.czekanski.avocado.MainActivity"
-    android:hardwareAccelerated="true"
-    android:exported="false"
-    android:noHistory="true"
-    android:alwaysRetainTaskState="true"
-    android:launchMode="singleInstance"
-    android:windowSoftInputMode="adjustResize"
-    android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|keyboard|navigation"
-    tools:node="merge" />
+
 
         <!--termux-x11-->
         <activity
@@ -278,14 +267,10 @@
         <meta-data android:name="com.samsung.android.game.gamelist" android:value="true" />
 
         <!-- Version < 3.0. DeX Mode and Screen Mirroring support -->
-        <meta-data
-            android:name="com.samsung.android.keepalive.density"
-            android:value="true" />
+       
 
         <!-- Version >= 3.0. DeX Dual Mode support -->
-        <meta-data
-            android:name="com.samsung.android.multidisplay.keep_process_alive"
-            android:value="true" />
+
 
         <meta-data
             android:name="com.sec.android.support.multiwindow"

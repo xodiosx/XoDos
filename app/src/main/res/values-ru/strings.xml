@@ -242,7 +242,7 @@
 <string name="toolbox_backup">Резервная копия</string>
 <string name="toolbox_update">Обновить</string>
 <string name="toolbox_restore">Установить/Восстановить </string>
-<string name="toolbox_wine">Wine </string>
+
 <string name="choose_wine_env">Выбрать окружение Wine</string>
 <string name="wine_glibc">Wine Glibc</string>
 <string name="wine_bionic">Wine Bionic</string>
@@ -257,14 +257,18 @@
     <item>Kali🐉Linux: Полный комплект для тестирования на проникновение с 100+ инструментами безопасности</item>
     <item>Wine🍷Glibc: Эмуляция Windows с поддержкой большинства Android-устройств (если не Snapdragon — используйте VirGl)</item>
     <item>Wine🍷Bionic: Эмуляция Windows с обёрткой драйвера (если не Snapdragon — используйте wrapper)</item>
-    <item>Wine🍷: Здесь вы можете запускать EXE-файлы из любой папки</item>
-    <item>Xbox🎮Эмулятор: Играйте в оригинальные игры Xbox с помощью Xemu</item>
+    <item>Удалить 🗑️ префикс Wine🍷: Здесь вы можете удалить контейнер Wine или установленный префикс для исправления проблем системы Windows и установки свежей версии Wine</item>
+    <item>Файловый менеджер📁: навигация и управление файлами, извлечение, установка, восстановление и многое другое</item>
+<item>Termux:виджеты📃: создавайте ярлыки прямо на главный экран Android для более простого и быстрого запуска скриптов/приложений</item>
+
+
             <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
     <item>Настройки⚙️: Настройка версий Wine/DXVK/Box и системных драйверов</item>
     <item>AI🤖Чат: Локальный приватный ИИ с поддержкой DeepSeek, Llama и 100+ моделей</item>
     <item>Восстановить♻️: Установите обновления XoDos и другие системы, такие как Kali/Proot</item>
     <item>Резервная копия📥: Полная моментальная копия системы для передачи/восстановления</item>
     <item>Быстрые настройки🪄: помогают новичкам быстро настроить Wine/Windows (драйверы, DXVK, wineD3D)</item>
+    <item>ярлыки🎮: помогает настраивать приложения и игры Wine/Windows и открывать их напрямую</item>
     <item>Переключить👥: Переключение между контейнерами пользователей</item>
     <item>Добавить кнопку➕: Создание ярлыков для скриптов/приложений/python</item>
    <item>Обновление⏫: установка обновлений без потери данных или переустановки системы. Помогает исправить ошибки</item>
@@ -323,4 +327,201 @@
   <string name="install_extracting">Обновление системы…</string>
   <string name="install_finalizing">Завершение…</string>
   <string name="stop_desktop_title">Выйти и остановить 🛑 Wine и Рабочий стол?</string>
+  
+  <!-- Russian Translation -->
+<string name="toolbox_shortcuts">Ярлыки 🎮</string>
+  
+    <!-- XoDos Shortcuts -->
+    <string name="desktop_shortcuts">Ярлыки рабочего стола</string>
+    <string name="close">Закрыть</string>
+    <string name="refresh">Обновить</string>
+    <string name="no_shortcuts_found">Ярлыки не найдены</string>
+    <string name="launch">Открыть▶️</string>
+    <string name="launch_app_title">Запустить %1$s</string>
+    <string name="launch_confirmation_message">Запустить с %1$s?\n\nВы можете изменить тип Wine в настройках XoDos.</string>
+    <string name="launching_app">Запуск %1$s</string>
+    <string name="launch_success">%1$s запущен</string>
+    <string name="launch_failed">Ошибка запуска %1$s</string>
+    <string name="launch_error">Ошибка запуска</string>
+    <string name="launch_error_detailed">Ошибка запуска %1$s\n\nИсключение: %2$s\n\nСообщение: %3$s</string>
+    <string name="view_logs">Просмотреть логи</string>
+    <string name="check_logcat">Проверить logcat для детальных логов</string>
+    <string name="delete_shortcut">Удалить ярлык</string>
+    <string name="delete_confirmation">Вы уверены, что хотите удалить %1$s?</string>
+    <string name="deleted">Удалено</string>
+    <string name="delete_failed">Ошибка удаления</string>
+    <string name="wine_type_glibc">Glibc Wine</string>
+    <string name="wine_type_bionic">Bionic Wine</string>
+    <string name="error_reading_file">Ошибка чтения %1$s</string>
+    
+    <!-- X11 Monitor check -->
+    <string name="failed_to_open_exe">⁉️ Ошибка открытия %1$s.exe
+попробуйте открыть внутри режима Рабочий стол</string>
+
+    <!-- shortcuts settings -->
+    <string name="settings">Настройки⚙️</string>
+    <string name="app_settings_title">Настройки для %s</string>
+    <string name="save">Сохранить💾</string>
+    <string name="settings_saved">Настройки сохранены</string>
+    <string name="reset_settings">Сбросить настройки</string>
+    <string name="applying_settings">Применение настроек...</string>
+    
+    <!-- XoDos Wizard Strings -->
+    <string name="xodos_wizard_title">Настройки XoDos Wine</string>
+    <string name="phantom_killer_warning_title">Отключить 🚫 Фантомный убийцу процессов</string>
+    <string name="phantom_killer_warning_message">⚠️ Android 11+ может убивать фоновые процессы.\n\nСледуйте инструкции ниже чтобы отключить Фантомного убийцу процессов используя одну из ссылок.</string>
+    <string name="github_button">GitHub</string>
+    <string name="telegram_button">Telegram</string>
+    <string name="youtube_button">YouTube🖥️</string>
+    <string name="browser_open_failed">Ошибка открытия браузера: %s</string>
+    <string name="restart_required_title">Требуется перезагрузка</string>
+    <string name="restart_required_message">⚠️Смена драйверов требует сервер и перезапуск Wine. Продолжить?</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Отмена</string>
+    <string name="wine_processes_stopped">Процессы Wine остановлены</string>
+    <string name="error_saving_config">Ошибка сохранения конфигурации: %s</string>
+    <string name="error_reading_wine_config">Ошибка чтения конфигурации wine: %s</string>
+
+    <!-- File Manager Strings -->
+    <string name="file_manager_title">📂 Файловый менеджер</string>
+    <string name="back">⬅ Назад</string>
+    <string name="forward">➡ Вперед</string>
+    <string name="home">🏠 Домой</string>
+    <string name="paste">📋 Вставить</string>
+    <string name="help">❓ Помощь</string>    
+    
+    <!-- File Operations -->
+    <string name="copied">Скопировано</string>
+    <string name="no_file_to_paste">Нет файла для вставки</string>
+    <string name="source_file_no_longer_exists">Исходный файл больше не существует</string>
+    <string name="failed_to_copy_file">Ошибка копирования файла</string>
+    <string name="paste_failed">Ошибка вставки</string>
+    
+    <string name="conversion_complete">Конвертация успешна</string>
+    <string name="repair_xbox_iso">Восстановить ISO Xbox</string>
+    <string name="convert_to_standard_iso">Конвертировать в стандартный ISO</string>
+    <string name="converted_to_xbox_iso">Конвертировано в ISO Xbox</string>
+    
+    <!-- Xbox xdvdfs Options -->
+    <string name="list_files_xdvdfs">Список файлов (xdvdfs ls)</string>
+    <string name="tree_view_xdvdfs">Древовидный вид (xdvdfs tree)</string>
+    <string name="md5_checksums_xdvdfs">MD5 контрольные суммы (xdvdfs md5)</string>
+    <string name="image_info_xdvdfs">Информация об образе (xdvdfs info)</string>
+    <string name="extract_file_xdvdfs">Извлечь файл (xdvdfs copy-out)</string>
+    <string name="unpack_image_xdvdfs">Распаковать образ (xdvdfs unpack)</string>
+    <string name="compute_checksum_xdvdfs">Вычислить контрольную сумму (xdvdfs checksum)</string>
+    <string name="conversion_error">Ошибка конвертации</string>
+    <string name="repaired_xbox_iso">Восстановлен ISO Xbox</string>
+    <string name="repair_failed">Ошибка восстановления</string>
+    <string name="repair_error">Ошибка восстановления</string>
+    <string name="converted_to_standard_iso">Конвертировано в стандартный ISO</string>
+    <string name="conversion_failed">Ошибка конвертации</string>    
+    
+    <!-- File Types -->
+    <string name="folder">Папка</string>
+    <string name="selected">Выбрано</string>
+    
+    <!-- Error Messages -->
+    <string name="cannot_open_folder">Не удается открыть папку</string>
+    <string name="cannot_read_folder">Не удается прочитать папку</string>
+    <string name="access_denied">Доступ запрещен</string>
+    <string name="can_only_run_from_termux">Можно запускать только из активности Termux</string>
+    
+    <!-- EXE Options -->
+    <string name="create_shortcut">📋 Создать ярлык</string>
+    <string name="shortcut_created">Ярлык создан</string>
+    <string name="failed_to_create_shortcut">Ошибка создания ярлыка</string>
+    
+    <!-- Archive Options -->
+    <string name="list_contents">📋 Список содержимого (7z)</string>
+    <string name="extract_to_new_folder">📦 Извлечь в новую папку (7z)</string>
+    <string name="open_with_xbox">Открыть с Xbox</string>
+    <string name="convert_to_xbox_iso">🔄 Конвертировать в ISO Xbox</string>
+    <string name="open_with_ps1">Открыть с PS1</string>
+    <string name="restore_to_xodos">⚙️ Восстановить в XoDos</string>
+    
+    <!-- Command Messages -->
+    <string name="running_with_x11">Запуск с X11</string>
+    <string name="opening_with_xbox">Открытие с Xbox</string>
+    <string name="opening_with_ps1">Открытие с PS1</string>
+    <string name="listing_contents">Список содержимого</string>
+    <string name="extracting_to">Извлечение в</string>
+    <string name="converting_to_xbox_iso">Конвертация в ISO Xbox</string>
+    <string name="converting_to_xbox_iso_format">Конвертация в формат ISO Xbox</string>
+    <string name="restoring_system_archive">Восстановление системного архива</string>
+    
+    <!-- Help Dialog -->
+    <string name="supported_file_types">📋 Поддерживаемые типы файлов</string>
+    <string name="help_message">Поддерживаемые файлы:\n\n• ISO/XISO файлы:\n  - Список содержимого с 7z\n  - Извлечение содержимого в новую папку\n  - Открытие с эмулятором Xbox\n  - Конвертация в формат ISO Xbox\n\n• CUE/BIN файлы (PS1):\n  - Список содержимого с 7z\n  - Извлечение содержимого в новую папку\n  - Открытие с эмулятором PS1\n\n• Архивные файлы (.7z, .rar, .zip, .tar, .gz):\n  - Список содержимого с 7z\n  - Извлечение содержимого в новую папку\n\n• EXE файлы:\n  - Запуск с эмулятором Wine Windows\n  - Создание ярлыков на рабочем столе\n\n• TAR.XZ/TAR.GZ файлы:\n  - Восстановление/установка системных архивов в XoDos\n\n• Копировать/Вставить:\n  - Долгое нажатие на любой файл/папку для опций\n  - Выберите Копировать\n  - Используйте кнопку Вставить для вставки в текущую папку</string>
+    
+    <string name="install">Установить</string>
+    <string name="install_with_downgrade">Установить с понижением версии</string>
+
+
+    <string name="execute_in_terminal">Выполнить в терминале</string>
+
+ 
+    <string name="select_mode">Выбрать режим</string>
+ 
+ 
+    <string name="no_files_selected">Файлы не выбраны</string>
+    <string name="selected_files">Нет доступных действий для этого типа файла: %d</string>
+<string name="toolbox_fm">Файловый менеджер</string>
+    <string name="pack_selected">Упаковать выбранные файлы</string>
+    <string name="clear_selection">Очистить выбор</string>
+    <string name="deb_package">DEB пакет: %s</string>
+    <string name="installation_method">Метод установки</string>
+    <string name="script_file">Файл скрипта: %s</string>
+    <string name="audio_file">Аудио файл: %s</string>
+    <string name="playing_audio">Воспроизведение аудио: %s</string>
+    <string name="executing_script">Выполнение скрипта: %s</string>
+    <string name="installing_package">Установка пакета: %s</string>
+    <string name="changing_permissions">Изменение прав</string>
+    <string name="permissions_changed_count">Права изменены для %d элементов</string>
+    <string name="failed_change_permissions">Ошибка изменения прав</string>
+    <string name="packing_directory">Упаковка директории в %s</string>
+    <string name="select_directory_pack">Пожалуйста выберите директорию для упаковки</string>
+    <string name="file_types">Типы файлов</string>
+    <string name="deb_files">DEB файлы</string>
+    <string name="script_files">Файлы скриптов</string>
+    <string name="audio_files">Аудио файлы</string>
+    <string name="document_files">Файлы документов</string>
+    <string name="spreadsheet_files">Файлы таблиц</string>
+    <string name="presentation_files">Файлы презентаций</string>
+    <string name="database_files">Файлы баз данных</string>
+    <string name="font_files">Файлы шрифтов</string>
+    <string name="web_files">Веб файлы</string>
+    <string name="programming_files">Файлы программирования</string>
+    
+    <string name="install_in_proot">Установить в PRoot 🐧</string>
+    <string name="install_normally">Установить обычным способом</string>
+    <string name="change_permissions">Изменить/Исправить права выполнения</string>
+    <string name="open_with_mpv">Открыть с плеером MPV</string>
+    <string name="no_proot_distro">PRoot дистрибутив не найден. Пожалуйста установите xodos Proot сначала.</string>
+    <string name="installing_in_proot">Установка в PRoot дистрибутив: %s</string>
+    <string name="select_mode_on">🎯 Режим выбора ВКЛ: Долгое нажатие на файлы для выбора</string>
+    <string name="select_mode_off">📁 Режим выбора</string>
+    <string name="copy_selected">Копировать выбранное</string>
+    
+    <string name="list_files">Список файлов</string>
+    <string name="tree_view">Древовидный вид</string>
+    <string name="image_info">Информация об образе</string>
+    <string name="unpack_image">Распаковать образ</string>
+    <string name="extract_to_folder">Извлечь в папку</string>
+    <string name="pack_with_xdvdfs">Упаковать с xdvdfs</string>
+    <string name="pack_folder">Упаковать папку</string>
+    <string name="pack_iso">Упаковать ISO</string>
+    <!-- Add these missing strings to your strings.xml -->
+<string name="copy">Копировать</string>
+<string name="run_in_terminal">Запустить в терминале</string>
+<string name="permissions_changed">Права изменены на исполняемые</string>
+<string name="delete">Удалить</string>
+    <!-- Wine Options -->
+
+<string name="toolbox_wine">Удалить Префикс</string>
+<string name="toolbox_clean_wine">Очистка</string>
+<string name="confirm_delete">Подтвердить Удаление</string>
+<string name="delete_wine_prefix_warning">Вы уверены, что хотите удалить префикс Wine? Это действие нельзя отменить.</string>
+<string name="wine_prefix_deleted">Префикс Wine успешно удалён ✅</string>
+<string name="error_no_wineprefix_in_conf">Не удалось найти WINEPREFIX в wine_path.conf ⚠️</string>
 </resources>

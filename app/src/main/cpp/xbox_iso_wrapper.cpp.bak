@@ -1,0 +1,403 @@
+#include <jni.h>
+#include <string>
+#include <vector>
+#include <memory>
+#include <android/log.h>
+
+#include "xbox_iso_parser.h"
+
+#define LOG_TAG "XboxIsoWrapper"
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Global instance management
+struct IsoWrapperHandle {
+    std::unique_ptr<XboxISOParser> parser;
+    std::string lastError;
+    
+    IsoWrapperHandle() : parser(std::make_unique<XboxISOParser>()) {
+        parser->setDebugOutput(true);
+    }
+};
+
+// Helper functions
+jstring stringToJString(JNIEnv* env, const std::string& str) {
+    return env->NewStringUTF(str.c_str());
+}
+
+std::string jStringToString(JNIEnv* env, jstring jstr) {
+    if (!jstr) return "";
+    const char* cstr = env->GetStringUTFChars(jstr, nullptr);
+    std::string result(cstr);
+    env->ReleaseStringUTFChars(jstr, cstr);
+    return result;
+}
+
+jobjectArray stringVectorToJArray(JNIEnv* env, const std::vector<std::string>& vec) {
+    jclass stringClass = env->FindClass("java/lang/String");
+    jobjectArray result = env->NewObjectArray(vec.size(), stringClass, nullptr);
+    
+    for (size_t i = 0; i < vec.size(); i++) {
+        env->SetObjectArrayElement(result, i, env->NewStringUTF(vec[i].c_str()));
+    }
+    
+    return result;
+}
+
+// JNI Methods
+JNIEXPORT jlong JNICALL
+Java_com_termux_app_XboxIsoWrapper_nativeCreate(JNIEnv* env, jobject thiz) {
+    try {
+        IsoWrapperHandle* handle = new IsoWrapperHandle();
+        return reinterpret_cast<jlong>(handle);
+    } catch (const std::exception& e) {
+        LOGE("Failed to create ISO wrapper: %s", e.what());
+        return 0;
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_com_termux_app_XboxIsoWrapper_nativeDestroy(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (wrapper) {
+        delete wrapper;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_loadIso(JNIEnv* env, jobject thiz, jlong handle, jstring iso_path) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return JNI_FALSE;
+    }
+    
+    std::string path = jStringToString(env, iso_path);
+    LOGI("Loading ISO: %s", path.c_str());
+    
+    std::string errorMsg;
+    bool result = wrapper->parser->loadISO(path, errorMsg);
+    
+    if (!result) {
+        wrapper->lastError = errorMsg;
+        LOGE("Failed to load ISO: %s", errorMsg.c_str());
+    }
+    
+    return result ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_closeIso(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return JNI_FALSE;
+    }
+    
+    // The parser will clean up when destroyed
+    wrapper->lastError.clear();
+    return JNI_TRUE;
+}
+
+JNIEXPORT jobjectArray JNICALL
+Java_com_termux_app_XboxIsoWrapper_listRootFiles(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return nullptr;
+    }
+    
+    try {
+        const XboxFileEntry* root = wrapper->parser->getRootEntry();
+        if (!root) {
+            return nullptr;
+        }
+        
+        std::vector<std::string> fileNames;
+        for (const auto& child : root->children) {
+            fileNames.push_back(child.name);
+        }
+        
+        return stringVectorToJArray(env, fileNames);
+    } catch (const std::exception& e) {
+        wrapper->lastError = e.what();
+        LOGE("Error listing root files: %s", e.what());
+        return nullptr;
+    }
+}
+
+JNIEXPORT jobjectArray JNICALL
+Java_com_termux_app_XboxIsoWrapper_listAllFiles(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return nullptr;
+    }
+    
+    try {
+        // Get all XBE files as a simple way to list files
+        auto xbeFiles = wrapper->parser->listAllXBEFiles();
+        return stringVectorToJArray(env, xbeFiles);
+    } catch (const std::exception& e) {
+        wrapper->lastError = e.what();
+        LOGE("Error listing all files: %s", e.what());
+        return nullptr;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_extractFile(JNIEnv* env, jobject thiz, jlong handle, 
+                                              jstring src_path, jstring dest_path) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return JNI_FALSE;
+    }
+    
+    std::string src = jStringToString(env, src_path);
+    std::string dest = jStringToString(env, dest_path);
+    
+    LOGI("Extracting %s to %s", src.c_str(), dest.c_str());
+    
+    std::string errorMsg;
+    bool result = wrapper->parser->extractFile(src, dest, errorMsg);
+    
+    if (!result) {
+        wrapper->lastError = errorMsg;
+        LOGE("Failed to extract file: %s", errorMsg.c_str());
+    }
+    
+    return result ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_extractAllFiles(JNIEnv* env, jobject thiz, jlong handle, 
+                                                  jstring output_dir) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return JNI_FALSE;
+    }
+    
+    std::string outputDir = jStringToString(env, output_dir);
+    LOGI("Extracting all files to: %s", outputDir.c_str());
+    
+    // Using a simple progress callback
+    auto progressCallback = [](const std::string& path, bool isDirectory) {
+        if (!isDirectory) {
+            LOGI("Extracting: %s", path.c_str());
+        }
+    };
+    
+    bool result = wrapper->parser->extractAllFiles(outputDir, progressCallback);
+    
+    if (!result) {
+        wrapper->lastError = "Failed to extract all files";
+    }
+    
+    return result ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jbyteArray JNICALL
+Java_com_termux_app_XboxIsoWrapper_readFile(JNIEnv* env, jobject thiz, jlong handle, jstring file_path) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return nullptr;
+    }
+    
+    std::string path = jStringToString(env, file_path);
+    
+    try {
+        auto fileData = wrapper->parser->readFile(path);
+        if (fileData.empty()) {
+            return nullptr;
+        }
+        
+        jbyteArray result = env->NewByteArray(fileData.size());
+        env->SetByteArrayRegion(result, 0, fileData.size(), 
+                               reinterpret_cast<const jbyte*>(fileData.data()));
+        
+        return result;
+    } catch (const std::exception& e) {
+        wrapper->lastError = e.what();
+        LOGE("Error reading file: %s", e.what());
+        return nullptr;
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_termux_app_XboxIsoWrapper_getPartitionType(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return env->NewStringUTF("UNKNOWN");
+    }
+    
+    // This would require adding a method to XboxISOParser to get partition type
+    // For now, return a placeholder
+    return env->NewStringUTF("XBOX_ISO");
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_termux_app_XboxIsoWrapper_getIsoInfo(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return env->NewStringUTF("No ISO loaded");
+    }
+    
+    // Create info string
+    std::string info = "Xbox ISO - ";
+    
+    // Try to get XBE info
+    std::string xbeName;
+    uint32_t xbeSize = 0, xbeSector = 0;
+    std::string errorMsg;
+    
+    if (wrapper->parser->findAnyXBE(xbeName, xbeSize, xbeSector, errorMsg)) {
+        info += "XBE: " + xbeName + " (" + std::to_string(xbeSize) + " bytes)";
+    } else {
+        info += "No XBE found";
+    }
+    
+    return stringToJString(env, info);
+}
+
+JNIEXPORT jobjectArray JNICALL
+Java_com_termux_app_XboxIsoWrapper_findXbeFiles(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return nullptr;
+    }
+    
+    try {
+        auto xbeFiles = wrapper->parser->listAllXBEFiles();
+        return stringVectorToJArray(env, xbeFiles);
+    } catch (const std::exception& e) {
+        wrapper->lastError = e.what();
+        LOGE("Error finding XBE files: %s", e.what());
+        return nullptr;
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_termux_app_XboxIsoWrapper_getMainXbe(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return nullptr;
+    }
+    
+    try {
+        std::string xbePath;
+        uint32_t xbeSize, xbeSector;
+        std::string errorMsg;
+        
+        if (wrapper->parser->findMainXBE(xbePath, xbeSize, xbeSector, errorMsg)) {
+            return stringToJString(env, xbePath);
+        }
+    } catch (const std::exception& e) {
+        wrapper->lastError = e.what();
+        LOGE("Error getting main XBE: %s", e.what());
+    }
+    
+    return nullptr;
+}
+
+JNIEXPORT jbyteArray JNICALL
+Java_com_termux_app_XboxIsoWrapper_getXbeData(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return nullptr;
+    }
+    
+    try {
+        auto xbeData = wrapper->parser->getXbeData();
+        if (xbeData.empty()) {
+            return nullptr;
+        }
+        
+        jbyteArray result = env->NewByteArray(xbeData.size());
+        env->SetByteArrayRegion(result, 0, xbeData.size(), 
+                               reinterpret_cast<const jbyte*>(xbeData.data()));
+        
+        return result;
+    } catch (const std::exception& e) {
+        wrapper->lastError = e.what();
+        LOGE("Error getting XBE data: %s", e.what());
+        return nullptr;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_convertToXbe(JNIEnv* env, jobject thiz, jlong handle, 
+                                               jstring output_dir) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return JNI_FALSE;
+    }
+    
+    // This would require the original ISO path, which we don't store
+    // For now, return false
+    wrapper->lastError = "Conversion requires original ISO path";
+    return JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_isIsoLoaded(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper || !wrapper->parser) {
+        return JNI_FALSE;
+    }
+    
+    // Check if we have a root entry with children
+    const XboxFileEntry* root = wrapper->parser->getRootEntry();
+    return (root && !root->children.empty()) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_termux_app_XboxIsoWrapper_getLastError(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    if (!wrapper) {
+        return env->NewStringUTF("Wrapper not initialized");
+    }
+    
+    return stringToJString(env, wrapper->lastError);
+}
+
+// Stubbed methods for future implementation
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_loadIsoFromFd(JNIEnv* env, jobject thiz, jlong handle, jint fd) {
+    // Implementation would require file descriptor support
+    return JNI_FALSE;
+}
+
+JNIEXPORT jobjectArray JNICALL
+Java_com_termux_app_XboxIsoWrapper_listFiles(JNIEnv* env, jobject thiz, jlong handle, jstring directory_path) {
+    // Implementation would require directory traversal
+    return nullptr;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_extractXbe(JNIEnv* env, jobject thiz, jlong handle, jstring output_path) {
+    // Implementation would extract the main XBE
+    return JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_convertToXiso(JNIEnv* env, jobject thiz, jlong handle, jstring output_path) {
+    // Implementation would convert to XISO format
+    return JNI_FALSE;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_termux_app_XboxIsoWrapper_verifyIso(JNIEnv* env, jobject thiz, jlong handle) {
+    IsoWrapperHandle* wrapper = reinterpret_cast<IsoWrapperHandle*>(handle);
+    return (wrapper && wrapper->parser && wrapper->parser->getRootEntry()) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_termux_app_XboxIsoWrapper_getIsoSize(JNIEnv* env, jobject thiz, jlong handle) {
+    // This would require storing the original file size
+    return 0;
+}
+
+#ifdef __cplusplus
+}
+#endif

@@ -40,6 +40,8 @@ android:layout_height="wrap_content">
         android:text="Wine Type" />
     <Spinner
         android:id="@+id/wineSpinner"
+        android:textColor="#FFFFFF" 
+         android:background="#AA000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -49,6 +51,8 @@ android:layout_height="wrap_content">
         android:text="DXVK / d3d package" />
     <Spinner
         android:id="@+id/dxvkSpinner"
+        android:textColor="#FFFFFF" 
+         android:background="#AA000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -58,6 +62,8 @@ android:layout_height="wrap_content">
         android:text="Driver package" />
     <Spinner
         android:id="@+id/driverSpinner"
+        android:textColor="#FFFFFF" 
+         android:background="#AA000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -67,6 +73,8 @@ android:layout_height="wrap_content">
         android:text="CPU Core Policy" />
     <Spinner
         android:id="@+id/coresSpinner"
+        android:textColor="#FFFFFF" 
+         android:background="#AA000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

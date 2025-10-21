@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE resources [<!ENTITY TERMUX_PACKAGE_NAME "com.termux"><!ENTITY TERMUX_APP_NAME "XoDos"><!ENTITY TERMUX_API_APP_NAME "Termux:API"><!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot"><!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float"><!ENTITY TERMUX_STYLING_APP_NAME "Termux:Styling"><!ENTITY TERMUX_TASKER_APP_NAME "Termux:Tasker"><!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">]>
+<resources>
+    <string name="application_name">XoDos</string>
+    <string name="shared_user_label">user</string>
+    <!-- Termux RUN_COMMAND permission -->
+    <string name="permission_run_command_label">Ejecutar comandos en el entorno de &TERMUX_APP_NAME;</string>
+    <string name="permission_run_command_description">&TERMUX_APP_NAME; ejecuta comandos arbitrarios dentro del entorno y accede a archivos</string>
+
+
+    <!-- Termux Bootstrap Packages Installation -->
+    <string name="bootstrap_installer_body">Instalando paquetes de bootstrap…</string>
+    <string name="bootstrap_error_title">No se pudo instalar bootstrap</string>
+    <string name="bootstrap_error_body">&TERMUX_APP_NAME; no pudo instalar los paquetes de bootstrap.</string>
+    <string name="bootstrap_error_abort">Abortar</string>
+    <string name="bootstrap_error_try_again">Intentar de nuevo</string>
+    <string name="bootstrap_error_not_primary_user_message">&TERMUX_APP_NAME;&TERMUX_APP_NAME;" solo puede ejecutarse como usuario principal. Los binarios de bootstrap están compilados con una ruta $PREFIX fija y no se pueden instalar en ninguna otra ruta que no sea:%1$s."</string>
+    <string name="bootstrap_error_installed_on_portable_sd">&TERMUX_APP_NAME;&TERMUX_APP_NAME;" no se puede instalar en una tarjeta SD portátil/externa/extraíble en su dispositivo. Los binarios de bootstrap están compilados con una ruta $PREFIX fija y no se pueden instalar en ninguna otra ruta que no sea:%1$s."</string>
+
+
+    <!-- Terminal Sidebar and Shortcuts -->
+    <string name="action_new_session">Nueva sesión</string>
+    <string name="action_new_session_failsafe">Modo seguro</string>
+    <string name="title_max_terminals_reached">Se alcanzó el máximo de terminales</string>
+    <string name="msg_max_terminals_reached">Cierre los existentes antes de crear nuevos.</string>
+
+    <string name="title_rename_session">Establecer nombre de sesión</string>
+    <string name="action_rename_session_confirm">Establecer</string>
+    <string name="title_create_named_session">Nueva sesión con nombre</string>
+    <string name="action_create_named_session_confirm">Crear</string>
+
+    <string name="action_toggle_soft_keyboard">Teclado</string>
+    <string name="action_toggle_tool_box">Caja de herramientas</string>
+
+    <string name="msg_enabling_terminal_toolbar">Habilitando barra de herramientas de terminal</string>
+    <string name="msg_disabling_terminal_toolbar">Deshabilitando barra de herramientas de terminal</string>
+
+
+    <!-- Terminal Popup -->
+    <string name="action_select_url">Seleccionar URL</string>
+    <string name="title_select_url_dialog">Haz clic en la URL para copiar o mantén presionado para abrir</string>
+    <string name="title_select_url_none_found">No se encontró ninguna URL en la terminal.</string>
+    <string name="msg_select_url_copied_to_clipboard">URL copiada al portapapeles</string>
+
+    <string name="action_share_transcript">Compartir transcripción</string>
+    <string name="title_share_transcript">Transcripción de terminal</string>
+    <string name="title_share_transcript_with">Enviar transcripción a:</string>
+
+    <string name="action_share_selected_text">Compartir texto seleccionado</string>
+    <string name="title_share_selected_text">Texto de terminal</string>
+    <string name="title_share_selected_text_with">Enviar texto seleccionado a:</string>
+
+    <string name="action_autofill_password">Autocompletar contraseña</string>
+
+    <string name="action_reset_terminal">Reiniciar</string>
+    <string name="msg_terminal_reset">Terminal reiniciada</string>
+
+    <string name="action_kill_process">Matar proceso (%d)</string>
+    <string name="title_confirm_kill_process">¿Realmente deseas matar esta sesión?</string>
+
+    <string name="action_style_terminal">Estilo</string>
+    <string name="action_toggle_keep_screen_on">Mantener pantalla encendida</string>
+    <string name="action_open_help">Ayuda</string>
+    <string name="action_open_settings">Configuración</string>
+    <string name="action_recover_storage">Recuperar</string>
+    <string name="action_backup_storage">Copia de seguridad</string>
+
+    <string name="action_report_issue">Reportar problema</string>
+    <string name="msg_generating_report">Generando informe</string>
+    <string name="msg_add_termux_debug_info">¿Agregar información de depuración de Termux al informe?</string>
+
+    <string name="error_styling_not_installed">La aplicación de complemento &TERMUX_STYLING_APP_NAME; no está instalada.</string>
+    <string name="action_styling_install">Instalar</string>
+
+
+    <!-- Termux Notifications -->
+    <string name="notification_action_exit">Salir</string>
+    <string name="notification_action_wake_lock">Adquirir wakelock</string>
+    <string name="notification_action_wake_unlock">Liberar wakelock</string>
+
+
+    <!-- TermuxService -->
+    <string name="error_display_over_other_apps_permission_not_granted_to_start_terminal">&TERMUX_APP_NAME;
+        requiere el permiso \"Mostrar sobre otras aplicaciones\" para iniciar sesiones de terminal desde segundo plano en Android >= 10.Concede el permiso desde Configuración -> Aplicaciones -> &TERMUX_APP_NAME; -> Avanzado</string>
+    <string name="error_termux_service_invalid_execution_command_runner">Ejecutor de comando de ejecución no válido para TermuxService: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_runner">Ejecutor de comando de ejecución no compatible para TermuxService: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_shell_create_mode">Modo de creación de shell no compatible para TermuxService: `%1$s`</string>
+    <string name="error_termux_service_execution_command_shell_name_unset">Nombre de shell no establecido pero se pasó el modo de creación de shell `%1$s`</string>
+
+
+    <!-- Termux RunCommandService -->
+    <string name="error_run_command_service_invalid_intent_action">Acción de intento no válida para RunCommandService: `%1$s`</string>
+    <string name="error_run_command_service_invalid_execution_command_runner">Ejecutor de comando de ejecución no válido para RunCommandService: `%1$s`</string>
+    <string name="error_run_command_service_mandatory_extra_missing">Falta un extra obligatorio para RunCommandService: \"%1$s\"</string>
+    <string name="error_run_command_service_api_help">Visita %1$s para más información sobre el uso del intento RUN_COMMAND.</string>
+
+
+    <!-- Termux File Receiver -->
+    <string name="title_file_received">Guardar archivo en ~/downloads/</string>
+    <string name="action_file_received_edit">Editar</string>
+    <string name="action_file_received_open_directory">Abrir directorio</string>
+
+
+    <!-- Miscellaneous -->
+    <string name="error_termux_service_start_failed_general">Error al iniciar TermuxService. Consulta logcat para ver el mensaje de excepción.</string>
+    <string name="error_termux_service_start_failed_bg">Error al iniciar TermuxService mientras la aplicación está en segundo plano debido a restricciones de Android.</string>
+
+
+    <!-- Termux Settings -->
+    <string name="title_activity_termux_settings">Configuración de &TERMUX_APP_NAME;</string>
+
+    <!-- Termux App Preferences -->
+    <string name="termux_preferences_title">Preferencias de &TERMUX_APP_NAME;</string>
+    <string name="termux_preferences_summary">Preferencias para la aplicación &TERMUX_APP_NAME;</string>
+
+    <!-- Debugging Preferences -->
+    <string name="termux_debugging_preferences_title">Depuración</string>
+    <string name="termux_debugging_preferences_summary">Preferencias para depuración</string>
+
+    <!-- Logging Category -->
+    <string name="termux_logging_header">Registro</string>
+
+    <!-- Log Level -->
+    <string name="termux_log_level_title">Nivel de registro</string>
+
+    <!-- Terminal View Key Logging -->
+    <string name="termux_terminal_view_key_logging_enabled_title">Registro de teclas de vista de terminal</string>
+    <string name="termux_terminal_view_key_logging_enabled_off">Los registros no tendrán entradas para las teclas de vista de terminal. (Predeterminado)</string>
+    <string name="termux_terminal_view_key_logging_enabled_on">Los registros de logcat tendrán entradas para las teclas de vista de terminal.
+                    Estos son muy detallados y deben desactivarse en circunstancias normales o causarán problemas de rendimiento.</string>
+
+    <!-- Plugin Error Notifications -->
+    <string name="termux_plugin_error_notifications_enabled_title">Notificaciones de errores de complementos</string>
+    <string name="termux_plugin_error_notifications_enabled_off">Desactivar notificaciones y flashes para errores de complementos.</string>
+    <string name="termux_plugin_error_notifications_enabled_on">Mostrar notificaciones y flashes para errores de complementos. (Predeterminado)</string>
+
+    <!-- Crash Report Notifications -->
+    <string name="termux_crash_report_notifications_enabled_title">Notificaciones de informes de fallos</string>
+    <string name="termux_crash_report_notifications_enabled_off">Desactivar notificaciones para informes de fallos.</string>
+    <string name="termux_crash_report_notifications_enabled_on">Mostrar notificaciones para informes de fallos. (Predeterminado)</string>
+
+
+    <!-- Terminal IO Preferences -->
+    <string name="termux_terminal_io_preferences_title">E/S de terminal</string>
+    <string name="termux_terminal_io_preferences_summary">Preferencias para E/S de terminal</string>
+
+    <!-- Keyboard Category -->
+    <string name="termux_keyboard_header">Teclado</string>
+
+    <!-- Soft Keyboard -->
+    <string name="termux_soft_keyboard_enabled_title">Teclado suave habilitado</string>
+    <string name="termux_soft_keyboard_enabled_off">El teclado suave estará deshabilitado.</string>
+    <string name="termux_soft_keyboard_enabled_on">El teclado suave estará habilitado. (Predeterminado)</string>
+
+    <!-- Soft Keyboard Only If No Hardware-->
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_title">Teclado suave solo si no hay hardware</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_off">El teclado suave estará habilitado incluso si hay un teclado de hardware conectado. (Predeterminado)</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_on">El teclado suave estará habilitado solo si no hay un teclado de hardware conectado.</string>
+
+
+    <!-- Terminal View Preferences -->
+    <string name="termux_terminal_view_preferences_title">Vista de terminal</string>
+    <string name="termux_terminal_view_preferences_summary">Preferencias para la vista de terminal</string>
+
+    <!-- View Category -->
+    <string name="termux_terminal_view_view_header">Vista</string>
+
+    <!-- Terminal View Margin Adjustment -->
+    <string name="termux_terminal_view_terminal_margin_adjustment_title">Ajuste de márgenes de terminal</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_off">El ajuste de márgenes de terminal estará deshabilitado.</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_on">El ajuste de márgenes de terminal estará habilitado.
+                    Debe estar habilitado para intentar solucionar el problema donde el teclado suave cubre parte de las teclas adicionales/vista de terminal.
+                    Si causa parpadeo en la pantalla de tus dispositivos, desactívalo. (Predeterminado)</string>
+
+
+    <!-- Termux:API App Preferences -->
+    <string name="termux_api_preferences_title">Preferencias de &TERMUX_API_APP_NAME;</string>
+    <string name="termux_api_preferences_summary">Preferencias para la aplicación &TERMUX_API_APP_NAME;</string>
+
+
+    <!-- Termux:Float App Preferences -->
+    <string name="termux_float_preferences_title">Preferencias de &TERMUX_FLOAT_APP_NAME;</string>
+    <string name="termux_float_preferences_summary">Preferencias para la aplicación &TERMUX_FLOAT_APP_NAME;</string>
+
+
+    <!-- Termux:Tasker App Preferences -->
+    <string name="termux_tasker_preferences_title">Preferencias de &TERMUX_TASKER_APP_NAME;</string>
+    <string name="termux_tasker_preferences_summary">Preferencias para la aplicación &TERMUX_TASKER_APP_NAME;</string>
+
+
+    <!-- Termux:Widget App Preferences -->
+    <string name="termux_widget_preferences_title">Preferencias de &TERMUX_WIDGET_APP_NAME;</string>
+    <string name="termux_widget_preferences_summary">Resumen de preferencias de &TERMUX_WIDGET_APP_NAME;</string>
+
+
+    <!-- About Preference -->
+    <string name="about_preference_title">Acerca de</string>
+
+    <!-- Donate Preference -->
+    <string name="donate_preference_title">Donar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hola, fragmento en blanco</string>
+    <string name="file_cpy_success">El archivo ha sido copiado</string>
+    <string name="file_cpy_override">El archivo ha sido sobrescrito</string>
+    <string name="file_cpy_fail">No se pudo escribir el archivo en la ruta designada</string>
+    <string name="exit_toast_text">Presiona de nuevo para salir de la aplicación</string>
+    <string name="no_such_file">Archivo no encontrado</string>
+    <string name="not_executable">No es ejecutable</string>
+    <string name="select_command_first">Selecciona un archivo de inicio primero</string>
+    <string name="apply_display_over_other_app_permission">Aplica primero el permiso \"Mostrar sobre otras aplicaciones\"</string>
+    <string name="open_terminal">Abrir terminal</string>
+    <string name="terminate_current_process">Terminar proceso actual</string>
+    <string name="unlock_layout">Desbloquear deslizador de pantalla</string>
+    <string name="raise_termux_app">Elevar aplicación Termux</string>
+    <string name="add_menu_item">Agregar algún elemento al menú de la bola flotante</string>
+    <string name="hide_terminal">Ocultar terminal</string>
+    <string name="set_dinput">dinput</string>
+    <string name="set_xinput">xinput</string>
+    <string name="select_gamepad_input_mode">Seleccionar tipo de control para el gamepad</string>
+    <string name="ready_set_mobox_env">Instalando el sistema XoDos, esto tomará algún tiempo, por favor espera después de elegir el tipo de control hasta que la aplicación se cierre automáticamente. Si permanece abierta por más de 5 minutos, ciérrala manualmente y luego lee el error en la terminal o desde el registro de errores en la carpeta de descargas. La instalación pedirá permisos, por favor permite y espera y tómate un café,,.by XOD M.aleiwi</string>
+    <string name="yes">Sí</string>
+    <string name="cancel">Cancelar</string>
+    <string name="executable_file">Archivo ejecutable</string>
+    <string name="remove_shortcut">¿Eliminar este acceso directo?</string>
+    <string name="remove">Eliminar</string>
+    <string name="invalid_config">Configuración no válida</string>
+    <string name="toolbox_button_text2">COMENZAR</string>
+    <string name="toolbox_ai">IA</string>
+<string name="toolbox_xodos">Xodos</string>
+<string name="toolbox_proot">Proot</string>
+<string name="toolbox_kali">Kali</string>
+<string name="toolbox_switch">Cambiar usuario</string>
+<string name="toolbox_settings">Ajustes</string>
+<string name="toolbox_wine_glibc">Wine-Glibc</string>
+<string name="toolbox_wine_bionic">Wine-Bionic</string>
+<string name="toolbox_xbox">Xbox</string>
+<string name="toolbox_backup">Copia de seguridad</string>
+<string name="toolbox_restore">Instalar/Restaurar </string>
+
+<string name="toolbox_update">Actualizar</string>
+
+<string name="choose_wine_env">Elegir entorno Wine</string>
+<string name="wine_glibc">Wine Glibc</string>
+<string name="wine_bionic">Wine Bionic</string>
+<string name="wine_glibc_missing">¡Instala Wine Glibc primero! ⚠️</string>
+<string name="wine_bionic_missing">¡Instala Wine Bionic primero! ⚠️</string>
+<string name="toolbox_wizard">Configuración rápida</string>
+<string-array name="tutorial_steps">
+    <item>XoDos🖥️: es un escritorio Linux nativo rápido para Android</item>
+    <item>Proot🐧: Ejecuta distribuciones Linux completas con acceso root</item>
+    <item>Kali🐉Linux: Kit de pruebas con más de 100 herramientas</item>
+    <item>Wine🍷Glibc: Emulación de Windows para la mayoría (si no es Snapdragon, usa VirGl)</item>
+    <item>Wine🍷Bionic: Emulación con controladores nativos (usa wrapper si no es Snapdragon)</item>
+<item>Excluir 🗑️ prefixo do Wine🍷: Aqui você pode remover/excluir o contenedor do Wine ou o prefixo instalado para corrigir problemas do sistema Windows e instalar Wine novo</item>
+<item>Gerenciador de arquivos📁: navegue e gerencie arquivos, extraia, instale, restaure e mais</item>
+<item>Termux:widgets📃: crie atalhos diretamente na Tela Inicial do Android para executar scripts/aplicativos mais fácil e rapidamente</item>
+ 
+
+            <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
+    <item>Configuración⚙️: Configura versiones de Wine/DXVK y drivers</item>
+    <item>AI🤖Chat: IA local privada compatible con DeepSeek, Llama, etc.</item>
+    <item>Restaurar♻️: Instala actualizaciones y sistemas como Kali/Proot</item>
+    <item>Respaldo📥: Copia total del sistema para compartir/restaurar</item>
+    <item>Configuración rápida🪄: Facilita Wine para nuevos usuarios</item>
+    <item>atalhos🎮: ajuda a configurar aplicativos e jogos do Wine/Windows e abri-los diretamente</item>
+    <item>Cambiar👥: Cambia entre contenedores de usuarios</item>
+    <item>Agregar botón➕: Accesos directos a scripts/apps/python</item>
+    <item>Mettre à jour⏫: installer des mises à jour sans perte de données ni réinstaller le système. Corrige les erreurs</item>
+    <item>Supprimer❌Wine🍷: retirer complètement Wine/Windows de l\'app⚠️pour libérer de l\'espace</item>
+  </string-array>
+
+  <string name="next">Suivant</string>
+  <string name="finish_tutorial">Terminer</string>
+  <string name="modern_android_title">⚠️Android moderne détecté</string>
+  <string name="cpu_title">Type de CPU</string>
+  <string name="wine_title">Type de Wine🍷</string>
+  <string name="dxvk_title">Sélectionner le wrapper DirectX</string>
+  <string name="driver_title">Sélectionner le pilote</string>
+  <string name="cores_title">Allocation des cœurs CPU</string>
+  <string name="wizard_complete_title">Assistant😁👌terminé✅</string>
+  <string name="error_title">Erreur</string>
+  <string name="modern_android_message">⚠️Votre système est Android 11 ou supérieur.\n\nDésactivez🛑Phantom Process Killer pour éviter les fermetures:\n\n%s</string>
+  <string name="cpu_message">Quel est votre processeur?</string>
+  <string name="wine_message">Choisissez la version de Wine🍷:</string>
+  <string name="error_no_dxvk">Aucun❌fichier DXVK dans %s</string>
+  <string name="error_no_driver">Aucun❌pilote dans %s</string>
+  <string name="wizard_complete_message">♻️xodwine.cfg enregistré dans:\n%s\n\nExécuter Windows maintenant✅.</string>
+  <string name="error_save_config">⚠️Échec de sauvegarde de la configuration:\n%s</string>
+  <string name="ok">OK</string>
+  <string name="snapdragon">Snapdragon</string>
+  <string name="other">Autre</string>
+  <string name="glibc">🍷glibc</string>
+  <string name="bionic">🍷bionic</string>
+  
+  <string-array name="core_options">
+    <item>1 cœur</item>
+    <item>2 cœurs</item>
+    <item>3 cœurs</item>
+    <item>4 cœurs</item>
+    <item>5 cœurs</item>
+    <item>6 cœurs</item>
+    <item>7 cœurs</item>
+    <item>8 cœurs</item>
+  </string-array>
+
+  <string name="clean_wine_title">Sélectionnez Wine à supprimer</string>
+  <string name="clean_wine_warning">Attention ⚠️ Cela supprimera❌définitivement Wine et ses fichiers.⚠️Libérera de l\'espace. Continuer?</string>
+  <string name="delete_glibc">🗑️Supprimer Glibc❌</string>
+  <string name="delete_bionic">🗑️Supprimer Bionic❌</string>
+  <string name="cleanup_completed">Nettoyage terminé✅</string>
+  <string name="update_confirmation_title">Mise à jour/Installation du système</string>
+  <string name="update_confirmation_message">Le système va être mis à jour. Si XoDos n\'est pas installé, il le sera. Continuer?</string>
+  <string name="button_proceed">Continuer</string>
+  <string name="install_xodos_title">Installation/Mise à jour de XoDos</string>
+  <string name="install_preparing">Préparation…</string>
+  <string name="install_progress_message">Installation… %d%%</string>
+  <string name="install_complete">✅ Installation terminée !</string>
+  <string name="install_error">Erreur d\'installation</string>
+  <string name="install_failed">Échec d\'installation de XoDos: %s</string>
+  <string name="launch_xodos_command">/data/data/com.termux/files/usr/bin/xodos\n</string>
+  <string name="cleanup_error">Erreur : %s</string>
+  <string name="install_copying">Copie des fichiers…</string>
+  <string name="install_extracting">Mise à jour du système…</string>
+  <string name="install_finalizing">Finalisation…</string>
+  <string name="stop_desktop_title">¿Salir y detener 🛑 Wine y el Escritorio?</string>
+  
+  
+  
+  <!-- Portuguese (Brazil) / Português (Brasil) -->
+<string name="toolbox_shortcuts">Atalhos 🎮</string>
+  
+    <!-- XoDos Shortcuts -->
+    <string name="desktop_shortcuts">Atalhos da Área de Trabalho</string>
+    <string name="close">Fechar</string>
+    <string name="refresh">Atualizar</string>
+    <string name="no_shortcuts_found">Nenhum atalho encontrado</string>
+    <string name="launch">Abrir▶️</string>
+    <string name="launch_app_title">Abrir %1$s</string>
+    <string name="launch_confirmation_message">Abrir com %1$s?\n\nVocê pode alterar o tipo do Wine nas Configurações do XoDos.</string>
+    <string name="launching_app">Abrindo %1$s</string>
+    <string name="launch_success">%1$s aberto</string>
+    <string name="launch_failed">Falha ao abrir %1$s</string>
+    <string name="launch_error">Erro ao Abrir</string>
+    <string name="launch_error_detailed">Falha ao abrir %1$s\n\nExceção: %2$s\n\nMensagem: %3$s</string>
+    <string name="view_logs">Ver Logs</string>
+    <string name="check_logcat">Verifique o logcat para logs detalhados</string>
+    <string name="delete_shortcut">Excluir Atalho</string>
+    <string name="delete_confirmation">Tem certeza que deseja excluir %1$s?</string>
+    <string name="deleted">Excluído</string>
+    <string name="delete_failed">Falha ao excluir</string>
+    <string name="wine_type_glibc">Wine Glibc</string>
+    <string name="wine_type_bionic">Wine Bionic</string>
+    <string name="error_reading_file">Erro lendo %1$s</string>
+    
+    <!-- X11 Monitor check -->
+    <string name="failed_to_open_exe">⁉️ Falha ao abrir %1$s.exe\ntente abri-lo dentro do modo Área de Trabalho</string>
+
+    <!-- shortcuts settings -->
+    <string name="settings">Configurações⚙️</string>
+    <string name="app_settings_title">Configurações para %s</string>
+    <string name="save">Salvar💾</string>
+    <string name="settings_saved">Configurações salvas</string>
+    <string name="reset_settings">Redefinir Configurações</string>
+    <string name="applying_settings">Aplicando configurações...</string>
+    
+    <!-- XoDos Wizard Strings -->
+    <string name="xodos_wizard_title">Configurações do XoDos Wine</string>
+    <string name="phantom_killer_warning_title">Desativar 🚫 Assassino de Processos Fantasma</string>
+    <string name="phantom_killer_warning_message">⚠️ Android 11+ pode matar processos em segundo plano.\n\nSiga o guia abaixo para desativar o Assassino de Processos Fantasma usando um dos links.</string>
+    <string name="github_button">GitHub</string>
+    <string name="telegram_button">Telegram</string>
+    <string name="youtube_button">YouTube🖥️</string>
+    <string name="browser_open_failed">Falha ao abrir navegador: %s</string>
+    <string name="restart_required_title">Reinicialização Necessária</string>
+    <string name="restart_required_message">⚠️ Alterar drivers requer servidor e reiniciar o Wine. Continuar?</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="wine_processes_stopped">Processos Wine parados</string>
+    <string name="error_saving_config">Erro salvando configuração: %s</string>
+    <string name="error_reading_wine_config">Erro lendo configuração do wine: %s</string>
+
+    <!-- File Manager Strings -->
+    <string name="file_manager_title">📂 Gerenciador de Arquivos</string>
+    <string name="back">⬅ Voltar</string>
+    <string name="forward">➡ Avançar</string>
+    <string name="home">🏠 Início</string>
+    <string name="paste">📋 Colar</string>
+    <string name="help">❓ Ajuda</string>    
+    
+    <!-- File Operations -->
+    <string name="copied">Copiado</string>
+    <string name="no_file_to_paste">Nenhum arquivo para colar</string>
+    <string name="source_file_no_longer_exists">Arquivo de origem não existe mais</string>
+    <string name="failed_to_copy_file">Falha ao copiar arquivo</string>
+    <string name="paste_failed">Falha ao colar</string>
+    
+    <string name="conversion_complete">Conversão bem-sucedida</string>
+    <string name="repair_xbox_iso">Reparar ISO Xbox</string>
+    <string name="convert_to_standard_iso">Converter para ISO Padrão</string>
+    <string name="converted_to_xbox_iso">Convertido para ISO Xbox</string>
+    
+    <!-- Xbox xdvdfs Options -->
+    <string name="list_files_xdvdfs">Listar Arquivos (xdvdfs ls)</string>
+    <string name="tree_view_xdvdfs">Visualização em Árvore (xdvdfs tree)</string>
+    <string name="md5_checksums_xdvdfs">Checksums MD5 (xdvdfs md5)</string>
+    <string name="image_info_xdvdfs">Informações da Imagem (xdvdfs info)</string>
+    <string name="extract_file_xdvdfs">Extrair Arquivo (xdvdfs copy-out)</string>
+    <string name="unpack_image_xdvdfs">Descompactar Imagem (xdvdfs unpack)</string>
+    <string name="compute_checksum_xdvdfs">Calcular Checksum (xdvdfs checksum)</string>
+    <string name="conversion_error">Erro de conversão</string>
+    <string name="repaired_xbox_iso">ISO Xbox reparado</string>
+    <string name="repair_failed">Falha no reparo</string>
+    <string name="repair_error">Erro de reparo</string>
+    <string name="converted_to_standard_iso">Convertido para ISO Padrão</string>
+    <string name="conversion_failed">Falha na conversão</string>    
+    
+    <!-- File Types -->
+    <string name="folder">Pasta</string>
+    <string name="selected">Selecionado</string>
+    
+    <!-- Error Messages -->
+    <string name="cannot_open_folder">Não é possível abrir a pasta</string>
+    <string name="cannot_read_folder">Não é possível ler a pasta</string>
+    <string name="access_denied">Acesso negado</string>
+    <string name="can_only_run_from_termux">Só pode ser executado a partir da atividade Termux</string>
+    
+    <!-- EXE Options -->
+    <string name="create_shortcut">📋 Criar Atalho</string>
+    <string name="shortcut_created">Atalho criado</string>
+    <string name="failed_to_create_shortcut">Falha ao criar atalho</string>
+    
+    <!-- Archive Options -->
+    <string name="list_contents">📋 Listar Conteúdo (7z)</string>
+    <string name="extract_to_new_folder">📦 Extrair para Nova Pasta (7z)</string>
+    <string name="open_with_xbox">Abrir com Xbox</string>
+    <string name="convert_to_xbox_iso">🔄 Converter para ISO Xbox</string>
+    <string name="open_with_ps1">Abrir com PS1</string>
+    <string name="restore_to_xodos">⚙️ Restaurar para XoDos</string>
+    
+    <!-- Command Messages -->
+    <string name="running_with_x11">Executando com X11</string>
+    <string name="opening_with_xbox">Abrindo com Xbox</string>
+    <string name="opening_with_ps1">Abrindo com PS1</string>
+    <string name="listing_contents">Listando conteúdo de</string>
+    <string name="extracting_to">Extraindo para</string>
+    <string name="converting_to_xbox_iso">Convertendo para ISO Xbox</string>
+    <string name="converting_to_xbox_iso_format">Convertendo para formato ISO Xbox</string>
+    <string name="restoring_system_archive">Restaurando arquivo do sistema</string>
+    
+    <!-- Help Dialog -->
+    <string name="supported_file_types">📋 Tipos de Arquivo Suportados</string>
+    <string name="help_message">Arquivos Suportados:\n\n• Arquivos ISO/XISO:\n  - Listar conteúdo com 7z\n  - Extrair conteúdo para nova pasta\n  - Abrir com emulador Xbox\n  - Converter para formato ISO Xbox\n\n• Arquivos CUE/BIN (PS1):\n  - Listar conteúdo com 7z\n  - Extrair conteúdo para nova pasta\n  - Abrir com emulador PS1\n\n• Arquivos compactados (.7z, .rar, .zip, .tar, .gz):\n  - Listar conteúdo com 7z\n  - Extrair conteúdo para nova pasta\n\n• Arquivos EXE:\n  - Executar com emulador Windows Wine\n  - Criar atalhos na área de trabalho\n\n• Arquivos TAR.XZ/TAR.GZ:\n  - Restaurar/instalar arquivos do sistema no XoDos\n\n• Copiar/Colar:\n  - Pressione longo em qualquer arquivo/pasta para opções\n  - Escolha Copiar\n  - Use o botão Colar para colar na pasta atual</string>
+    
+    <string name="install">Instalar</string>
+    <string name="install_with_downgrade">Instalar com Downgrade</string>
+
+
+    <string name="execute_in_terminal">Executar no Terminal</string>
+
+ 
+    <string name="select_mode">Modo de Seleção</string>
+ 
+ 
+    <string name="no_files_selected">Nenhum arquivo selecionado</string>
+    <string name="selected_files">Nenhuma ação disponível para este tipo de arquivo: %d</string>
+<string name="toolbox_fm">Gerenciador de arquivos</string>
+
+
+    <string name="pack_selected">Compactar arquivos selecionados</string>
+    <string name="clear_selection">Limpar Seleção</string>
+    <string name="deb_package">Pacote DEB: %s</string>
+    <string name="installation_method">Método de Instalação</string>
+    <string name="script_file">Arquivo de Script: %s</string>
+    <string name="audio_file">Arquivo de Áudio: %s</string>
+    <string name="playing_audio">Reproduzindo áudio: %s</string>
+    <string name="executing_script">Executando script: %s</string>
+    <string name="installing_package">Instalando pacote: %s</string>
+    <string name="changing_permissions">Alterando permissões</string>
+    <string name="permissions_changed_count">Permissões alteradas para %d itens</string>
+    <string name="failed_change_permissions">Falha ao alterar permissões</string>
+    <string name="packing_directory">Compactando diretório para %s</string>
+    <string name="select_directory_pack">Por favor selecione um diretório para compactar</string>
+    <string name="file_types">Tipos de Arquivo</string>
+    <string name="deb_files">Arquivos DEB</string>
+    <string name="script_files">Arquivos de Script</string>
+    <string name="audio_files">Arquivos de Áudio</string>
+    <string name="document_files">Arquivos de Documento</string>
+    <string name="spreadsheet_files">Arquivos de Planilha</string>
+    <string name="presentation_files">Arquivos de Apresentação</string>
+    <string name="database_files">Arquivos de Banco de Dados</string>
+    <string name="font_files">Arquivos de Fonte</string>
+    <string name="web_files">Arquivos Web</string>
+    <string name="programming_files">Arquivos de Programação</string>
+    
+    <string name="install_in_proot">Instalar no PRoot 🐧</string>
+    <string name="install_normally">Instalar Normalmente Nativo</string>
+    <string name="change_permissions">Alterar/Corrigir Permissões de Execução</string>
+    <string name="open_with_mpv">Abrir com player MPV</string>
+    <string name="no_proot_distro">Nenhuma distro PRoot encontrada. Por favor instale o xodos Proot primeiro.</string>
+    <string name="installing_in_proot">Instalando na distro PRoot: %s</string>
+    <string name="select_mode_on">🎯 Modo Seleção ATIVO: Pressione longo em arquivos para selecionar</string>
+    <string name="select_mode_off">📁 Modo Seleção</string>
+    <string name="copy_selected">Copiar Selecionados</string>
+    
+    <string name="list_files">Listar Arquivos</string>
+    <string name="tree_view">Visualização em Árvore</string>
+    <string name="image_info">Informações da Imagem</string>
+    <string name="unpack_image">Descompactar Imagem</string>
+    <string name="extract_to_folder">Extrair para Pasta</string>
+    <string name="pack_with_xdvdfs">Compactar com xdvdfs</string>
+    <string name="pack_folder">Compactar Pasta</string>
+    <string name="pack_iso">Compactar ISO</string>
+    <!-- Add these missing strings to your strings.xml -->
+<string name="copy">Copiar</string>
+<string name="run_in_terminal">Executar no Terminal</string>
+<string name="permissions_changed">Permissões alteradas para executável</string>
+<string name="delete">Excluir</string>
+    <!-- Wine Options -->
+
+<string name="toolbox_wine">Excluir Prefixo</string>
+<string name="toolbox_clean_wine">Limpando</string>
+<string name="confirm_delete">Confirmar Exclusão</string>
+<string name="delete_wine_prefix_warning">Tem certeza de que deseja excluir o prefixo do Wine? Isso não pode ser desfeito.</string>
+<string name="wine_prefix_deleted">Prefixo do Wine excluído com sucesso ✅</string>
+<string name="error_no_wineprefix_in_conf">Não foi possível encontrar WINEPREFIX no wine_path.conf ⚠️</string>
+
+</resources>

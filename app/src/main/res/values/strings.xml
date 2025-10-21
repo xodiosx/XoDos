@@ -7,19 +7,16 @@
     <string name="application_name">&TERMUX_APP_NAME; </string>
     <string name="shared_user_label">&TERMUX_APP_NAME; user</string>
 
-
     <!-- Termux RUN_COMMAND permission -->
     <string name="permission_run_command_label">Run commands in &TERMUX_APP_NAME; environment</string>
     <string name="permission_run_command_description">&TERMUX_APP_NAME;execute arbitrary commands within environment and access files</string>
-
 
     <!-- Termux Bootstrap Packages Installation -->
     <string name="bootstrap_error_body">&TERMUX_APP_NAME; was unable to install the bootstrap packages.</string>
     <string name="bootstrap_error_abort">Abort</string>
     <string name="bootstrap_error_try_again">Try again</string>
-    <string name="bootstrap_error_not_primary_user_message">&TERMUX_APP_NAME;&TERMUX_APP_NAME;" can only be run as the primary user. Bootstrap binaries compiled for  have hardcoded $PREFIX path and cannot be installed  under any path other than:%1$s."</string>
-    <string name="bootstrap_error_installed_on_portable_sd">&TERMUX_APP_NAME;&TERMUX_APP_NAME;" cannot be installed on portable/external/removable sd card on your device.  Bootstrap binaries compiled for  have hardcoded $PREFIX path and cannot be installed under any path other than:%1$s."</string>
-
+    <string name="bootstrap_error_not_primary_user_message">&TERMUX_APP_NAME;" can only be run as the primary user. Bootstrap binaries compiled for  have hardcoded $PREFIX path and cannot be installed  under any path other than:%1$s."</string>
+    <string name="bootstrap_error_installed_on_portable_sd">&TERMUX_APP_NAME;" cannot be installed on portable/external/removable sd card on your device.  Bootstrap binaries compiled for  have hardcoded $PREFIX path and cannot be installed under any path other than:%1$s."</string>
 
     <!-- Terminal Sidebar and Shortcuts -->
     <string name="action_new_session">New session</string>
@@ -37,7 +34,6 @@
 
     <string name="msg_enabling_terminal_toolbar">Enabling Terminal Toolbar</string>
     <string name="msg_disabling_terminal_toolbar">Disabling Terminal Toolbar</string>
-
 
     <!-- Terminal Popup -->
     <string name="action_select_url">Select URL</string>
@@ -75,12 +71,10 @@
     <string name="error_styling_not_installed">The &TERMUX_STYLING_APP_NAME; Plugin App is not installed.</string>
     <string name="action_styling_install">Install</string>
 
-
     <!-- Termux Notifications -->
     <string name="notification_action_exit">Exit</string>
     <string name="notification_action_wake_lock">Acquire wakelock</string>
     <string name="notification_action_wake_unlock">Release wakelock</string>
-
 
     <!-- TermuxService -->
     <string name="error_display_over_other_apps_permission_not_granted_to_start_terminal">&TERMUX_APP_NAME;
@@ -92,24 +86,20 @@
     <string name="error_termux_service_unsupported_execution_command_shell_create_mode">Unsupported execution command shell create mode to TermuxService: `%1$s`</string>
     <string name="error_termux_service_execution_command_shell_name_unset">Shell name not set but `%1$s` shell create mode passed</string>
 
-
     <!-- Termux RunCommandService -->
     <string name="error_run_command_service_invalid_intent_action">Invalid intent action to RunCommandService: `%1$s`</string>
     <string name="error_run_command_service_invalid_execution_command_runner">Invalid execution command runner to RunCommandService: `%1$s`</string>
     <string name="error_run_command_service_mandatory_extra_missing">Mandatory extra missing to RunCommandService: \"%1$s\"</string>
     <string name="error_run_command_service_api_help">Visit %1$s for more info on RUN_COMMAND Intent usage.</string>
 
-
     <!-- Termux File Receiver -->
     <string name="title_file_received">Save file in ~/downloads/</string>
     <string name="action_file_received_edit">Edit</string>
     <string name="action_file_received_open_directory">Open directory</string>
 
-
     <!-- Miscellaneous -->
     <string name="error_termux_service_start_failed_general">Failed to start TermuxService. Check logcat for exception message.</string>
     <string name="error_termux_service_start_failed_bg">Failed to start TermuxService while app is in background due to android bg restrictions.</string>
-
 
     <!-- Termux Settings -->
     <string name="title_activity_termux_settings">&TERMUX_APP_NAME; Settings</string>
@@ -144,7 +134,6 @@
     <string name="termux_crash_report_notifications_enabled_off">Disable notifications for crash reports.</string>
     <string name="termux_crash_report_notifications_enabled_on">Show notifications for crash reports. (Default)</string>
 
-
     <!-- Terminal IO Preferences -->
     <string name="termux_terminal_io_preferences_title">Terminal I/O</string>
     <string name="termux_terminal_io_preferences_summary">Preferences for terminal I/O</string>
@@ -164,7 +153,6 @@
     <string name="termux_soft_keyboard_enabled_only_if_no_hardware_on">Soft keyboard will be enabled only if
                     no hardware keyboard is connected.</string>
 
-
     <!-- Terminal View Preferences -->
     <string name="termux_terminal_view_preferences_title">Terminal View</string>
     <string name="termux_terminal_view_preferences_summary">Preferences for terminal view</string>
@@ -179,26 +167,21 @@
                     It should be enabled to try to fix the issue where soft keyboard covers part of extra keys/terminal view.
                     If it causes screen flickering on your devices, then disable it. (Default)</string>
 
-
     <!-- Termux:API App Preferences -->
     <string name="termux_api_preferences_title">&TERMUX_API_APP_NAME;termux api preference</string>
     <string name="termux_api_preferences_summary">Preferences for &TERMUX_API_APP_NAME; app</string>
-
 
     <!-- Termux:Float App Preferences -->
     <string name="termux_float_preferences_title">&TERMUX_FLOAT_APP_NAME;termux float preference</string>
     <string name="termux_float_preferences_summary">Preferences for &TERMUX_FLOAT_APP_NAME; app</string>
 
-
     <!-- Termux:Tasker App Preferences -->
     <string name="termux_tasker_preferences_title">&TERMUX_TASKER_APP_NAME;termux tasker preference</string>
     <string name="termux_tasker_preferences_summary">Preferences for &TERMUX_TASKER_APP_NAME; app</string>
 
-
     <!-- Termux:Widget App Preferences -->
     <string name="termux_widget_preferences_title">&TERMUX_WIDGET_APP_NAME;termux widget preference</string>
-    <string name="termux_widget_preferences_summary">&TERMUX_WIDGET_APP_NAME;termux widget preference summary</string>
-
+    <string name="termux_widget_preferences_summary">Preferences for &TERMUX_WIDGET_APP_NAME; app</string>
 
     <!-- About Preference -->
     <string name="about_preference_title">About</string>
@@ -235,63 +218,69 @@
     <!-- Add to res/values/strings.xml -->
     <string name="bootstrap_initializing">Initializing Termux environment...</string>
 
-<string name="bootstrap_installer_title">Installing Termux</string>
-<string name="bootstrap_installer_body">Initializing environment...</string>
-<string name="bootstrap_error_title">Installation Error</string>
-<!-- Add these lines -->
-<string name="storage_permission_title">Storage Access Required</string>
-<string name="storage_permission_message">App needs storage permissions to install packages.</string>
-<string name="error_permission_denied">Permission Denied</string>
-<string name="error_storage_permission_required">Storage permissions are required for installation.</string>
-<!-- Add these entries -->
-<string name="action_grant">Grant</string>
-<string name="action_exit">Exit</string>
-<string name="action_retry">Retry</string>
-<string name="action_toggle_tool_box2">START</string>
-<!-- Toolbox Buttons -->
-<string name="toolbox_ai">Ai</string>
-<string name="toolbox_xodos">Xodos</string>
-<string name="toolbox_proot">Proot</string>
-<string name="toolbox_kali">Kali</string>
-<string name="toolbox_help">Help</string>
-<string name="toolbox_switch">switch-User</string>
-<string name="toolbox_settings">Settings</string>
-<string name="toolbox_wine_glibc">Wine-Glibc</string>
-<string name="toolbox_wine_bionic">Wine-Bionic</string>
-<string name="toolbox_xbox">Xbox</string>
-<string name="toolbox_backup">Backup</string>
-<string name="toolbox_restore">Install/Restore</string>
-<string name="toolbox_wine">Wine</string>
-<string name="toolbox_clean_wine">Clean Wine</string>
-<string name="toolbox_update">Update</string>
-<string name="choose_wine_env">Choose Wine Environment</string>
-<string name="wine_glibc">Wine Glibc</string>
-<string name="wine_bionic">Wine Bionic</string>
-<string name="wine_glibc_missing">Please install Wine Glibc first!</string>
-<string name="wine_bionic_missing">Please install Wine Bionic first!</string>
-<string name="toolbox_wizard">Quick settings</string>
-<string-array name="tutorial_steps">
-    <item>XoDos🖥️: is a fast Native Linux desktop for Android</item>
-    <item>Proot🐧: Run full Linux distributions with root access and more app support</item>
-    <item>Kali🐉Linux: Complete penetration testing toolkit with 100+ security tools</item>
-    <item>Wine🍷Glibc: Windows emulation that has support for most android devices (if not snapdragon Use VirGl)</item>
-    <item>Wine🍷Bionic: Windows emulation with native driver wrapping (if not snapdragon Use wrapper)</item>
-    <item>Wine🍷:Here you can Run EXE files from any folder on your device</item>
-    <item>Xbox🎮Emulator: Play original Xbox games using Xemu</item>
-            <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
-      <item>Settings⚙️: Configure Wine/DXVK/Box versions and system drivers</item> 
-    <item>AI🤖Chat: Local private AI supporting DeepSeek, Llama, and 100+ models</item>
-    <item>Restore♻️: Install XoDos system updates and more systems like Kali/Proot</item>
-   <item>Backup📥: One-click full system snapshot for transfer/share/restore</item>
-   <item>Quick settings🪄: helps configure Wine/windows for New Users fast and easy like drivers/DXVk/wineD3D</item>
-       <item>Switch👥: Toggle between different user containers</item>
-    <item>Add shortcut➕: Create shortcuts for scripts/apps/python</item>
-     <item>update⏫: install updates from new versions without losing data or reinstall the system it helps fixing errors</item>        
-<item>delete❌Wine🍷: removing the wine/windows from the app entirely⚠️for more storage.</item>    
-</string-array>
+    <string name="bootstrap_installer_title">Installing Termux</string>
+    <string name="bootstrap_installer_body">Initializing environment...</string>
+    <string name="bootstrap_error_title">Installation Error</string>
+    
+    <!-- Add these lines -->
+    <string name="storage_permission_title">Storage Access Required</string>
+    <string name="storage_permission_message">App needs storage permissions to install packages.</string>
+    <string name="error_permission_denied">Permission Denied</string>
+    <string name="error_storage_permission_required">Storage permissions are required for installation.</string>
+    
+    <!-- Add these entries -->
+    <string name="action_grant">Grant</string>
+    <string name="action_exit">Exit</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_toggle_tool_box2">START</string>
+    
+    <!-- Toolbox Buttons -->
+    <string name="toolbox_ai">Ai</string>
+    <string name="toolbox_xodos">Xodos</string>
+    <string name="toolbox_proot">Proot</string>
+    <string name="toolbox_kali">Kali</string>
+    <string name="toolbox_help">Help</string>
+    <string name="toolbox_switch">switch-User</string>
+    <string name="toolbox_settings">Settings</string>
+    <string name="toolbox_wine_glibc">Wine-Glibc</string>
+    <string name="toolbox_wine_bionic">Wine-Bionic</string>
+    <string name="toolbox_xbox">Xbox</string>
+    <string name="toolbox_backup">Backup</string>
+    <string name="toolbox_restore">Install/Restore</string>
+    <string name="toolbox_wine">Delete Prefix</string>
+    <string name="toolbox_clean_wine">Clean</string>
+    <string name="toolbox_update">Update</string>
+    <string name="choose_wine_env">Choose Wine Environment</string>
+    <string name="wine_glibc">Wine Glibc</string>
+    <string name="wine_bionic">Wine Bionic</string>
+    <string name="wine_glibc_missing">Please install Wine Glibc first!</string>
+    <string name="wine_bionic_missing">Please install Wine Bionic first!</string>
+    <string name="toolbox_wizard">Quick settings</string>
+    
+    <string-array name="tutorial_steps">
+        <item>XoDos🖥️: is a fast Native Linux desktop for Android</item>
+        <item>Proot🐧: Run full Linux distributions with root access and more app support</item>
+        <item>Kali🐉Linux: Complete penetration testing toolkit with 100+ security tools</item>
+        <item>Wine🍷Glibc: Windows emulation that has support for most android devices (if not snapdragon Use VirGl)</item>
+        <item>Wine🍷Bionic: Windows emulation with native driver wrapping (if not snapdragon Use wrapper)</item>
+        <item>Delete 🗑️Wine🍷 prefix:Here you can Remove/delete wine container or installed prefix to fix windows system problems and install fresh wine</item>
+        <item>File Manager📁: navigate and manage files extract and install and restore and More</item>
+        <item>Termux:widgets📃: make shortcuts directly to android launcher to make running scripts easier</item>
+        <item>Settings⚙️: Configure Wine/DXVK/Box versions and system drivers</item> 
+        <item>AI🤖Chat: Local private AI supporting DeepSeek, Llama, and 100+ models</item>
+        <item>Restore♻️: Install XoDos system updates and more systems like Kali/Proot</item>
+        <item>Backup📥: One-click full system snapshot for transfer/share/restore</item>
+        <item>Quick settings🪄: helps configure Wine/windows for New Users fast and easy like drivers/DXVk/wineD3D</item>
+        <item>shortcuts🎮: helps configure Wine/windows apps and games and open them directly</item>
+        <item>Switch👥: Toggle between different user containers</item>
+        <item>Add shortcut➕: Create shortcuts for scripts/apps/python</item>
+        <item>update⏫: install updates from new versions without losing data or reinstall the system it helps fixing errors</item>        
+        <item>delete❌Wine🍷: removing the wine/windows from the app entirely⚠️for more storage.</item>    
+    </string-array>
 
-<string name="next">Next</string>
-<string name="finish_tutorial">Finish</string>
+    <string name="next">Next</string>
+    <string name="finish_tutorial">Finish</string>
+    
     <!-- Base Strings -->
     <!-- Wizard Dialog Titles -->
     <string name="modern_android_title">⚠️Modern Android Detected</string>
@@ -331,34 +320,230 @@
         <item>8 Cores</item>
     </string-array>
 
-<!-- Wine Cleaner -->
-<string name="clean_wine_title">Please select Wine to delete</string>
-<string name="clean_wine_warning">Warning ⚠️ This will remove❌the Wine with its files from the App and won\'t be recovered.⚠️But will free some storage space. Continue?</string>
-<string name="delete_glibc">🗑️Delete Glibc❌</string>
-<string name="delete_bionic">🗑️Delete Bionic❌</string>
-<string name="cleanup_completed">Cleanup completed✅</string>
+    <!-- Wine Cleaner -->
+    <string name="clean_wine_title">Please select Wine to delete</string>
+    <string name="clean_wine_warning">Warning ⚠️ This will remove❌the Wine with its files from the App and won\'t be recovered.⚠️But will free some storage space. Continue?</string>
+    <string name="delete_glibc">🗑️Delete Glibc❌</string>
+    <string name="delete_bionic">🗑️Delete Bionic❌</string>
+    <string name="cleanup_completed">Cleanup completed✅</string>
 
+    <!-- Confirmation dialog -->
+    <string name="update_confirmation_title">System Update/Installation</string>
+    <string name="update_confirmation_message">The system will now update. If XoDos is not installed, it will be installed. Are you sure?</string>
+    <string name="button_proceed">Proceed</string>
 
-<!-- Confirmation dialog -->
-<string name="update_confirmation_title">System Update/Installation</string>
-<string name="update_confirmation_message">The system will now update. If XoDos is not installed, it will be installed. Are you sure?</string>
-<string name="button_proceed">Proceed</string>
-
-<!-- Progress dialog -->
-<string name="install_xodos_title">Installing/Updating XoDos</string>
-<string name="install_preparing">Preparing installation…</string>
-<string name="install_progress_message">Installing… %d%%</string>
-<string name="install_complete">✅ Installation complete!</string>
-<string name="install_error">Installation Error</string>
-<string name="install_failed">Failed to install XoDos: %s</string>
-<string name="launch_xodos_command">/data/data/com.termux/files/usr/bin/xodos\n</string>
-<string name="cleanup_error">Error: %s</string>
-<string name="install_copying">Copying system files…</string>
-<string name="install_extracting">updating system…</string>
-<string name="install_finalizing">Finalizing installation…</string>
-
+    <!-- Progress dialog -->
+    <string name="install_xodos_title">Installing/Updating XoDos</string>
+    <string name="install_preparing">Preparing installation…</string>
+    <string name="install_progress_message">Installing… %d%%</string>
+    <string name="install_complete">✅ Installation complete!</string>
+    <string name="install_error">Installation Error</string>
+    <string name="install_failed">Failed to install XoDos: %s</string>
+    <string name="launch_xodos_command">/data/data/com.termux/files/usr/bin/xodos\n</string>
+    <string name="cleanup_error">Error: %s</string>
+    <string name="install_copying">Copying system files…</string>
+    <string name="install_extracting">updating system…</string>
+    <string name="install_finalizing">Finalizing installation…</string>
 
     <string name="unlock_exit_toast_text">back/unlocked</string>
 
     <string name="stop_desktop_title">Exit and stop 🛑 Wine and Desktop?</string>
+    
+    
+    
+    
+    
+    <string name="toolbox_shortcuts">Shortcuts 🎮</string>
+  
+    <!-- XoDos Shortcuts -->
+    <string name="desktop_shortcuts">Desktop Shortcuts</string>
+    <string name="close">Close</string>
+    <string name="refresh">Refresh</string>
+    <string name="no_shortcuts_found">No shortcuts found</string>
+    <string name="launch">Open▶️</string>
+    <string name="launch_app_title">Launch %1$s</string>
+    <string name="launch_confirmation_message">Launch with %1$s?\n\nYou can change the Wine type in XoDos Settings.</string>
+    <string name="launching_app">Launching %1$s</string>
+    <string name="launch_success">Launched %1$s</string>
+    <string name="launch_failed">Failed to launch %1$s</string>
+    <string name="launch_error">Launch Error</string>
+    <string name="launch_error_detailed">Failed to launch %1$s\n\nException: %2$s\n\nMessage: %3$s</string>
+    <string name="view_logs">View Logs</string>
+    <string name="check_logcat">Check logcat for detailed logs</string>
+    <string name="delete_shortcut">Delete Shortcut</string>
+    <string name="delete_confirmation">Are you sure you want to delete %1$s?</string>
+    <string name="deleted">Deleted</string>
+    <string name="delete_failed">Failed to delete</string>
+    <string name="wine_type_glibc">Glibc Wine</string>
+    <string name="wine_type_bionic">Bionic Wine</string>
+    <string name="error_reading_file">Error reading %1$s</string>
+    
+    <!-- X11 Monitor check -->
+    <string name="failed_to_open_exe">⁉️ Failed to open %1$s.exe
+try opening it inside the Desktop mode</string>
+
+    <!-- shortcuts settings -->
+    <string name="settings">Settings⚙️</string>
+    <string name="app_settings_title">Settings for %s</string>
+    <string name="save">Save💾</string>
+    <string name="settings_saved">Settings saved</string>
+    <string name="reset_settings">Reset Settings</string>
+    <string name="applying_settings">Applying settings...</string>
+    
+    <!-- XoDos Wizard Strings -->
+    <string name="xodos_wizard_title">XoDos Wine Settings</string>
+    <string name="phantom_killer_warning_title">Disable 🚫 Phantom Process Killer</string>
+    <string name="phantom_killer_warning_message">⚠️ Android 11+ may kill background processes.\n\nFollow the guide below to disable the Phantom Process Killer using one of the links.</string>
+    <string name="github_button">GitHub</string>
+    <string name="telegram_button">Telegram</string>
+    <string name="youtube_button">YouTube🖥️</string>
+    <string name="browser_open_failed">Failed to open browser: %s</string>
+    <string name="restart_required_title">Restart Required</string>
+    <string name="restart_required_message">⚠️Changing drivers requires server and restarting Wine. Continue?</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="wine_processes_stopped">Wine processes stopped</string>
+    <string name="error_saving_config">Error saving config: %s</string>
+    <string name="error_reading_wine_config">Error reading wine config: %s</string>
+
+    <!-- File Manager Strings -->
+    <string name="file_manager_title">📂 File Manager</string>
+    <string name="back">⬅ Back</string>
+    <string name="forward">➡ Forward</string>
+    <string name="home">🏠 Home</string>
+    <string name="paste">📋 Paste</string>
+    <string name="help">❓ Help</string>    
+    
+    <!-- File Operations -->
+    <string name="copied">Copied</string>
+    <string name="no_file_to_paste">No file to paste</string>
+    <string name="source_file_no_longer_exists">Source file no longer exists</string>
+    <string name="failed_to_copy_file">Failed to copy file</string>
+    <string name="paste_failed">Paste failed</string>
+    
+    <string name="conversion_complete">Conversion successful</string>
+    <string name="repair_xbox_iso">Repair Xbox ISO</string>
+    <string name="convert_to_standard_iso">Convert to Standard ISO</string>
+    <string name="converted_to_xbox_iso">Converted to Xbox ISO</string>
+    
+    <!-- Xbox xdvdfs Options -->
+    <string name="list_files_xdvdfs">List Files (xdvdfs ls)</string>
+    <string name="tree_view_xdvdfs">Tree View (xdvdfs tree)</string>
+    <string name="md5_checksums_xdvdfs">MD5 Checksums (xdvdfs md5)</string>
+    <string name="image_info_xdvdfs">Image Info (xdvdfs info)</string>
+    <string name="extract_file_xdvdfs">Extract File (xdvdfs copy-out)</string>
+    <string name="unpack_image_xdvdfs">Unpack Image (xdvdfs unpack)</string>
+    <string name="compute_checksum_xdvdfs">Compute Checksum (xdvdfs checksum)</string>
+    <string name="conversion_error">Conversion error</string>
+    <string name="repaired_xbox_iso">Repaired Xbox ISO</string>
+    <string name="repair_failed">Repair failed</string>
+    <string name="repair_error">Repair error</string>
+    <string name="converted_to_standard_iso">Converted to Standard ISO</string>
+    <string name="conversion_failed">Conversion failed</string>    
+    
+    <!-- File Types -->
+    <string name="folder">Folder</string>
+    <string name="selected">Selected</string>
+    
+    <!-- Error Messages -->
+    <string name="cannot_open_folder">Cannot open folder</string>
+    <string name="cannot_read_folder">Cannot read folder</string>
+    <string name="access_denied">Access denied</string>
+    <string name="can_only_run_from_termux">Can only run from Termux activity</string>
+    
+    <!-- EXE Options -->
+    <string name="create_shortcut">📋 Create Shortcut</string>
+    <string name="shortcut_created">Shortcut created</string>
+    <string name="failed_to_create_shortcut">Failed to create shortcut</string>
+    
+    <!-- Archive Options -->
+    <string name="list_contents">📋 List Contents (7z)</string>
+    <string name="extract_to_new_folder">📦 Extract to New Folder (7z)</string>
+    <string name="open_with_xbox">Open with Xbox</string>
+    <string name="convert_to_xbox_iso">🔄 Convert to Xbox ISO</string>
+    <string name="open_with_ps1">Open with PS1</string>
+    <string name="restore_to_xodos">⚙️ Restore to XoDos</string>
+    
+    <!-- Command Messages -->
+    <string name="running_with_x11">Running with X11</string>
+    <string name="opening_with_xbox">Opening with Xbox</string>
+    <string name="opening_with_ps1">Opening with PS1</string>
+    <string name="listing_contents">Listing contents of</string>
+    <string name="extracting_to">Extracting to</string>
+    <string name="converting_to_xbox_iso">Converting to Xbox ISO</string>
+    <string name="converting_to_xbox_iso_format">Converting to Xbox ISO format</string>
+    <string name="restoring_system_archive">Restoring system archive</string>
+    
+    <!-- Help Dialog -->
+    <string name="supported_file_types">📋 Supported File Types</string>
+    <string name="help_message">Supported Files:\n\n• ISO/XISO files:\n  - List contents with 7z\n  - Extract contents to new folder\n  - Open with Xbox emulator\n  - Convert to Xbox ISO format\n\n• CUE/BIN files (PS1):\n  - List contents with 7z\n  - Extract contents to new folder\n  - Open with PS1 emulator\n\n• Archive files (.7z, .rar, .zip, .tar, .gz):\n  - List contents with 7z\n  - Extract contents to new folder\n\n• EXE files:\n  - Run with Wine Windows emulator\n  - Create desktop shortcuts\n\n• TAR.XZ/TAR.GZ files:\n  - Restore/install system archives to XoDos\n\n• Copy/Paste:\n  - Long press any file/folder for options\n  - Choose Copy\n  - Use Paste button to paste in current folder</string>
+    
+    <string name="install">Install</string>
+    <string name="install_with_downgrade">Install with Downgrade</string>
+
+
+    <string name="execute_in_terminal">Execute in Terminal</string>
+
+    <string name="select_mode">Select Mode</string>
+ 
+ 
+    <string name="no_files_selected">No files selected</string>
+    <string name="selected_files">No actions available for this file type: %d</string>
+       <string name="selected_files2">selected: %d</string>
+<string name="toolbox_fm">File Manager</string>
+
+    <string name="pack_selected">Pack selected files</string>
+    <string name="clear_selection">Clear Selection</string>
+    <string name="deb_package">DEB Package: %s</string>
+    <string name="installation_method">Installation Method</string>
+    <string name="script_file">Script File: %s</string>
+    <string name="audio_file">Audio File: %s</string>
+    <string name="playing_audio">Playing audio: %s</string>
+    <string name="executing_script">Executing script: %s</string>
+    <string name="installing_package">Installing package: %s</string>
+    <string name="changing_permissions">Changing permissions</string>
+    <string name="permissions_changed_count">Changed permissions for %d items</string>
+    <string name="failed_change_permissions">Failed to change permissions</string>
+    <string name="packing_directory">Packing directory to %s</string>
+    <string name="select_directory_pack">Please select a directory to pack</string>
+    <string name="file_types">File Types</string>
+    <string name="deb_files">DEB Files</string>
+    <string name="script_files">Script Files</string>
+    <string name="audio_files">Audio Files</string>
+    <string name="document_files">Document Files</string>
+    <string name="spreadsheet_files">Spreadsheet Files</string>
+    <string name="presentation_files">Presentation Files</string>
+    <string name="database_files">Database Files</string>
+    <string name="font_files">Font Files</string>
+    <string name="web_files">Web Files</string>
+    <string name="programming_files">Programming Files</string>
+    
+    <string name="install_in_proot">Install in PRoot 🐧</string>
+    <string name="install_normally">Install Normally Native</string>
+    <string name="change_permissions">Change/Fix execute Permissions</string>
+    <string name="open_with_mpv">Open with MPV player</string>
+    <string name="no_proot_distro">No PRoot distro found. Please install xodos Proot first.</string>
+    <string name="installing_in_proot">Installing in PRoot distro: %s</string>
+    <string name="select_mode_on">🎯 Selection Mode ON:Long press files to select</string>
+    <string name="select_mode_off">📁 Select Mode</string>
+    <string name="copy_selected">Copy Selected</string>
+    
+    <string name="list_files">List Files</string>
+    <string name="tree_view">Tree View</string>
+    <string name="image_info">Image Info</string>
+    <string name="unpack_image">Unpack Image</string>
+    <string name="extract_to_folder">Extract to Folder</string>
+    <string name="pack_with_xdvdfs">Pack with xdvdfs</string>
+    <string name="pack_folder">Pack Folder</string>
+    <string name="pack_iso">Pack ISO</string>
+    <!-- Add these missing strings to your strings.xml -->
+<string name="copy">Copy</string>
+<string name="run_in_terminal">Run in Terminal</string>
+<string name="permissions_changed">Permissions changed to executable</string>
+<string name="delete">Delete</string>
+    <!-- Wine Options -->
+    <string name="confirm_delete">Confirm Deletion</string>
+<string name="delete_wine_prefix_warning">Are you sure you want to delete the Wine prefix? This cannot be undone.</string>
+<string name="wine_prefix_deleted">Wine prefix deleted successfully ✅</string>
+<string name="error_no_wineprefix_in_conf">Could not find WINEPREFIX in wine_path.conf ⚠️</string>
 </resources>

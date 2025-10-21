@@ -1,0 +1,110 @@
+package com.termux.app;
+
+import java.io.Closeable;
+import java.util.List;
+import java.util.ArrayList;
+
+public class XboxIsoWrapper implements Closeable {
+    private long nativeHandle;
+    private boolean isOpen = false;
+
+    static {
+        System.loadLibrary("xbox_iso_wrapper");
+    }
+
+    public XboxIsoWrapper() {
+        nativeHandle = nativeCreate();
+        if (nativeHandle != 0) {
+            isOpen = true;
+        }
+    }
+
+    // Core ISO operations
+    public native boolean loadIso(String isoPath);
+    public native boolean loadIsoFromFd(int fd);
+    public native boolean closeIso();
+    
+    // File listing
+    public native String[] listRootFiles();
+    public native String[] listFiles(String directoryPath);
+    public native String[] listAllFiles();
+    
+    // File operations
+    public native boolean extractFile(String srcPath, String destPath);
+    public native boolean extractAllFiles(String outputDir);
+    public native byte[] readFile(String filePath);
+    
+    // Information
+    public native String getPartitionType();
+    public native String getIsoInfo();
+    public native long getIsoSize();
+    public native boolean isIsoLoaded();
+    
+    // XBE specific
+    public native String[] findXbeFiles();
+    public native String getMainXbe();
+    public native byte[] getXbeData();
+    public native boolean extractXbe(String outputPath);
+    
+    // Conversion
+    public native boolean convertToXbe(String outputDir);
+    public native boolean convertToXiso(String outputPath);
+    
+    // Utility
+    public native boolean verifyIso();
+    public native String getLastError();
+    
+    // Resource management
+    private native long nativeCreate();
+    private native void nativeDestroy(long handle);
+    
+    @Override
+    public void close() {
+        if (isOpen && nativeHandle != 0) {
+            nativeDestroy(nativeHandle);
+            nativeHandle = 0;
+            isOpen = false;
+        }
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {
+        close();
+        super.finalize();
+    }
+    
+    // Helper methods
+    public List<String> getRootFilesList() {
+        String[] files = listRootFiles();
+        if (files == null) return new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        for (String file : files) {
+            result.add(file);
+        }
+        return result;
+    }
+    
+    public List<String> getAllFilesList() {
+        String[] files = listAllFiles();
+        if (files == null) return new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        for (String file : files) {
+            result.add(file);
+        }
+        return result;
+    }
+    
+    public List<String> getXbeFilesList() {
+        String[] xbeFiles = findXbeFiles();
+        if (xbeFiles == null) return new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        for (String xbe : xbeFiles) {
+            result.add(xbe);
+        }
+        return result;
+    }
+    
+    public boolean isReady() {
+        return isOpen && isIsoLoaded();
+    }
+}

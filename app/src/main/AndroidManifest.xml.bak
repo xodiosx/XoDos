@@ -56,7 +56,67 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.ForceBlack"
-        tools:targetApi="m">
+        android:hardwareAccelerated="true"
+        android:isGame="true"
+        tools:targetApi="m"
+        tools:replace="android:allowBackup,android:label,android:theme,android:supportsRtl">
+
+        <!-- PS1 Emulator Activities (example if included as module) -->
+
+<activity
+    android:name="com.xanite.MainActivity"
+    android:hardwareAccelerated="true"
+    android:exported="false"
+    android:noHistory="true"
+    android:alwaysRetainTaskState="true"
+    android:launchMode="singleInstance"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|keyboard|navigation"
+    tools:node="merge" />
+
+
+<activity
+    android:name="com.xanite.filemanager.FileManagerActivity"
+    android:hardwareAccelerated="true"
+    android:exported="true"
+    android:noHistory="true"
+    android:alwaysRetainTaskState="true"
+    android:launchMode="singleInstance"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|keyboard|navigation"
+    tools:node="merge" />
+
+<activity
+    android:name="com.xanite.xboxoriginal.XboxOriginalActivity"
+    android:hardwareAccelerated="true"
+    android:exported="true"
+    android:noHistory="true"
+    android:alwaysRetainTaskState="true"
+    android:launchMode="singleInstance"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|keyboard|navigation"
+    tools:node="merge" />
+<activity
+    android:name="com.xanite.xboxoriginal.XboxShaderActivity"
+    android:hardwareAccelerated="true"
+    android:exported="true"
+    android:noHistory="true"
+    android:alwaysRetainTaskState="true"
+    android:launchMode="singleInstance"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|keyboard|navigation"
+    tools:node="merge" />
+
+<activity
+    android:name="com.xanite.xbox360.Xbox360Activity"
+    android:hardwareAccelerated="true"
+    android:exported="true"
+    android:noHistory="true"
+    android:alwaysRetainTaskState="true"
+    android:launchMode="singleInstance"
+    android:windowSoftInputMode="adjustResize"
+    android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|keyboard|navigation"
+    tools:node="merge" />
         <!--termux-x11-->
         <activity
             android:name="com.termux.x11.controller.ControlsEditorActivity"
@@ -252,20 +312,25 @@
 
 
         <!-- https://developer.samsung.com/samsung-dex/modify-optimizing.html -->
+<!-- Game optimization metadata (optional) -->
+        <meta-data android:name="com.google.android.gms.games.GAME" android:value="true" />
+        <meta-data android:name="com.samsung.android.game.game_home" android:value="true" />
+        <meta-data android:name="com.samsung.android.game.game_booster" android:value="true" />
+        <meta-data android:name="com.samsung.android.game.gamelist" android:value="true" />
 
         <!-- Version < 3.0. DeX Mode and Screen Mirroring support -->
-        <meta-data
-            android:name="com.samsung.android.keepalive.density"
-            android:value="true" />
+       
 
         <!-- Version >= 3.0. DeX Dual Mode support -->
-        <meta-data
-            android:name="com.samsung.android.multidisplay.keep_process_alive"
-            android:value="true" />
+
 
         <meta-data
             android:name="com.sec.android.support.multiwindow"
             android:value="true" />
+            <meta-data
+            android:name="com.samsung.android.multidisplay.keep_process_alive"
+            android:value="true"
+            tools:replace="android:value"/>
 
     </application>
 

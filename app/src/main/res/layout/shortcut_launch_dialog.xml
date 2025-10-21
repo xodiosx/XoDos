@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutRoot"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#1E1E1E"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Shortcut creation fields -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Shortcut Name"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:paddingBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/editExeName"
+        android:hint="My Game"
+        android:inputType="text"
+        android:background="@android:drawable/editbox_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EXE Path"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/editExePath"
+        android:hint="/data/data/com.termux/files/home/game.exe"
+        android:inputType="textUri"
+        android:background="@android:drawable/editbox_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"/>
+
+    <!-- Wine Type Spinner -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wine Type"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"/>
+
+    <Spinner
+        android:id="@+id/wineSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:popupBackground="#2A2A2A"
+        android:backgroundTint="#FFFFFF" />
+
+    <!-- Create Shortcut Button -->
+    <Button
+        android:id="@+id/buttonLaunch"
+        android:text="Create Shortcut"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#3A8FFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#444"/>
+
+    <!-- List of Shortcuts -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Existing Shortcuts"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"/>
+
+    <ListView
+        android:id="@+id/shortcutList"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:divider="#333"
+        android:dividerHeight="1dp"
+        android:background="#121212"/>
+</LinearLayout>

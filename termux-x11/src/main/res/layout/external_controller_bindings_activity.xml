@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:id="@+id/Toolbar"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         app:layout_scrollFlags="enterAlways|scroll"
         app:titleTextColor="#ffffff"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium" />

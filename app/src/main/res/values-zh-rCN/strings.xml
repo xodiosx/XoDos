@@ -144,9 +144,9 @@
 <string name="toolbox_xbox">Xbox</string>
 <string name="toolbox_backup">备份</string>
 <string name="toolbox_restore">安装/恢复 </string>
-<string name="toolbox_clean_wine">清理Wine</string>
+
 <string name="toolbox_update">Update</string>
-<string name="toolbox_wine">Wine </string>
+
 <string name="choose_wine_env">选择Wine环境</string>
 <string name="wine_glibc">Wine Glibc</string>
 <string name="wine_bionic">Wine Bionic</string>
@@ -159,14 +159,18 @@
     <item>Kali🐉Linux：包含 100+ 安全工具的渗透测试套件</item>
     <item>Wine🍷Glibc：支持大多数安卓设备的 Windows 模拟器（非 Snapdragon 使用 VirGl）</item>
     <item>Wine🍷Bionic：使用原生驱动包装器的模拟器（非 Snapdragon 使用 wrapper）</item>
-    <item>Wine🍷：可从任意文件夹运行 EXE 文件</item>
-    <item>Xbox🎮模拟器：使用 Xemu 玩原版 Xbox 游戏</item>
+<item>删除 🗑️ Wine🍷 前缀：在这里您可以删除Wine容器或已安装的前缀，以修复Windows系统问题并安装全新的Wine</item>
+   <item>文件管理器📁：浏览和管理文件，提取、安装、恢复以及更多功能</item>
+<item>Termux:小组件📃：直接在Android主屏幕上创建快捷方式，使运行脚本/应用程序更轻松快捷</item>
+
+
             <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
     <item>设置⚙️：配置 Wine/DXVK/Box 和系统驱动</item>
     <item>AI🤖聊天：本地私有 AI 支持 DeepSeek、Llama 等</item>
     <item>恢复♻️：安装 XoDos 更新和 Kali/Proot 等系统</item>
     <item>备份📥：一键备份系统用于转移/恢复</item>
     <item>快速设置🪄：帮助新手快速配置 Wine/Windows</item>
+    <item>快捷方式🎮：帮助配置 Wine/Windows 应用和游戏并直接打开它们</item>
     <item>切换👥：切换不同用户容器</item>
     <item>添加按钮➕：创建脚本/应用/python 的快捷方式</item>
     <item>更新⏫: 安装新版本更新，不丢失数据或重装系统，有助于修复错误</item>
@@ -227,4 +231,198 @@
   <string name="install_extracting">正在更新系统…</string>
   <string name="install_finalizing">正在完成安装…</string>
   <string name="stop_desktop_title">退出并停止 🛑 Wine 和桌面吗？</string>
+  
+  
+  
+  
+  <string name="toolbox_shortcuts">快捷方式 🎮</string>
+  
+<!-- XoDos 快捷方式 -->
+<string name="desktop_shortcuts">桌面快捷方式</string>
+<string name="close">关闭</string>
+<string name="refresh">刷新</string>
+<string name="no_shortcuts_found">未找到快捷方式</string>
+<string name="launch">启动▶️</string>
+<string name="launch_app_title">启动 %1$s</string>
+<string name="launch_confirmation_message">使用 %1$s 启动？\n\n您可以在 XoDos 设置中更改 Wine 类型。</string>
+<string name="launching_app">正在启动 %1$s</string>
+<string name="launch_success">已启动 %1$s</string>
+<string name="launch_failed">启动 %1$s 失败</string>
+<string name="launch_error">启动错误</string>
+<string name="launch_error_detailed">启动 %1$s 失败\n\n异常：%2$s\n\n消息：%3$s</string>
+<string name="view_logs">查看日志</string>
+<string name="check_logcat">查看 logcat 获取详细日志</string>
+<string name="delete_shortcut">删除快捷方式</string>
+<string name="delete_confirmation">确定删除 %1$s 吗？</string>
+<string name="deleted">已删除</string>
+<string name="delete_failed">删除失败</string>
+<string name="wine_type_glibc">Glibc Wine</string>
+<string name="wine_type_bionic">Bionic Wine</string>
+<string name="error_reading_file">读取 %1$s 时出错</string>
+    
+<!-- X11 监视器检查 -->
+<string name="failed_to_open_exe">⁉️ 无法打开 %1$s.exe\n请尝试在桌面模式下打开</string>
+
+<!-- 快捷方式设置 -->
+<string name="settings">设置⚙️</string>
+<string name="app_settings_title">%s 的设置</string>
+<string name="save">保存💾</string>
+<string name="settings_saved">设置已保存</string>
+<string name="reset_settings">重置设置</string>
+<string name="applying_settings">正在应用设置...</string>
+    
+<!-- XoDos 向导文本 -->
+<string name="xodos_wizard_title">XoDos Wine 设置</string>
+<string name="phantom_killer_warning_title">禁用 🚫 幻影进程杀手</string>
+<string name="phantom_killer_warning_message">⚠️ Android 11+ 可能会终止后台进程。\n\n请通过以下链接之一按照指南禁用幻影进程杀手。</string>
+<string name="github_button">GitHub</string>
+<string name="telegram_button">Telegram</string>
+<string name="youtube_button">YouTube🖥️</string>
+<string name="browser_open_failed">打开浏览器失败：%s</string>
+<string name="restart_required_title">需要重启</string>
+<string name="restart_required_message">⚠️更改驱动程序需要重启服务器和 Wine。继续吗？</string>
+<string name="ok_button">确定</string>
+<string name="cancel_button">取消</string>
+<string name="wine_processes_stopped">Wine 进程已停止</string>
+<string name="error_saving_config">保存配置时出错：%s</string>
+<string name="error_reading_wine_config">读取 wine 配置时出错：%s</string>
+
+<!-- 文件管理器文本 -->
+<string name="file_manager_title">📂 文件管理器</string>
+<string name="back">⬅ 返回</string>
+<string name="forward">➡ 前进</string>
+<string name="home">🏠 主页</string>
+<string name="paste">📋 粘贴</string>
+<string name="help">❓ 帮助</string>    
+    
+<!-- 文件操作 -->
+<string name="copied">已复制</string>
+<string name="no_file_to_paste">没有可粘贴的文件</string>
+<string name="source_file_no_longer_exists">源文件已不存在</string>
+<string name="failed_to_copy_file">复制文件失败</string>
+<string name="paste_failed">粘贴失败</string>
+    
+<string name="conversion_complete">转换成功</string>
+<string name="repair_xbox_iso">修复 Xbox ISO</string>
+<string name="convert_to_standard_iso">转换为标准 ISO</string>
+<string name="converted_to_xbox_iso">已转换为 Xbox ISO</string>
+    
+<!-- Xbox xdvdfs 选项 -->
+<string name="list_files_xdvdfs">列出文件 (xdvdfs ls)</string>
+<string name="tree_view_xdvdfs">树状视图 (xdvdfs tree)</string>
+<string name="md5_checksums_xdvdfs">MD5 校验和 (xdvdfs md5)</string>
+<string name="image_info_xdvdfs">镜像信息 (xdvdfs info)</string>
+<string name="extract_file_xdvdfs">提取文件 (xdvdfs copy-out)</string>
+<string name="unpack_image_xdvdfs">解包镜像 (xdvdfs unpack)</string>
+<string name="compute_checksum_xdvdfs">计算校验和 (xdvdfs checksum)</string>
+<string name="conversion_error">转换错误</string>
+<string name="repaired_xbox_iso">已修复 Xbox ISO</string>
+<string name="repair_failed">修复失败</string>
+<string name="repair_error">修复错误</string>
+<string name="converted_to_standard_iso">已转换为标准 ISO</string>
+<string name="conversion_failed">转换失败</string>    
+    
+<!-- 文件类型 -->
+<string name="folder">文件夹</string>
+<string name="selected">已选择</string>
+    
+<!-- 错误信息 -->
+<string name="cannot_open_folder">无法打开文件夹</string>
+<string name="cannot_read_folder">无法读取文件夹</string>
+<string name="access_denied">访问被拒绝</string>
+<string name="can_only_run_from_termux">只能在 Termux 活动中运行</string>
+    
+<!-- EXE 选项 -->
+<string name="create_shortcut">📋 创建快捷方式</string>
+<string name="shortcut_created">快捷方式已创建</string>
+<string name="failed_to_create_shortcut">创建快捷方式失败</string>
+    
+<!-- 归档选项 -->
+<string name="list_contents">📋 列出内容 (7z)</string>
+<string name="extract_to_new_folder">📦 解压到新文件夹 (7z)</string>
+<string name="open_with_xbox">用 Xbox 打开</string>
+<string name="convert_to_xbox_iso">🔄 转换为 Xbox ISO</string>
+<string name="open_with_ps1">用 PS1 打开</string>
+<string name="restore_to_xodos">⚙️ 恢复到 XoDos</string>
+    
+<!-- 命令消息 -->
+<string name="running_with_x11">正在使用 X11 运行</string>
+<string name="opening_with_xbox">正在用 Xbox 打开</string>
+<string name="opening_with_ps1">正在用 PS1 打开</string>
+<string name="listing_contents">正在列出内容</string>
+<string name="extracting_to">正在解压到</string>
+<string name="converting_to_xbox_iso">正在转换为 Xbox ISO</string>
+<string name="converting_to_xbox_iso_format">正在转换为 Xbox ISO 格式</string>
+<string name="restoring_system_archive">正在恢复系统归档</string>
+    
+<!-- 帮助对话框 -->
+<string name="supported_file_types">📋 支持的文件类型</string>
+<string name="help_message">支持的文件：\n\n• ISO/XISO 文件：\n  - 用 7z 列出内容\n  - 解压内容到新文件夹\n  - 用 Xbox 模拟器打开\n  - 转换为 Xbox ISO 格式\n\n• CUE/BIN 文件 (PS1)：\n  - 用 7z 列出内容\n  - 解压内容到新文件夹\n  - 用 PS1 模拟器打开\n\n• 归档文件 (.7z, .rar, .zip, .tar, .gz)：\n  - 用 7z 列出内容\n  - 解压内容到新文件夹\n\n• EXE 文件：\n  - 用 Wine Windows 模拟器运行\n  - 创建桌面快捷方式\n\n• TAR.XZ/TAR.GZ 文件：\n  - 恢复/安装系统归档到 XoDos\n\n• 复制/粘贴：\n  - 长按任意文件/文件夹获取选项\n  - 选择复制\n  - 使用粘贴按钮在当前文件夹粘贴</string>
+    
+<string name="install">安装</string>
+<string name="install_with_downgrade">降级安装</string>
+<string name="execute_in_terminal">在终端中执行</string>
+<string name="select_mode">选择模式</string>
+<string name="no_files_selected">未选择文件</string>
+<string name="selected_files">此文件类型无可用操作: %d</string>
+<string name="toolbox_fm">文件管理器</string>
+<string name="pack_selected">打包选中文件</string>
+<string name="clear_selection">清除选择</string>
+<string name="deb_package">DEB 包：%s</string>
+<string name="installation_method">安装方法</string>
+<string name="script_file">脚本文件：%s</string>
+<string name="audio_file">音频文件：%s</string>
+<string name="playing_audio">正在播放音频：%s</string>
+<string name="executing_script">正在执行脚本：%s</string>
+<string name="installing_package">正在安装包：%s</string>
+<string name="changing_permissions">正在更改权限</string>
+<string name="permissions_changed_count">已更改 %d 个项目的权限</string>
+<string name="failed_change_permissions">更改权限失败</string>
+<string name="packing_directory">正在打包目录到 %s</string>
+<string name="select_directory_pack">请选择要打包的目录</string>
+<string name="file_types">文件类型</string>
+<string name="deb_files">DEB 文件</string>
+<string name="script_files">脚本文件</string>
+<string name="audio_files">音频文件</string>
+<string name="document_files">文档文件</string>
+<string name="spreadsheet_files">电子表格文件</string>
+<string name="presentation_files">演示文稿文件</string>
+<string name="database_files">数据库文件</string>
+<string name="font_files">字体文件</string>
+<string name="web_files">网页文件</string>
+<string name="programming_files">编程文件</string>
+    
+<string name="install_in_proot">在 PRoot 中安装 🐧</string>
+<string name="install_normally">正常安装（原生）</string>
+<string name="change_permissions">更改/修复执行权限</string>
+<string name="open_with_mpv">用 MPV 播放器打开</string>
+<string name="no_proot_distro">未找到 PRoot 发行版。请先安装 xodos Proot。</string>
+<string name="installing_in_proot">正在 PRoot 发行版中安装：%s</string>
+<string name="select_mode_on">🎯 选择模式开启：长按文件进行选择</string>
+<string name="select_mode_off">📁 选择模式</string>
+<string name="copy_selected">复制选中项</string>
+    
+<string name="list_files">列出文件</string>
+<string name="tree_view">树状视图</string>
+<string name="image_info">镜像信息</string>
+<string name="unpack_image">解包镜像</string>
+<string name="extract_to_folder">解压到文件夹</string>
+<string name="pack_with_xdvdfs">用 xdvdfs 打包</string>
+<string name="pack_folder">打包文件夹</string>
+<string name="pack_iso">打包 ISO</string>
+    
+<!-- 添加这些缺失的字符串到 strings.xml -->
+<string name="copy">复制</string>
+<string name="run_in_terminal">在终端中运行</string>
+<string name="permissions_changed">权限已更改为可执行</string>
+<string name="delete">删除</string>
+<!-- Wine 选项 -->
+
+<string name="toolbox_wine">删除前缀</string>
+<string name="toolbox_clean_wine">清理中</string>
+<string name="confirm_delete">确认删除</string>
+<string name="delete_wine_prefix_warning">您确定要删除Wine前缀吗？此操作无法撤销。</string>
+<string name="wine_prefix_deleted">Wine前缀删除成功 ✅</string>
+<string name="error_no_wineprefix_in_conf">在wine_path.conf中找不到WINEPREFIX ⚠️</string>
+
 </resources>

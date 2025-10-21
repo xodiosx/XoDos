@@ -1,0 +1,13 @@
+package com.termux.app;
+
+public class XoDosIsoRebuilder {
+    static {
+    System.loadLibrary("xbox_iso_wrapper");
+}
+
+    public static native boolean rebuildXboxIso(String inputPath, String outputPath);
+
+    public static boolean rebuildIso(String inputPath, String outputPath) {
+        return rebuildXboxIso(inputPath, outputPath);
+    }
+}

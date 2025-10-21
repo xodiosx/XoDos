@@ -1,0 +1,23 @@
+LOCAL_PATH:= $(call my-dir)
+
+# First module: libtermux-bootstrap
+include $(CLEAR_VARS)
+LOCAL_MODULE := libtermux-bootstrap
+LOCAL_SRC_FILES := termux-bootstrap-zip.S termux-bootstrap.c
+include $(BUILD_SHARED_LIBRARY)
+
+# Pre-built xbox_iso_parser library - CORRECT PATH
+include $(CLEAR_VARS)
+LOCAL_MODULE := libxbox_iso_parser
+LOCAL_SRC_FILES := ../../../jniLibs/arm64-v8a/libxbox_iso_parser.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+# Simple JNI wrapper that uses the pre-built library
+include $(CLEAR_VARS)
+LOCAL_MODULE := libxbox_iso_wrapper
+LOCAL_SRC_FILES := xbox_iso_wrapper.cpp
+LOCAL_CPP_FEATURES := exceptions rtti
+LOCAL_CPPFLAGS := -std=c++17 -fexceptions -frtti -DANDROID -D__ANDROID__
+LOCAL_LDLIBS := -llog -lz -landroid
+LOCAL_SHARED_LIBRARIES := libxbox_iso_parser
+include $(BUILD_SHARED_LIBRARY)

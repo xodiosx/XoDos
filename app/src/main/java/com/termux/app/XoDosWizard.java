@@ -82,16 +82,15 @@ private void ShowPhantomKillerWarning() {
 
     if (!shown) {
         new AlertDialog.Builder(mActivity)
-            .setTitle("Disable 🚫 Phantom Process Killer")
-            .setMessage("⚠️ Android 11+ may kill background processes.\n\n" +
-                        "Follow the guide below to disable the Phantom Process Killer using one of the links.")
-            .setPositiveButton("GitHub", (dialog, which) -> {
+            .setTitle(R.string.phantom_killer_warning_title)
+            .setMessage(R.string.phantom_killer_warning_message)
+            .setPositiveButton(R.string.github_button, (dialog, which) -> {
                 openUrl("https://github.com/xodiosx/XoDos");
             })
-            .setNeutralButton("Telegram", (dialog, which) -> {
+            .setNeutralButton(R.string.telegram_button, (dialog, which) -> {
                 openUrl("https://t.me/xodemulatorr/3331");
             })
-            .setNegativeButton("YouTube🖥️", (dialog, which) -> {
+            .setNegativeButton(R.string.youtube_button, (dialog, which) -> {
                 openUrl("https://youtube.com/shorts/5vOUHn_qvis?si=uMjNpyOVPC6PmPP7");
             })
             .show();
@@ -108,8 +107,9 @@ private void openUrl(String url) {
             android.net.Uri.parse(url)
         ));
     } catch (Exception e) {
-        Toast.makeText(mActivity, "Failed to open browser: " + e.getMessage(),
-                       Toast.LENGTH_LONG).show();
+        Toast.makeText(mActivity, 
+            String.format(mActivity.getString(R.string.browser_open_failed), e.getMessage()),
+            Toast.LENGTH_LONG).show();
     }
 }
 
@@ -192,27 +192,19 @@ detectAndroidVersion(androidVersionLabel);
             loadWinePathConf();
         }
 
-        // Setup wine spinner
-        String[] wineOptions = {"glibc", "bionic"};
+        // Setup wine spinner with custom adapter
+        String[] wineOptions = mActivity.getResources().getStringArray(R.array.wine_options);
         ArrayAdapter<String> wineAdapter = new ArrayAdapter<>(mActivity, 
-            android.R.layout.simple_spinner_dropdown_item, wineOptions);
+            R.layout.custom_spinner_item, wineOptions);
+        wineAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
         wineSpinner.setAdapter(wineAdapter);
         setSpinnerSelection(wineSpinner, wineChoice);
 
-        // Setup CPU cores spinner
-        String[] coreOptions = {
-            "No cores", 
-            "cores 1 only (6-7)", 
-            "cores 2 only (5-7)", 
-            "cores 3 only (4-7)", 
-            "cores 4 only (3-7)", 
-            "cores 6 only (2-7)", 
-            "cores 6 only (1-7)", 
-            "cores 7 only (0-7)"
-        };
-        
+        // Setup CPU cores spinner with custom adapter
+        String[] coreOptions = mActivity.getResources().getStringArray(R.array.core_options);
         ArrayAdapter<String> coresAdapter = new ArrayAdapter<>(mActivity, 
-            android.R.layout.simple_spinner_dropdown_item, coreOptions);
+            R.layout.custom_spinner_item, coreOptions);
+        coresAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
         coresSpinner.setAdapter(coresAdapter);
         int coreSelection = getCoreSelectionIndex(primaryCores, secondaryCores);
         coresSpinner.setSelection(coreSelection);
@@ -243,9 +235,9 @@ detectAndroidVersion(androidVersionLabel);
         });
 
         new AlertDialog.Builder(mActivity)
-            .setTitle("XoDos Wine Settings")
+            .setTitle(R.string.xodos_wizard_title)
             .setView(dialogView)
-            .setPositiveButton("OK", (dialog, which) -> {
+            .setPositiveButton(R.string.ok_button, (dialog, which) -> {
                 wineChoice = wineSpinner.getSelectedItem().toString();
                 dxvkChoice = dxvkSpinner.getSelectedItem().toString();
                 driverChoice = driverSpinner.getSelectedItem().toString();
@@ -301,13 +293,13 @@ detectAndroidVersion(androidVersionLabel);
 
                 if (requiresDriverRestart(previousDriver, driverChoice)) {
                     new AlertDialog.Builder(mActivity)
-                        .setTitle("Restart Required")
-                        .setMessage("⚠️Changing drivers requires server and restarting Wine. Continue?")
-                        .setPositiveButton("OK", (d, w) -> {
+                        .setTitle(R.string.restart_required_title)
+                        .setMessage(R.string.restart_required_message)
+                        .setPositiveButton(R.string.ok_button, (d, w) -> {
                             extractArchives();
                             performRestartSequence();
                         })
-                        .setNegativeButton("Cancel", (d, w) -> {
+                        .setNegativeButton(R.string.cancel_button, (d, w) -> {
                             extractArchives();
                         })
                         .show();
@@ -315,9 +307,9 @@ detectAndroidVersion(androidVersionLabel);
                     extractArchives();
                 }
                 
-                Toast.makeText(mActivity, "Settings saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, R.string.settings_saved, Toast.LENGTH_SHORT).show();
             })
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(R.string.cancel_button, null)
             .show();
     }
 
@@ -431,7 +423,7 @@ private void performRestartSequence() {
     for (String cmd : commands) {
         execShell(cmd);
     }
-    Toast.makeText(mActivity, "Wine processes stopped", Toast.LENGTH_SHORT).show();
+    Toast.makeText(mActivity, R.string.wine_processes_stopped, Toast.LENGTH_SHORT).show();
 }
 
 
@@ -485,7 +477,9 @@ private void performRestartSequence() {
 
             w.close();
         } catch (IOException e) {
-            Toast.makeText(mActivity, "Error saving config: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, 
+                String.format(mActivity.getString(R.string.error_saving_config), e.getMessage()), 
+                Toast.LENGTH_LONG).show();
         }
     }
 
@@ -504,7 +498,9 @@ private void performRestartSequence() {
                 }
             }
         } catch (IOException e) {
-            Toast.makeText(mActivity, "Error reading wine config: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, 
+                String.format(mActivity.getString(R.string.error_reading_wine_config), e.getMessage()), 
+                Toast.LENGTH_LONG).show();
         }
     }
 
@@ -540,7 +536,8 @@ private void performRestartSequence() {
 
     private void updateSpinner(Spinner spinner, List<String> items, String selectIfFound) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mActivity, 
-            android.R.layout.simple_spinner_dropdown_item, items);
+            R.layout.custom_spinner_item, items);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         
         // Set selection after a short delay to ensure adapter is ready

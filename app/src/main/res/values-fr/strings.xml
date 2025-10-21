@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [
-    <!ENTITY TERMUX_PACKAGE_NAME "com.termux">
-    <!ENTITY TERMUX_APP_NAME "XoDos">
-    <!ENTITY TERMUX_API_APP_NAME "Termux:API">
-    <!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot">
-    <!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float">
-    <!ENTITY TERMUX_STYLING_APP_NAME "Termux:Styling">
-    <!ENTITY TERMUX_TASKER_APP_NAME "Termux:Tasker">
-    <!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">
-]>
 
+<!DOCTYPE resources [<!ENTITY TERMUX_PACKAGE_NAME "com.termux"><!ENTITY TERMUX_APP_NAME "XoDos"><!ENTITY TERMUX_API_APP_NAME "Termux:API"><!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot"><!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float"><!ENTITY TERMUX_STYLING_APP_NAME "Termux:Styling"><!ENTITY TERMUX_TASKER_APP_NAME "Termux:Tasker"><!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">]>
 <resources>
     <!-- Application Basics -->
     <string name="application_name">&TERMUX_APP_NAME;</string>
@@ -209,8 +200,7 @@
     <string name="toolbox_backup">Sauvegarde</string>
     <string name="toolbox_restore">Installer/Restaurer</string>
 <string name="toolbox_update">Mettre à jour</string>
-  <string name="toolbox_clean_wine">Nettoyer Wine</string>
- <string name="toolbox_wine">Wine</string>
+ 
     <string name="choose_wine_env">Environnement Wine</string>
     <string name="wine_glibc">Wine Glibc</string>
     <string name="wine_bionic">Wine Bionic</string>
@@ -219,28 +209,31 @@
     <string name="toolbox_wizard">Configuration rapide</string>
 
     <!-- Tutorial -->
+   <!-- Fixed tutorial steps - all in French -->
     <string-array name="tutorial_steps">
         <item>XoDos🖥️ : Bureau Linux rapide pour Android</item>
         <item>Proot🐧 : Distributions Linux complètes avec accès root</item>
         <item>Kali🐉Linux : Suite de sécurité avec 100+ outils</item>
         <item>Wine🍷Glibc : Émulation Windows (Snapdragon: VirGl)</item>
         <item>Wine🍷Bionic : Émulation avec pilotes natifs</item>
-        <item>Wine🍷 : Exécutez des EXE depuis n\'importe où</item>
-        <item>Émulateur Xbox🎮 : Jeux Xbox via Xemu</item>
-                <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
+        <item>Supprimer 🗑️ le préfixe Wine🍷 : Ici vous pouvez supprimer le conteneur Wine ou le préfixe installé pour résoudre les problèmes du système Windows et installer Wine frais</item>
+        <item>Gestionnaire de fichiers📁: naviguer et gérer les fichiers, extraire, installer, restaurer et plus</item>
+        <item>Termux:widgets📃 : créez des raccourcis directement sur l\'accueil Android pour exécuter des scripts/applications plus facilement et rapidement</item>
         <item>Paramètres⚙️ : Configurez Wine/DXVK/Box</item>
         <item>IA🤖Chat : IA locale (DeepSeek, Llama)</item>
         <item>Restaurer♻️ : Mises à jour XoDos/Kali</item>
         <item>Sauvegarde📥 : Instantané système</item>
         <item>Config rapide🪄 : Aide nouvelle installation</item>
+        <item>Raccourcis🎮: aide à configurer les applications et jeux Wine/Windows et à les ouvrir directement</item>
         <item>Changer👥 : Conteneurs utilisateurs</item>
         <item>Raccourci➕ : Créer raccourcis</item>
-       <item>Actualizar⏫: instalar actualizaciones sin perder datos ni reinstalar el sistema. Ayuda a corregir errores</item>
-    <item>Eliminar❌Wine🍷: quitar Wine/Windows completamente de la app⚠️para liberar espacio</item>
-  </string-array>
+        <item>Mettre à jour⏫: installer des mises à jour sans perdre des données ni réinstaller le système. Aide à corriger les erreurs</item>
+        <item>Supprimer❌Wine🍷: retirer Wine/Windows complètement de l\'app⚠️pour libérer de l\'espace</item>
+    </string-array>
 
-  <string name="next">Siguiente</string>
-  <string name="finish_tutorial">Finalizar</string>
+<string name="next">Suivant</string>
+    <string name="finish_tutorial">Terminer</string>
+
   <string name="modern_android_title">⚠️Android moderno detectado</string>
   <string name="cpu_title">Tipo de CPU</string>
   <string name="wine_title">Tipo de Wine🍷</string>
@@ -293,4 +286,202 @@
   <string name="install_extracting">Actualizando sistema…</string>
   <string name="install_finalizing">Finalizando…</string>
   <string name="stop_desktop_title">Quitter et arrêter 🛑 Wine et le Bureau ?</string>
+  
+  
+  
+  <!-- French (France) / Français (France) -->
+<string name="toolbox_shortcuts">Raccourcis 🎮</string>
+  
+    <!-- XoDos Shortcuts -->
+    <string name="desktop_shortcuts">Raccourcis Bureau</string>
+    <string name="close">Fermer</string>
+    <string name="refresh">Actualiser</string>
+    <string name="no_shortcuts_found">Aucun raccourci trouvé</string>
+    <string name="launch">Ouvrir▶️</string>
+    <string name="launch_app_title">Ouvrir %1$s</string>
+    <string name="launch_confirmation_message">Ouvrir avec %1$s?\n\nVous pouvez changer le type de Wine dans les Paramètres XoDos.</string>
+    <string name="launching_app">Ouverture de %1$s</string>
+    <string name="launch_success">%1$s ouvert</string>
+    <string name="launch_failed">Échec de l\'ouverture de %1$s</string>
+    <string name="launch_error">Erreur d\'Ouverture</string>
+    <string name="launch_error_detailed">Échec de l\'ouverture de %1$s\n\nException : %2$s\n\nMessage : %3$s</string>
+    <string name="view_logs">Voir Logs</string>
+    <string name="check_logcat">Vérifiez logcat pour les logs détaillés</string>
+    <string name="delete_shortcut">Supprimer Raccourci</string>
+    <string name="delete_confirmation">Êtes-vous sûr de vouloir supprimer %1$s?</string>
+    <string name="deleted">Supprimé</string>
+    <string name="delete_failed">Échec de la suppression</string>
+    <string name="wine_type_glibc">Wine Glibc</string>
+    <string name="wine_type_bionic">Wine Bionic</string>
+    <string name="error_reading_file">Erreur lecture %1$s</string>
+    
+    <!-- X11 Monitor check -->
+    <string name="failed_to_open_exe">⁉️ Échec ouverture %1$s.exe\nessayez de l\'ouvrir dans le mode Bureau</string>
+
+    <!-- shortcuts settings -->
+    <string name="settings">Paramètres⚙️</string>
+    <string name="app_settings_title">Paramètres pour %s</string>
+    <string name="save">Sauvegarder💾</string>
+    <string name="settings_saved">Paramètres sauvegardés</string>
+    <string name="reset_settings">Réinitialiser Paramètres</string>
+    <string name="applying_settings">Application des paramètres...</string>
+    
+    <!-- XoDos Wizard Strings -->
+    <string name="xodos_wizard_title">Paramètres XoDos Wine</string>
+    <string name="phantom_killer_warning_title">Désactiver 🚫 Tueur de Processus Fantôme</string>
+    <string name="phantom_killer_warning_message">⚠️ Android 11+ peut tuer les processus en arrière-plan.\n\nSuivez le guide ci-dessous pour désactiver le Tueur de Processus Fantôme en utilisant l\'un des liens.</string>
+    <string name="github_button">GitHub</string>
+    <string name="telegram_button">Telegram</string>
+    <string name="youtube_button">YouTube🖥️</string>
+    <string name="browser_open_failed">Échec ouverture navigateur : %s</string>
+    <string name="restart_required_title">Redémarrage Requis</string>
+    <string name="restart_required_message">⚠️Changer de pilotes nécessite le serveur et redémarrer Wine. Continuer?</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Annuler</string>
+    <string name="wine_processes_stopped">Processus Wine arrêtés</string>
+    <string name="error_saving_config">Erreur sauvegarde config : %s</string>
+    <string name="error_reading_wine_config">Erreur lecture config wine : %s</string>
+
+    <!-- File Manager Strings -->
+    <string name="file_manager_title">📂 Gestionnaire de Fichiers</string>
+    <string name="back">⬅ Retour</string>
+    <string name="forward">➡ Avant</string>
+    <string name="home">🏠 Accueil</string>
+    <string name="paste">📋 Coller</string>
+    <string name="help">❓ Aide</string>    
+    
+    <!-- File Operations -->
+    <string name="copied">Copié</string>
+    <string name="no_file_to_paste">Aucun fichier à coller</string>
+    <string name="source_file_no_longer_exists">Le fichier source n\'existe plus</string>
+    <string name="failed_to_copy_file">Échec de la copie du fichier</string>
+    <string name="paste_failed">Échec du collage</string>
+    
+    <string name="conversion_complete">Conversion réussie</string>
+    <string name="repair_xbox_iso">Réparer ISO Xbox</string>
+    <string name="convert_to_standard_iso">Convertir en ISO Standard</string>
+    <string name="converted_to_xbox_iso">Converti en ISO Xbox</string>
+    
+    <!-- Xbox xdvdfs Options -->
+    <string name="list_files_xdvdfs">Lister Fichiers (xdvdfs ls)</string>
+    <string name="tree_view_xdvdfs">Vue Arborescente (xdvdfs tree)</string>
+    <string name="md5_checksums_xdvdfs">Sommes MD5 (xdvdfs md5)</string>
+    <string name="image_info_xdvdfs">Info Image (xdvdfs info)</string>
+    <string name="extract_file_xdvdfs">Extraire Fichier (xdvdfs copy-out)</string>
+    <string name="unpack_image_xdvdfs">Déballer Image (xdvdfs unpack)</string>
+    <string name="compute_checksum_xdvdfs">Calculer Checksum (xdvdfs checksum)</string>
+    <string name="conversion_error">Erreur de conversion</string>
+    <string name="repaired_xbox_iso">ISO Xbox réparé</string>
+    <string name="repair_failed">Échec réparation</string>
+    <string name="repair_error">Erreur réparation</string>
+    <string name="converted_to_standard_iso">Converti en ISO Standard</string>
+    <string name="conversion_failed">Échec conversion</string>    
+    
+    <!-- File Types -->
+    <string name="folder">Dossier</string>
+    <string name="selected">Sélectionné</string>
+    
+    <!-- Error Messages -->
+    <string name="cannot_open_folder">Impossible d\'ouvrir le dossier</string>
+    <string name="cannot_read_folder">Impossible de lire le dossier</string>
+    <string name="access_denied">Accès refusé</string>
+    <string name="can_only_run_from_termux">Ne peut s\'exécuter que depuis l\'activité Termux</string>
+    
+    <!-- EXE Options -->
+    <string name="create_shortcut">📋 Créer Raccourci</string>
+    <string name="shortcut_created">Raccourci créé</string>
+    <string name="failed_to_create_shortcut">Échec création raccourci</string>
+    
+    <!-- Archive Options -->
+    <string name="list_contents">📋 Lister Contenu (7z)</string>
+    <string name="extract_to_new_folder">📦 Extraire vers Nouveau Dossier (7z)</string>
+    <string name="open_with_xbox">Ouvrir avec Xbox</string>
+    <string name="convert_to_xbox_iso">🔄 Convertir en ISO Xbox</string>
+    <string name="open_with_ps1">Ouvrir avec PS1</string>
+    <string name="restore_to_xodos">⚙️ Restaurer vers XoDos</string>
+    
+    <!-- Command Messages -->
+    <string name="running_with_x11">Exécution avec X11</string>
+    <string name="opening_with_xbox">Ouverture avec Xbox</string>
+    <string name="opening_with_ps1">Ouverture avec PS1</string>
+    <string name="listing_contents">Listage contenu de</string>
+    <string name="extracting_to">Extraction vers</string>
+    <string name="converting_to_xbox_iso">Conversion en ISO Xbox</string>
+    <string name="converting_to_xbox_iso_format">Conversion en format ISO Xbox</string>
+    <string name="restoring_system_archive">Restauration archive système</string>
+    
+    <!-- Help Dialog -->
+    <string name="supported_file_types">📋 Types de Fichiers Supportés</string>
+    <string name="help_message">Fichiers Supportés :\n\n• Fichiers ISO/XISO :\n  - Lister contenu avec 7z\n  - Extraire contenu vers nouveau dossier\n  - Ouvrir avec émulateur Xbox\n  - Convertir en format ISO Xbox\n\n• Fichiers CUE/BIN (PS1) :\n  - Lister contenu avec 7z\n  - Extraire contenu vers nouveau dossier\n  - Ouvrir avec émulateur PS1\n\n• Archives (.7z, .rar, .zip, .tar, .gz) :\n  - Lister contenu avec 7z\n  - Extraire contenu vers nouveau dossier\n\n• Fichiers EXE :\n  - Exécuter avec émulateur Windows Wine\n  - Créer raccourcis bureau\n\n• Fichiers TAR.XZ/TAR.GZ :\n  - Restaurer/installer archives système vers XoDos\n\n• Copier/Coller :\n  - Appui long sur tout fichier/dossier pour options\n  - Choisir Copier\n  - Utiliser bouton Coller pour coller dans dossier actuel</string>
+    
+    <string name="install">Installer</string>
+    <string name="install_with_downgrade">Installer avec Rétrogradation</string>
+
+
+    <string name="execute_in_terminal">Exécuter dans Terminal</string>
+
+ 
+    <string name="select_mode">Mode Sélection</string>
+ 
+ 
+    <string name="no_files_selected">Aucun fichier sélectionné</string>
+<string name="selected_files">Aucune action disponible pour ce type de fichier: %d !?.</string>
+<string name="toolbox_fm">Gestionnaire de fichiers</string>
+
+    <string name="pack_selected">Compacter fichiers sélectionnés</string>
+    <string name="clear_selection">Effacer Sélection</string>
+    <string name="deb_package">Paquet DEB : %s</string>
+    <string name="installation_method">Méthode d\'Installation</string>
+    <string name="script_file">Fichier Script : %s</string>
+    <string name="audio_file">Fichier Audio : %s</string>
+    <string name="playing_audio">Lecture audio : %s</string>
+    <string name="executing_script">Exécution script : %s</string>
+    <string name="installing_package">Installation paquet : %s</string>
+    <string name="changing_permissions">Modification permissions</string>
+    <string name="permissions_changed_count">Permissions modifiées pour %d éléments</string>
+    <string name="failed_change_permissions">Échec modification permissions</string>
+    <string name="packing_directory">Compression répertoire vers %s</string>
+    <string name="select_directory_pack">Veuillez sélectionner un répertoire à compresser</string>
+    <string name="file_types">Types de Fichiers</string>
+    <string name="deb_files">Fichiers DEB</string>
+    <string name="script_files">Fichiers Script</string>
+    <string name="audio_files">Fichiers Audio</string>
+    <string name="document_files">Fichiers Document</string>
+    <string name="spreadsheet_files">Fichiers Tableur</string>
+    <string name="presentation_files">Fichiers Présentation</string>
+    <string name="database_files">Fichiers Base de Données</string>
+    <string name="font_files">Fichiers Police</string>
+    <string name="web_files">Fichiers Web</string>
+    <string name="programming_files">Fichiers Programmation</string>
+    
+    <string name="install_in_proot">Installer dans PRoot 🐧</string>
+    <string name="install_normally">Installer Normalement Natif</string>
+    <string name="change_permissions">Changer/Corriger Permissions Exécution</string>
+    <string name="open_with_mpv">Ouvrir avec lecteur MPV</string>
+    <string name="no_proot_distro">Aucune distro PRoot trouvée. Veuillez d\'abord installer xodos Proot.</string>
+    <string name="installing_in_proot">Installation dans distro PRoot : %s</string>
+    <string name="select_mode_on">🎯 Mode Sélection ACTIVÉ : Appui long sur fichiers pour sélectionner</string>
+    <string name="select_mode_off">📁 Mode Sélection</string>
+    <string name="copy_selected">Copier Sélectionnés</string>
+    
+    <string name="list_files">Lister Fichiers</string>
+    <string name="tree_view">Vue Arborescente</string>
+    <string name="image_info">Info Image</string>
+    <string name="unpack_image">Déballer Image</string>
+    <string name="extract_to_folder">Extraire vers Dossier</string>
+    <string name="pack_with_xdvdfs">Compacter avec xdvdfs</string>
+    <string name="pack_folder">Compacter Dossier</string>
+    <string name="pack_iso">Compacter ISO</string>
+    <!-- Add these missing strings to your strings.xml -->
+<string name="copy">Copier</string>
+<string name="run_in_terminal">Exécuter dans Terminal</string>
+<string name="permissions_changed">Permissions modifiées pour exécutable</string>
+<string name="delete">Supprimer</string>
+    <!-- Wine Options -->
+  <string name="toolbox_wine">Supprimer le Préfixe</string>
+<string name="toolbox_clean_wine">Nettoyage</string>
+<string name="confirm_delete">Confirmer la Suppression</string>
+<string name="delete_wine_prefix_warning">Êtes-vous sûr de vouloir supprimer le préfixe Wine ? Cette action ne peut pas être annulée.</string>
+<string name="wine_prefix_deleted">Préfixe Wine supprimé avec succès ✅</string>
+<string name="error_no_wineprefix_in_conf">Impossible de trouver WINEPREFIX dans wine_path.conf ⚠️</string>
 </resources>

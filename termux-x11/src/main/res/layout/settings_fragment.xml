@@ -37,6 +37,9 @@
 
                 <TextView
                     style="@style/FieldSetLabel"
+                    android:textColor="#FFFFFF" 
+        android:buttonTint="#FFFFFF"
+         
                     android:text="@string/installed_wine" />
             </FrameLayout>
 
@@ -53,23 +56,35 @@
                     <Spinner
                         style="@style/ComboBox"
                         android:id="@+id/SBox86Version"
+                        android:textColor="#FFFFFF" 
+        android:buttonTint="#FFFFFF"
+         android:background="#AA000000"
                         android:layout_width="match_parent"
                         android:entries="@array/box86_version_entries" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF" 
+        android:buttonTint="#FFFFFF"
+         android:background="#AA000000"
                         android:text="@string/box64_version" />
 
                     <Spinner
                         style="@style/ComboBox"
                         android:id="@+id/SBox64Version"
                         android:layout_width="match_parent"
+                        android:textColor="#FFFFFF" 
+        android:buttonTint="#FFFFFF"
+         android:background="#AA000000"
                         android:entries="@array/box64_version_entries" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF" 
+        android:buttonTint="#FFFFFF"
+         android:background="#AA000000"
                         android:text="@string/box86_preset" />
 
                     <LinearLayout
@@ -82,6 +97,9 @@
                             style="@style/ComboBox"
                             android:id="@+id/SBox86Preset"
                             android:layout_width="0dp"
+                            android:textColor="#FFFFFF" 
+        android:buttonTint="#FFFFFF"
+         android:background="#AA000000"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
 
@@ -110,6 +128,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF" 
+        android:buttonTint="#FFFFFF"
+         android:background="#AA000000"
                         android:text="@string/box64_preset" />
 
                     <LinearLayout
@@ -122,6 +143,9 @@
                             style="@style/ComboBox"
                             android:id="@+id/SBox64Preset"
                             android:layout_width="0dp"
+                            android:textColor="#FFFFFF" 
+        android:buttonTint="#FFFFFF"
+         android:background="#AA000000"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
 

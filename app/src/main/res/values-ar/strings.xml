@@ -247,29 +247,33 @@
 <string name="toolbox_xbox">اكسبوكس</string>
 <string name="toolbox_backup">نسخة احتياطية</string>
 <string name="toolbox_restore">تثبيت/استعادة </string>
-<string name="toolbox_wine">واين </string>
+
 <string name="choose_wine_env">اختر بيئة واين </string>
 <string name="wine_glibc">واين جلِبك </string>
 <string name="wine_bionic">واين بايونيك</string>
 <string name="wine_glibc_missing">الرجاء تثبيت واين جلِبك أولاً! ⚠️</string>
 <string name="wine_bionic_missing">الرجاء تثبيت واين بايونيك أولاً! ⚠️</string>
 <string name="toolbox_update">تحديث</string>
-<string name="toolbox_clean_wine">❌تنظيف Wine</string>
+
 <string name="toolbox_wizard">إعدادات سريعة</string>
 <string-array name="tutorial_steps">
     <item>XoDos🖥️: سطح مكتب Linux سريع يعمل على Android</item>
     <item>Proot🐧: تشغيل توزيعات Linux كاملة بحقوق root</item>
-    <item>Kali🐉Linux: أدوات اختبار اختراق مع أكثر من 100 أداة أمان</item>
+    <item>Kali🐉Linux: نظام كالي لينيكس معا أكثر من 100 أداة للمهندسين والطلاب</item>
     <item>Wine🍷Glibc: محاكي Windows لمعظم أجهزة Android (إن لم يكن Snapdragon استخدم VirGl)</item>
     <item>Wine🍷Bionic: محاكي Windows مع دعم السواقات الأصلية (إن لم يكن Snapdragon استخدم wrapper)</item>
-    <item>Wine🍷: شغل ملفات EXE من أي مجلد</item>
-    <item>محاكي Xbox🎮: العب ألعاب Xbox الأصلية باستخدام Xemu</item>
+  <item>حذف 🗑️ المثبت واين🍷: هنا يمكنك إزالة/حذف حاوية Wine أو البادئة المثبتة لإصلاح مشاكل نظام Windows وتثبيت Wine جديد</item>
+    <item>مدير الملفات📁: تصفح وإدارة الملفات واستخراجها وتثبيتها واستعادتها والمزيد</item>
+<item>Termux:widgets📃: إنشاء اختصارات مباشرة إلى الصفحة الرئيسية لأندرويد لتشغيل البرامج النصية/التطبيقات بسهولة وسرعة أكبر</item>
+
+
             <item>Termux:widgets: make shortcuts directly to android launcher to make running scripts easier</item>
     <item>الإعدادات⚙️: تكوين Wine/DXVK/Box والسواقات</item>
     <item>دردشة AI🤖: ذكاء اصطناعي محلي خاص يدعم DeepSeek وLlama وأكثر</item>
     <item>استعادة♻️: تثبيت تحديثات XoDos وأنظمة أخرى مثل Kali/Proot</item>
     <item>نسخ احتياطي📥: نسخة كاملة للنظام للاستعادة/النقل</item>
     <item>إعدادات سريعة🪄: تسهّل إعداد Wine/Windows للمبتدئين</item>
+    <item>الاختصارات🎮: يساعد في تكوين تطبيقات وألعاب Wine/Windows وفتحها مباشرة</item>
     <item>تبديل👥: التبديل بين حاويات المستخدمين المختلفة</item>
     <item>إضافة زر➕: إنشاء اختصارات للسكريبتات/التطبيقات/python</item>
     <item>تحديث⏫: تثبيت التحديثات دون فقدان البيانات أو إعادة تثبيت النظام. يساعد على إصلاح الأخطاء</item>
@@ -330,4 +334,164 @@
   <string name="install_extracting">جارٍ تحديث النظام…</string>
   <string name="install_finalizing">جارٍ الإنهاء…</string>
   <string name="stop_desktop_title">هل تريد الخروج وإيقاف 🛑 Wine وسطح المكتب؟</string>
+  
+  
+  <string name="toolbox_shortcuts">الاختصارات 🎮</string>
+<string name="desktop_shortcuts">اختصارات سطح المكتب</string>
+<string name="close">إغلاق</string>
+<string name="refresh">تحديث</string>
+<string name="no_shortcuts_found">لم يتم العثور على اختصارات</string>
+<string name="launch">فتح▶️</string>
+<string name="launch_app_title">تشغيل %1$s</string>
+<string name="launch_confirmation_message">تشغيل باستخدام %1$s؟\n\nيمكنك تغيير نوع Wine في إعدادات XoDos.</string>
+<string name="launching_app">جاري تشغيل %1$s</string>
+<string name="launch_success">تم تشغيل %1$s</string>
+<string name="launch_failed">فشل تشغيل %1$s</string>
+<string name="launch_error">خطأ في التشغيل</string>
+<string name="launch_error_detailed">فشل تشغيل %1$s\n\nالاستثناء: %2$s\n\nالرسالة: %3$s</string>
+<string name="view_logs">عرض السجلات</string>
+<string name="check_logcat">تحقق من logcat للسجلات التفصيلية</string>
+<string name="delete_shortcut">حذف الاختصار</string>
+<string name="delete_confirmation">هل أنت متأكد من حذف %1$s؟</string>
+<string name="deleted">تم الحذف</string>
+<string name="delete_failed">فشل الحذف</string>
+<string name="wine_type_glibc">Glibc Wine</string>
+<string name="wine_type_bionic">Bionic Wine</string>
+<string name="error_reading_file">خطأ في قراءة %1$s</string>
+<string name="failed_to_open_exe">⁉️ فشل فتح %1$s.exe\nحاول فتحه داخل وضع سطح المكتب</string>
+<string name="settings">الإعدادات⚙️</string>
+<string name="app_settings_title">الإعدادات لـ %s</string>
+<string name="save">حفظ💾</string>
+<string name="settings_saved">تم حفظ الإعدادات</string>
+<string name="reset_settings">إعادة تعيين الإعدادات</string>
+<string name="applying_settings">جاري تطبيق الإعدادات...</string>
+<string name="xodos_wizard_title">إعدادات XoDos Wine</string>
+<string name="phantom_killer_warning_title">تعطيل 🚫 قاتل العمليات الخفي</string>
+<string name="phantom_killer_warning_message">⚠️ قد يقوم أندرويد 11+ بقتل العمليات الخلفية.\n\nاتبع الدليل أدناه لتعطيل قاتل العمليات الخفي باستخدام أحد الروابط.</string>
+<string name="github_button">GitHub</string>
+<string name="telegram_button">Telegram</string>
+<string name="youtube_button">YouTube🖥️</string>
+<string name="browser_open_failed">فشل فتح المتصفح: %s</string>
+<string name="restart_required_title">إعادة التشغيل مطلوبة</string>
+<string name="restart_required_message">⚠️ تغيير السائقين يتطلب إعادة تشغيل الخادم وWine. متابعة؟</string>
+<string name="ok_button">موافق</string>
+<string name="cancel_button">إلغاء</string>
+<string name="wine_processes_stopped">توقفت عمليات Wine</string>
+<string name="error_saving_config">خطأ في حفظ الإعدادات: %s</string>
+<string name="error_reading_wine_config">خطأ في قراءة إعدادات wine: %s</string>
+<string name="file_manager_title">📂 مدير الملفات</string>
+<string name="back">⬅ رجوع</string>
+<string name="forward">➡ أمام</string>
+<string name="home">🏠 الرئيسية</string>
+<string name="paste">📋 لصق</string>
+<string name="help">❓ مساعدة</string>
+<string name="copied">تم النسخ</string>
+<string name="no_file_to_paste">لا يوجد ملف للصق</string>
+<string name="source_file_no_longer_exists">الملف المصدر لم يعد موجودًا</string>
+<string name="failed_to_copy_file">فشل نسخ الملف</string>
+<string name="paste_failed">فشل اللصق</string>
+<string name="conversion_complete">تم التحويل بنجاح</string>
+<string name="repair_xbox_iso">إصلاح Xbox ISO</string>
+<string name="convert_to_standard_iso">تحويل إلى ISO قياسي</string>
+<string name="converted_to_xbox_iso">تم التحويل إلى Xbox ISO</string>
+<string name="list_files_xdvdfs">عرض الملفات (xdvdfs ls)</string>
+<string name="tree_view_xdvdfs">عرض الشجرة (xdvdfs tree)</string>
+<string name="md5_checksums_xdvdfs">مجموع التحقق MD5 (xdvdfs md5)</string>
+<string name="image_info_xdvdfs">معلومات الصورة (xdvdfs info)</string>
+<string name="extract_file_xdvdfs">استخراج ملف (xdvdfs copy-out)</string>
+<string name="unpack_image_xdvdfs">فك الصورة (xdvdfs unpack)</string>
+<string name="compute_checksum_xdvdfs">حساب مجموع التحقق (xdvdfs checksum)</string>
+<string name="conversion_error">خطأ في التحويل</string>
+<string name="repaired_xbox_iso">تم إصلاح Xbox ISO</string>
+<string name="repair_failed">فشل الإصلاح</string>
+<string name="repair_error">خطأ في الإصلاح</string>
+<string name="converted_to_standard_iso">تم التحويل إلى ISO قياسي</string>
+<string name="conversion_failed">فشل التحويل</string>
+<string name="folder">مجلد</string>
+<string name="selected">محدد</string>
+<string name="cannot_open_folder">لا يمكن فتح المجلد</string>
+<string name="cannot_read_folder">لا يمكن قراءة المجلد</string>
+<string name="access_denied">تم الرفض</string>
+<string name="can_only_run_from_termux">يمكن التشغيل فقط من نشاط Termux</string>
+<string name="create_shortcut">📋 إنشاء اختصار</string>
+<string name="shortcut_created">تم إنشاء الاختصار</string>
+<string name="failed_to_create_shortcut">فشل إنشاء الاختصار</string>
+<string name="list_contents">📋 عرض المحتويات (7z)</string>
+<string name="extract_to_new_folder">📦 استخراج إلى مجلد جديد (7z)</string>
+<string name="open_with_xbox">فتح مع Xbox</string>
+<string name="convert_to_xbox_iso">🔄 تحويل إلى Xbox ISO</string>
+<string name="open_with_ps1">فتح مع PS1</string>
+<string name="restore_to_xodos">⚙️ استعادة إلى XoDos</string>
+<string name="running_with_x11">جاري التشغيل مع X11</string>
+<string name="opening_with_xbox">جاري الفتح مع Xbox</string>
+<string name="opening_with_ps1">جاري الفتح مع PS1</string>
+<string name="listing_contents">جاري عرض محتويات</string>
+<string name="extracting_to">جاري الاستخراج إلى</string>
+<string name="converting_to_xbox_iso">جاري التحويل إلى Xbox ISO</string>
+<string name="converting_to_xbox_iso_format">جاري التحويل إلى تنسيق Xbox ISO</string>
+<string name="restoring_system_archive">جاري استعادة أرشيف النظام</string>
+<string name="supported_file_types">📋 أنواع الملفات المدعومة</string>
+<string name="help_message">الملفات المدعومة:\n\n• ملفات ISO/XISO:\n  - عرض المحتويات مع 7z\n  - استخراج المحتويات إلى مجلد جديد\n  - الفتح مع محاكي Xbox\n  - التحويل إلى تنسيق Xbox ISO\n\n• ملفات CUE/BIN (PS1):\n  - عرض المحتويات مع 7z\n  - استخراج المحتويات إلى مجلد جديد\n  - الفتح مع محاكي PS1\n\n• ملفات الأرشيف (.7z, .rar, .zip, .tar, .gz):\n  - عرض المحتويات مع 7z\n  - استخراج المحتويات إلى مجلد جديد\n\n• ملفات EXE:\n  - التشغيل مع محاكي Windows Wine\n  - إنشاء اختصارات سطح المكتب\n\n• ملفات TAR.XZ/TAR.GZ:\n  - استعادة/تثبيت أرشيفات النظام إلى XoDos\n\n• النسخ/اللصق:\n  - اضغط مطولاً على أي ملف/مجلد للخيارات\n  - اختر نسخ\n  - استخدم زر اللصق للصق في المجلد الحالي</string>
+<string name="install">تثبيت</string>
+<string name="install_with_downgrade">تثبيت مع التخفيض</string>
+<string name="execute_in_terminal">تنفيذ في الطرفية</string>
+<string name="select_mode">اختر الوضع</string>
+<string name="no_files_selected">لم يتم تحديد ملفات</string>
+<string name="selected_files">لا توجد إجراءات متاحة لنوع الملف هذا: %d</string>
+<string name="toolbox_fm">مدير الملفات</string>
+<string name="pack_selected">حزم الملفات المحددة</string>
+<string name="clear_selection">مسح التحديد</string>
+<string name="deb_package">حزمة DEB: %s</string>
+<string name="installation_method">طريقة التثبيت</string>
+<string name="script_file">ملف سكريبت: %s</string>
+<string name="audio_file">ملف صوتي: %s</string>
+<string name="playing_audio">جاري تشغيل الصوت: %s</string>
+<string name="executing_script">جاري تنفيذ السكريبت: %s</string>
+<string name="installing_package">جاري تثبيت الحزمة: %s</string>
+<string name="changing_permissions">جاري تغيير الصلاحيات</string>
+<string name="permissions_changed_count">تم تغيير الصلاحيات لـ %d عنصر</string>
+<string name="failed_change_permissions">فشل تغيير الصلاحيات</string>
+<string name="packing_directory">جاري حزم المجلد إلى %s</string>
+<string name="select_directory_pack">الرجاء اختيار مجلد للحزم</string>
+<string name="file_types">أنواع الملفات</string>
+<string name="deb_files">ملفات DEB</string>
+<string name="script_files">ملفات السكريبت</string>
+<string name="audio_files">الملفات الصوتية</string>
+<string name="document_files">ملفات المستندات</string>
+<string name="spreadsheet_files">ملفات الجداول</string>
+<string name="presentation_files">ملفات العروض</string>
+<string name="database_files">ملفات قواعد البيانات</string>
+<string name="font_files">ملفات الخطوط</string>
+<string name="web_files">ملفات الويب</string>
+<string name="programming_files">ملفات البرمجة</string>
+<string name="install_in_proot">التثبيت في PRoot 🐧</string>
+<string name="install_normally">التثبيت العادي الأصلي</string>
+<string name="change_permissions">تغيير/إصلاح صلاحيات التنفيذ</string>
+<string name="open_with_mpv">فتح مع مشغل MPV</string>
+<string name="no_proot_distro">لم يتم العثور على توزيعة PRoot. الرجاء تثبيت xodos Proot أولاً.</string>
+<string name="installing_in_proot">جاري التثبيت في توزيعة PRoot: %s</string>
+<string name="select_mode_on">🎯 وضع التحديد نشط: اضغط مطولاً على الملفات للتحديد</string>
+<string name="select_mode_off">📁 وضع التحديد</string>
+<string name="copy_selected">نسخ المحدد</string>
+<string name="list_files">عرض الملفات</string>
+<string name="tree_view">عرض الشجرة</string>
+<string name="image_info">معلومات الصورة</string>
+<string name="unpack_image">فك الصورة</string>
+<string name="extract_to_folder">استخراج إلى مجلد</string>
+<string name="pack_with_xdvdfs">الحزم مع xdvdfs</string>
+<string name="pack_folder">حزم المجلد</string>
+<string name="pack_iso">حزم ISO</string>
+<string name="copy">نسخ</string>
+<string name="run_in_terminal">تشغيل في الطرفية</string>
+<string name="permissions_changed">تم تغيير الصلاحيات إلى قابلة للتنفيذ</string>
+<string name="delete">حذف</string>
+
+
+<string name="toolbox_wine">حذف البادئة</string>
+<string name="toolbox_clean_wine">تنظيف</string>
+<string name="confirm_delete">تأكيد الحذف</string>
+<string name="delete_wine_prefix_warning">هل أنت متأكد أنك تريد حذف بادئة Wine؟ لا يمكن التراجع عن هذا الإجراء.</string>
+<string name="wine_prefix_deleted">تم حذف بادئة Wine بنجاح ✅</string>
+<string name="error_no_wineprefix_in_conf">تعذر العثور على WINEPREFIX في wine_path.conf ⚠️</string>
+
 </resources>

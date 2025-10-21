@@ -11,5 +11,6 @@
         android:layout_width="153dp"
         android:layout_height="52dp"
         android:layout_gravity="left|bottom"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo" 
+        android:visibility="gone"/>
 </FrameLayout>

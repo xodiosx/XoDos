@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fileListView" type="id" />
+    <item name="file_icon" type="id" />
+    <item name="file_name" type="id" />
+    <item name="file_size" type="id" />
+</resources>

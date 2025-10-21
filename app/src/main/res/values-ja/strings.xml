@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE resources [<!ENTITY TERMUX_PACKAGE_NAME "com.termux"><!ENTITY TERMUX_APP_NAME "XoDos"><!ENTITY TERMUX_API_APP_NAME "Termux:API"><!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot"><!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float"><!ENTITY TERMUX_STYLING_APP_NAME "Termux:Styling"><!ENTITY TERMUX_TASKER_APP_NAME "Termux:Tasker"><!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">]>
+
+<resources>
+
+    <string name="application_name">&TERMUX_APP_NAME; </string>
+    <string name="shared_user_label">&TERMUX_APP_NAME; ユーザー</string>
+
+    <!-- Termux RUN_COMMAND permission -->
+    <string name="permission_run_command_label">&TERMUX_APP_NAME; 環境でコマンドを実行</string>
+    <string name="permission_run_command_description">&TERMUX_APP_NAME; 環境内で任意のコマンドを実行し、ファイルにアクセス</string>
+
+    <!-- Termux Bootstrap Packages Installation -->
+    <string name="bootstrap_error_body">&TERMUX_APP_NAME; はブートストラップパッケージをインストールできませんでした。</string>
+    <string name="bootstrap_error_abort">中止</string>
+    <string name="bootstrap_error_try_again">再試行</string>
+    <string name="bootstrap_error_not_primary_user_message">&TERMUX_APP_NAME; はプライマリユーザーとしてのみ実行できます。ブートストラップバイナリは 用にコンパイルされており、ハードコードされた $PREFIX パスを持ち、以下のパス以外にはインストールできません:%1$s。</string>
+    <string name="bootstrap_error_installed_on_portable_sd">&TERMUX_APP_NAME; はデバイスのポータブル/外部/取り外し可能SDカードにはインストールできません。ブートストラップバイナリは 用にコンパイルされており、ハードコードされた $PREFIX パスを持ち、以下のパス以外にはインストールできません:%1$s。</string>
+
+    <!-- Terminal Sidebar and Shortcuts -->
+    <string name="action_new_session">新規セッション</string>
+    <string name="action_new_session_failsafe">フェイルセーフ</string>
+    <string name="title_max_terminals_reached">ターミナル数が最大に達しました</string>
+    <string name="msg_max_terminals_reached">新しいターミナルを作成する前に既存のターミナルを閉じてください。</string>
+
+    <string name="title_rename_session">セッション名を設定</string>
+    <string name="action_rename_session_confirm">設定</string>
+    <string name="title_create_named_session">名前付きセッションを作成</string>
+    <string name="action_create_named_session_confirm">作成</string>
+
+    <string name="action_toggle_soft_keyboard">キーボード</string>
+    <string name="action_toggle_tool_box">ツールボックス</string>
+
+    <string name="msg_enabling_terminal_toolbar">ターミナルツールバーを有効化</string>
+    <string name="msg_disabling_terminal_toolbar">ターミナルツールバーを無効化</string>
+
+    <!-- Terminal Popup -->
+    <string name="action_select_url">URLを選択</string>
+    <string name="title_select_url_dialog">URLをクリックでコピー、長押しで開く</string>
+    <string name="title_select_url_none_found">ターミナル内にURLが見つかりませんでした。</string>
+    <string name="msg_select_url_copied_to_clipboard">URLをクリップボードにコピーしました</string>
+
+    <string name="action_share_transcript">トランスクリプトを共有</string>
+    <string name="title_share_transcript">ターミナルトランスクリプト</string>
+    <string name="title_share_transcript_with">トランスクリプトを送信:</string>
+
+    <string name="action_share_selected_text">選択テキストを共有</string>
+    <string name="title_share_selected_text">ターミナルテキスト</string>
+    <string name="title_share_selected_text_with">選択テキストを送信:</string>
+
+    <string name="action_autofill_password">パスワードを自動入力</string>
+
+    <string name="action_reset_terminal">リセット</string>
+    <string name="msg_terminal_reset">ターミナルをリセットしました</string>
+
+    <string name="action_kill_process">プロセスを終了 (%d)</string>
+    <string name="title_confirm_kill_process">このセッションを終了しますか？</string>
+
+    <string name="action_style_terminal">スタイル</string>
+    <string name="action_toggle_keep_screen_on">画面を常時オン</string>
+    <string name="action_open_help">ヘルプ</string>
+    <string name="action_open_settings">設定</string>
+    <string name="action_recover_storage">復元</string>
+    <string name="action_backup_storage">バックアップ</string>
+
+    <string name="action_report_issue">問題を報告</string>
+    <string name="msg_generating_report">レポートを生成中</string>
+    <string name="msg_add_termux_debug_info">レポートにTermuxデバッグ情報を追加しますか？</string>
+
+    <string name="error_styling_not_installed">&TERMUX_STYLING_APP_NAME; プラグインアプリがインストールされていません。</string>
+    <string name="action_styling_install">インストール</string>
+
+    <!-- Termux Notifications -->
+    <string name="notification_action_exit">終了</string>
+    <string name="notification_action_wake_lock">ウェイクロックを取得</string>
+    <string name="notification_action_wake_unlock">ウェイクロックを解放</string>
+
+    <!-- TermuxService -->
+    <string name="error_display_over_other_apps_permission_not_granted_to_start_terminal">&TERMUX_APP_NAME;
+        はAndroid >= 10でバックグラウンドからターミナルセッションを開始するには
+        \"他のアプリの上に表示\"権限が必要です。
+        設定 -> アプリ -> &TERMUX_APP_NAME; -> 詳細設定から許可してください。</string>
+    <string name="error_termux_service_invalid_execution_command_runner">TermuxServiceへの無効な実行コマンドランナー: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_runner">TermuxServiceへの未サポートの実行コマンドランナー: `%1$s`</string>
+    <string name="error_termux_service_unsupported_execution_command_shell_create_mode">TermuxServiceへの未サポートの実行コマンドシェル作成モード: `%1$s`</string>
+    <string name="error_termux_service_execution_command_shell_name_unset">シェル名が設定されていませんが、`%1$s` シェル作成モードが渡されました</string>
+
+    <!-- Termux RunCommandService -->
+    <string name="error_run_command_service_invalid_intent_action">RunCommandServiceへの無効なインテントアクション: `%1$s`</string>
+    <string name="error_run_command_service_invalid_execution_command_runner">RunCommandServiceへの無効な実行コマンドランナー: `%1$s`</string>
+    <string name="error_run_command_service_mandatory_extra_missing">RunCommandServiceへの必須エクストラがありません: \"%1$s\"</string>
+    <string name="error_run_command_service_api_help">RUN_COMMANDインテントの使用方法については %1$s を参照してください。</string>
+
+    <!-- Termux File Receiver -->
+    <string name="title_file_received">ファイルを ~/downloads/ に保存</string>
+    <string name="action_file_received_edit">編集</string>
+    <string name="action_file_received_open_directory">ディレクトリを開く</string>
+
+    <!-- Miscellaneous -->
+    <string name="error_termux_service_start_failed_general">TermuxServiceの起動に失敗しました。例外メッセージについてはlogcatを確認してください。</string>
+    <string name="error_termux_service_start_failed_bg">Androidのバックグラウンド制限により、アプリがバックグラウンドにあるときにTermuxServiceを起動できませんでした。</string>
+
+    <!-- Termux Settings -->
+    <string name="title_activity_termux_settings">&TERMUX_APP_NAME; 設定</string>
+
+    <!-- Termux App Preferences -->
+    <string name="termux_preferences_title">&TERMUX_APP_NAME; 設定</string>
+    <string name="termux_preferences_summary">&TERMUX_APP_NAME; アプリの設定</string>
+
+    <!-- Debugging Preferences -->
+    <string name="termux_debugging_preferences_title">デバッグ</string>
+    <string name="termux_debugging_preferences_summary">デバッグ設定</string>
+
+    <!-- Logging Category -->
+    <string name="termux_logging_header">ロギング</string>
+
+    <!-- Log Level -->
+    <string name="termux_log_level_title">ログレベル</string>
+
+    <!-- Terminal View Key Logging -->
+    <string name="termux_terminal_view_key_logging_enabled_title">ターミナルビューキーロギング</string>
+    <string name="termux_terminal_view_key_logging_enabled_off">ターミナルビューキーのエントリはログに記録されません。（デフォルト）</string>
+    <string name="termux_terminal_view_key_logging_enabled_on">Logcatログにターミナルビューキーのエントリが記録されます。
+                    これは非常に冗長であり、通常は無効にするか、パフォーマンスの問題を引き起こす可能性があります。</string>
+
+    <!-- Plugin Error Notifications -->
+    <string name="termux_plugin_error_notifications_enabled_title">プラグインエラー通知</string>
+    <string name="termux_plugin_error_notifications_enabled_off">プラグインエラーのフラッシュと通知を無効にします。</string>
+    <string name="termux_plugin_error_notifications_enabled_on">プラグインエラーのフラッシュと通知を表示します。（デフォルト）</string>
+
+    <!-- Crash Report Notifications -->
+    <string name="termux_crash_report_notifications_enabled_title">クラッシュレポート通知</string>
+    <string name="termux_crash_report_notifications_enabled_off">クラッシュレポートの通知を無効にします。</string>
+    <string name="termux_crash_report_notifications_enabled_on">クラッシュレポートの通知を表示します。（デフォルト）</string>
+
+    <!-- Terminal IO Preferences -->
+    <string name="termux_terminal_io_preferences_title">ターミナルI/O</string>
+    <string name="termux_terminal_io_preferences_summary">ターミナルI/Oの設定</string>
+
+    <!-- Keyboard Category -->
+    <string name="termux_keyboard_header">キーボード</string>
+
+    <!-- Soft Keyboard -->
+    <string name="termux_soft_keyboard_enabled_title">ソフトキーボードを有効化</string>
+    <string name="termux_soft_keyboard_enabled_off">ソフトキーボードが無効になります。</string>
+    <string name="termux_soft_keyboard_enabled_on">ソフトキーボードが有効になります。（デフォルト）</string>
+
+    <!-- Soft Keyboard Only If No Hardware-->
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_title">ハードウェアキーボードがない場合のみソフトキーボード</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_off">ハードウェアキーボードが接続されていてもソフトキーボードが有効になります。（デフォルト）</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_on">ハードウェアキーボードが接続されていない場合のみソフトキーボードが有効になります。</string>
+
+    <!-- Terminal View Preferences -->
+    <string name="termux_terminal_view_preferences_title">ターミナルビュー</string>
+    <string name="termux_terminal_view_preferences_summary">ターミナルビューの設定</string>
+
+    <!-- View Category -->
+    <string name="termux_terminal_view_view_header">ビュー</string>
+
+    <!-- Terminal View Margin Adjustment -->
+    <string name="termux_terminal_view_terminal_margin_adjustment_title">ターミナルマージン調整</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_off">ターミナルマージン調整が無効になります。</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_on">ターミナルマージン調整が有効になります。
+                    ソフトキーボードがエクストラキー/ターミナルビューの一部を覆う問題を修正するために有効にする必要があります。
+                    デバイスで画面のちらつきが発生する場合は無効にしてください。（デフォルト）</string>
+
+    <!-- Termux:API App Preferences -->
+    <string name="termux_api_preferences_title">&TERMUX_API_APP_NAME; 設定</string>
+    <string name="termux_api_preferences_summary">&TERMUX_API_APP_NAME; アプリの設定</string>
+
+    <!-- Termux:Float App Preferences -->
+    <string name="termux_float_preferences_title">&TERMUX_FLOAT_APP_NAME; 設定</string>
+    <string name="termux_float_preferences_summary">&TERMUX_FLOAT_APP_NAME; アプリの設定</string>
+
+    <!-- Termux:Tasker App Preferences -->
+    <string name="termux_tasker_preferences_title">&TERMUX_TASKER_APP_NAME; 設定</string>
+    <string name="termux_tasker_preferences_summary">&TERMUX_TASKER_APP_NAME; アプリの設定</string>
+
+    <!-- Termux:Widget App Preferences -->
+    <string name="termux_widget_preferences_title">&TERMUX_WIDGET_APP_NAME; 設定</string>
+    <string name="termux_widget_preferences_summary">&TERMUX_WIDGET_APP_NAME; アプリの設定</string>
+
+    <!-- About Preference -->
+    <string name="about_preference_title">約</string>
+
+    <!-- Donate Preference -->
+    <string name="donate_preference_title">寄付</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="file_cpy_success">ファイルがコピーされました</string>
+    <string name="file_cpy_override">ファイルが上書きされました</string>
+    <string name="file_cpy_fail">ファイルを指定パスに書き込めません</string>
+    <string name="exit_toast_text">もう一度押すとアプリを終了します</string>
+    <string name="no_such_file">ファイルが見つかりません</string>
+    <string name="not_executable">実行可能ではありません</string>
+    <string name="select_command_first">スタートアップファイルを選択してください</string>
+    <string name="apply_display_over_other_app_permission">最初に他のアプリの上に表示する権限を適用してください</string>
+    <string name="open_terminal">ターミナルを開く</string>
+    <string name="terminate_current_process">現在実行中のプロセスを終了</string>
+    <string name="unlock_layout">画面スライダーのロックを解除</string>
+    <string name="raise_termux_app">Termuxアプリを前面に表示</string>
+    <string name="add_menu_item">フロートボールメニューにアイテムを追加</string>
+    <string name="hide_terminal">ターミナルを非表示</string>
+    <string name="set_dinput">dinput</string>
+    <string name="set_xinput">xinput</string>
+    <string name="select_gamepad_input_mode">ゲームパッドのコントローラータイプを選択</string>
+    <string name="ready_set_mobox_env">XoDosシステムをインストールします。時間がかかりますので、コントロールタイプを選択した後、アプリが自動的に終了するまでお待ちください。5分以上開いたままの場合は手動で閉じて、ターミナルまたはダウンロードフォルダのエラーログでエラーを読んでください。インストールは許可を求めますので、許可して待機し、コーヒーをお楽しみください。by XOD M.aleiwi</string>
+    <string name="yes">はい</string>
+    <string name="cancel">キャンセル</string>
+    <string name="executable_file">実行可能ファイル</string>
+    <string name="remove_shortcut">このショートカットを削除しますか？</string>
+    <string name="remove">削除</string>
+    <string name="invalid_config">無効な設定</string>
+    
+    <!-- Add to res/values/strings.xml -->
+    <string name="bootstrap_initializing">Termux環境を初期化中...</string>
+
+    <string name="bootstrap_installer_title">Termuxをインストール中</string>
+    <string name="bootstrap_installer_body">環境を初期化中...</string>
+    <string name="bootstrap_error_title">インストールエラー</string>
+    
+    <!-- Add these lines -->
+    <string name="storage_permission_title">ストレージアクセスが必要です</string>
+    <string name="storage_permission_message">アプリはパッケージをインストールするためにストレージ権限が必要です。</string>
+    <string name="error_permission_denied">権限が拒否されました</string>
+    <string name="error_storage_permission_required">インストールにはストレージ権限が必要です。</string>
+    
+    <!-- Add these entries -->
+    <string name="action_grant">許可</string>
+    <string name="action_exit">終了</string>
+    <string name="action_retry">再試行</string>
+    <string name="action_toggle_tool_box2">スタート</string>
+    
+    <!-- Toolbox Buttons -->
+    <string name="toolbox_ai">AI</string>
+    <string name="toolbox_xodos">Xodos</string>
+    <string name="toolbox_proot">Proot</string>
+    <string name="toolbox_kali">Kali</string>
+    <string name="toolbox_help">ヘルプ</string>
+    <string name="toolbox_switch">ユーザー切り替え</string>
+    <string name="toolbox_settings">設定</string>
+    <string name="toolbox_wine_glibc">Wine-Glibc</string>
+    <string name="toolbox_wine_bionic">Wine-Bionic</string>
+    <string name="toolbox_xbox">Xbox</string>
+    <string name="toolbox_backup">バックアップ</string>
+    <string name="toolbox_restore">インストール/復元</string>
+
+    <string name="toolbox_update">更新</string>
+    <string name="choose_wine_env">Wine環境を選択</string>
+    <string name="wine_glibc">Wine Glibc</string>
+    <string name="wine_bionic">Wine Bionic</string>
+    <string name="wine_glibc_missing">最初にWine Glibcをインストールしてください！</string>
+    <string name="wine_bionic_missing">最初にWine Bionicをインストールしてください！</string>
+    <string name="toolbox_wizard">クイック設定</string>
+    
+    <string-array name="tutorial_steps">
+        <item>XoDos🖥️: Android用高速ネイティブLinuxデスクトップ</item>
+        <item>Proot🐧: ルートアクセスとより多くのアプリサポートで完全なLinuxディストリビューションを実行</item>
+        <item>Kali🐉Linux: 100以上のセキュリティツールを備えた完全なペネトレーションテストツールキット</item>
+        <item>Wine🍷Glibc: ほとんどのAndroidデバイスをサポートするWindowsエミュレーション（Snapdragonでない場合はVirGlを使用）</item>
+        <item>Wine🍷Bionic: ネイティブドライバーラッピングを備えたWindowsエミュレーション（Snapdragonでない場合はラッパーを使用）</item>
+     <item>Wine🍷プレフィックスを削除🗑️：ここではWindowsシステムの問題を修正し、新しいWineをインストールするために、Wineコンテナまたはインストールされたプレフィックスを削除できます</item>
+         <item>ファイルマネージャー📁: ファイルをナビゲートおよび管理、抽出、インストール、復元など</item>
+<item>Termux:ウィジェット📃：スクリプト/アプリの実行をより簡単かつ迅速にするために、Androidホームに直接ショートカットを作成</item>
+    
+        <item>Termux:ウィジェット: スクリプトの実行を容易にするためにAndroidランチャーに直接ショートカットを作成</item>
+        <item>設定⚙️: Wine/DXVK/Boxバージョンとシステムドライバーを設定</item> 
+        <item>AI🤖チャット: DeepSeek、Llama、100以上のモデルをサポートするローカルプライベートAI</item>
+        <item>復元♻️: XoDosシステムアップデートとKali/Prootなどのシステムをインストール</item>
+        <item>バックアップ📥: 転送/共有/復元用のワンクリック完全システムスナップショット</item>
+        <item>クイック設定🪄: 新しいユーザーがドライバー/DXVk/wineD3Dなどを素早く簡単に設定するのに役立ちます</item>
+        <item>ショートカット🎮: Wine/Windowsアプリとゲームを設定し、直接開くのに役立ちます</item>
+        <item>切り替え👥: 異なるユーザーコンテナを切り替え</item>
+        <item>ショートカットを追加➕: スクリプト/アプリ/Python用のショートカットを作成</item>
+        <item>更新⏫: データを失うことなく新しいバージョンからアップデートをインストールまたはシステムを再インストール、エラーの修正に役立ちます</item>        
+        <item>削除❌Wine🍷: アプリからWine/Windowsを完全に削除⚠️ストレージを増やすために。</item>    
+    </string-array>
+
+    <string name="next">次へ</string>
+    <string name="finish_tutorial">終了</string>
+    
+    <!-- Base Strings -->
+    <!-- Wizard Dialog Titles -->
+    <string name="modern_android_title">⚠️最新Android検出</string>
+    <string name="cpu_title">CPUタイプ</string>
+    <string name="wine_title">Wine🍷タイプ</string>
+    <string name="dxvk_title">DirectXラッパーを選択</string>
+    <string name="driver_title">ドライバーを選択</string>
+    <string name="cores_title">CPUコア割り当て</string>
+    <string name="wizard_complete_title">ウィザード😁👌完了✅</string>
+    <string name="error_title">エラー</string>
+
+    <!-- Wizard Messages -->
+    <string name="modern_android_message">⚠️あなたのシステムはAndroid 11以上です。\n\nアプリの終了を防ぐために、Phantom Process Killerを無効にしてください🛑:\n\n%s</string>
+    <string name="cpu_message">あなたのCPUは何ですか？</string>
+    <string name="wine_message">Wine🍷バージョンを選択:</string>
+    <string name="error_no_dxvk">%sにDXVKファイルがありません❌</string>
+    <string name="error_no_driver">%sにドライバーファイルがありません❌</string>
+    <string name="wizard_complete_message">♻️xodwine.cfgが書き込まれました:\n%s\n\nWindowsを今すぐ実行✅。</string>
+    <string name="error_save_config">⚠️設定の保存に失敗:\n%s</string>
+
+    <!-- Buttons -->
+    <string name="ok">OK</string>
+    <string name="snapdragon">Snapdragon</string>
+    <string name="other">その他</string>
+    <string name="glibc">🍷glibc</string>
+    <string name="bionic">🍷bionic</string>
+
+    <!-- Core Options -->
+    <string-array name="core_options">
+        <item>1 コア</item>
+        <item>2 コア</item>
+        <item>3 コア</item>
+        <item>4 コア</item>
+        <item>5 コア</item>
+        <item>6 コア</item>
+        <item>7 コア</item>
+        <item>8 コア</item>
+    </string-array>
+
+    <!-- Wine Cleaner -->
+    <string name="clean_wine_title">削除するWineを選択してください</string>
+    <string name="clean_wine_warning">警告 ⚠️ これによりWineとそのファイルがアプリから削除され❌、復元できません。⚠️ただし、ストレージスペースが解放されます。続行しますか？</string>
+    <string name="delete_glibc">🗑️Glibcを削除❌</string>
+    <string name="delete_bionic">🗑️Bionicを削除❌</string>
+    <string name="cleanup_completed">クリーンアップ完了✅</string>
+
+    <!-- Confirmation dialog -->
+    <string name="update_confirmation_title">システム更新/インストール</string>
+    <string name="update_confirmation_message">システムを更新します。XoDosがインストールされていない場合はインストールされます。よろしいですか？</string>
+    <string name="button_proceed">続行</string>
+
+    <!-- Progress dialog -->
+    <string name="install_xodos_title">XoDosをインストール/更新中</string>
+    <string name="install_preparing">インストールを準備中…</string>
+    <string name="install_progress_message">インストール中… %d%%</string>
+    <string name="install_complete">✅ インストール完了！</string>
+    <string name="install_error">インストールエラー</string>
+    <string name="install_failed">XoDosのインストールに失敗: %s</string>
+    <string name="launch_xodos_command">/data/data/com.termux/files/usr/bin/xodos\n</string>
+    <string name="cleanup_error">エラー: %s</string>
+    <string name="install_copying">システムファイルをコピー中…</string>
+    <string name="install_extracting">システムを更新中…</string>
+    <string name="install_finalizing">インストールを最終化中…</string>
+
+    <string name="unlock_exit_toast_text">戻る/ロック解除</string>
+
+    <string name="stop_desktop_title">終了してWineとデスクトップを停止🛑しますか？</string>
+    
+    
+    
+    
+    
+    <string name="toolbox_shortcuts">ショートカット 🎮</string>
+  
+    <!-- XoDos Shortcuts -->
+    <string name="desktop_shortcuts">デスクトップショートカット</string>
+    <string name="close">閉じる</string>
+    <string name="refresh">更新</string>
+    <string name="no_shortcuts_found">ショートカットが見つかりません</string>
+    <string name="launch">開く▶️</string>
+    <string name="launch_app_title">%1$s を起動</string>
+    <string name="launch_confirmation_message">%1$s で起動しますか？\n\nWineタイプはXoDos設定で変更できます。</string>
+    <string name="launching_app">%1$s を起動中</string>
+    <string name="launch_success">%1$s を起動しました</string>
+    <string name="launch_failed">%1$s の起動に失敗</string>
+    <string name="launch_error">起動エラー</string>
+    <string name="launch_error_detailed">%1$s の起動に失敗\n\n例外: %2$s\n\nメッセージ: %3$s</string>
+    <string name="view_logs">ログを表示</string>
+    <string name="check_logcat">詳細なログについてはlogcatを確認</string>
+    <string name="delete_shortcut">ショートカットを削除</string>
+    <string name="delete_confirmation">%1$s を削除してもよろしいですか？</string>
+    <string name="deleted">削除しました</string>
+    <string name="delete_failed">削除に失敗</string>
+    <string name="wine_type_glibc">Glibc Wine</string>
+    <string name="wine_type_bionic">Bionic Wine</string>
+    <string name="error_reading_file">%1$s の読み込みエラー</string>
+    
+    <!-- X11 Monitor check -->
+    <string name="failed_to_open_exe">⁉️ %1$s.exe を開くのに失敗しました
+デスクトップモード内で開いてみてください</string>
+
+    <!-- shortcuts settings -->
+    <string name="settings">設定⚙️</string>
+    <string name="app_settings_title">%s の設定</string>
+    <string name="save">保存💾</string>
+    <string name="settings_saved">設定を保存しました</string>
+    <string name="reset_settings">設定をリセット</string>
+    <string name="applying_settings">設定を適用中...</string>
+    
+    <!-- XoDos Wizard Strings -->
+    <string name="xodos_wizard_title">XoDos Wine設定</string>
+    <string name="phantom_killer_warning_title">Phantom Process Killerを無効化🚫</string>
+    <string name="phantom_killer_warning_message">⚠️ Android 11以上はバックグラウンドプロセスを強制終了する場合があります。\n\n以下のリンクのいずれかを使用してPhantom Process Killerを無効にするガイドに従ってください。</string>
+    <string name="github_button">GitHub</string>
+    <string name="telegram_button">Telegram</string>
+    <string name="youtube_button">YouTube🖥️</string>
+    <string name="browser_open_failed">ブラウザを開けませんでした: %s</string>
+    <string name="restart_required_title">再起動が必要</string>
+    <string name="restart_required_message">⚠️ドライバーの変更にはサーバーとWineの再起動が必要です。続行しますか？</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">キャンセル</string>
+    <string name="wine_processes_stopped">Wineプロセスが停止しました</string>
+    <string name="error_saving_config">設定の保存エラー: %s</string>
+    <string name="error_reading_wine_config">Wine設定の読み込みエラー: %s</string>
+
+    <!-- File Manager Strings -->
+    <string name="file_manager_title">📂 ファイルマネージャー</string>
+    <string name="back">⬅ 戻る</string>
+    <string name="forward">➡ 進む</string>
+    <string name="home">🏠 ホーム</string>
+    <string name="paste">📋 貼り付け</string>
+    <string name="help">❓ ヘルプ</string>    
+    
+    <!-- File Operations -->
+    <string name="copied">コピーしました</string>
+    <string name="no_file_to_paste">貼り付けるファイルがありません</string>
+    <string name="source_file_no_longer_exists">ソースファイルが存在しなくなりました</string>
+    <string name="failed_to_copy_file">ファイルのコピーに失敗</string>
+    <string name="paste_failed">貼り付けに失敗</string>
+    
+    <string name="conversion_complete">変換成功</string>
+    <string name="repair_xbox_iso">Xbox ISOを修復</string>
+    <string name="convert_to_standard_iso">標準ISOに変換</string>
+    <string name="converted_to_xbox_iso">Xbox ISOに変換しました</string>
+    
+    <!-- Xbox xdvdfs Options -->
+    <string name="list_files_xdvdfs">ファイルを一覧表示 (xdvdfs ls)</string>
+    <string name="tree_view_xdvdfs">ツリービュー (xdvdfs tree)</string>
+    <string name="md5_checksums_xdvdfs">MD5チェックサム (xdvdfs md5)</string>
+    <string name="image_info_xdvdfs">イメージ情報 (xdvdfs info)</string>
+    <string name="extract_file_xdvdfs">ファイルを抽出 (xdvdfs copy-out)</string>
+    <string name="unpack_image_xdvdfs">イメージを解凍 (xdvdfs unpack)</string>
+    <string name="compute_checksum_xdvdfs">チェックサムを計算 (xdvdfs checksum)</string>
+    <string name="conversion_error">変換エラー</string>
+    <string name="repaired_xbox_iso">Xbox ISOを修復しました</string>
+    <string name="repair_failed">修復に失敗</string>
+    <string name="repair_error">修復エラー</string>
+    <string name="converted_to_standard_iso">標準ISOに変換しました</string>
+    <string name="conversion_failed">変換に失敗</string>    
+    
+    <!-- File Types -->
+    <string name="folder">フォルダ</string>
+    <string name="selected">選択済み</string>
+    
+    <!-- Error Messages -->
+    <string name="cannot_open_folder">フォルダを開けません</string>
+    <string name="cannot_read_folder">フォルダを読み取れません</string>
+    <string name="access_denied">アクセスが拒否されました</string>
+    <string name="can_only_run_from_termux">Termuxアクティビティからのみ実行できます</string>
+    
+    <!-- EXE Options -->
+    <string name="create_shortcut">📋 ショートカットを作成</string>
+    <string name="shortcut_created">ショートカットを作成しました</string>
+    <string name="failed_to_create_shortcut">ショートカットの作成に失敗</string>
+    
+    <!-- Archive Options -->
+    <string name="list_contents">📋 内容を一覧表示 (7z)</string>
+    <string name="extract_to_new_folder">📦 新しいフォルダに抽出 (7z)</string>
+    <string name="open_with_xbox">Xboxで開く</string>
+    <string name="convert_to_xbox_iso">🔄 Xbox ISOに変換</string>
+    <string name="open_with_ps1">PS1で開く</string>
+    <string name="restore_to_xodos">⚙️ XoDosに復元</string>
+    
+    <!-- Command Messages -->
+    <string name="running_with_x11">X11で実行中</string>
+    <string name="opening_with_xbox">Xboxで開いています</string>
+    <string name="opening_with_ps1">PS1で開いています</string>
+    <string name="listing_contents">の内容を一覧表示中</string>
+    <string name="extracting_to">に抽出中</string>
+    <string name="converting_to_xbox_iso">Xbox ISOに変換中</string>
+    <string name="converting_to_xbox_iso_format">Xbox ISO形式に変換中</string>
+    <string name="restoring_system_archive">システムアーカイブを復元中</string>
+    
+    <!-- Help Dialog -->
+    <string name="supported_file_types">📋 サポートされているファイルタイプ</string>
+    <string name="help_message">サポートされているファイル:\n\n• ISO/XISOファイル:\n  - 7zで内容を一覧表示\n  - 新しいフォルダに内容を抽出\n  - Xboxエミュレーターで開く\n  - Xbox ISO形式に変換\n\n• CUE/BINファイル (PS1):\n  - 7zで内容を一覧表示\n  - 新しいフォルダに内容を抽出\n  - PS1エミュレーターで開く\n\n• アーカイブファイル (.7z, .rar, .zip, .tar, .gz):\n  - 7zで内容を一覧表示\n  - 新しいフォルダに内容を抽出\n\n• EXEファイル:\n  - Wine Windowsエミュレーターで実行\n  - デスクトップショートカットを作成\n\n• TAR.XZ/TAR.GZファイル:\n  - システムアーカイブをXoDosに復元/インストール\n\n• コピー/貼り付け:\n  - 任意のファイル/フォルダを長押ししてオプションを表示\n  - コピーを選択\n  - 貼り付けボタンを使用して現在のフォルダに貼り付け</string>
+    
+    <string name="install">インストール</string>
+    <string name="install_with_downgrade">ダウングレードしてインストール</string>
+
+
+    <string name="execute_in_terminal">ターミナルで実行</string>
+
+ 
+    <string name="select_mode">モードを選択</string>
+ 
+ 
+    <string name="no_files_selected">ファイルが選択されていません</string>
+    <string name="selected_files">このファイルタイプで利用可能なアクションがありません: %d</string>
+<string name="toolbox_fm">ファイルマネージャー</string>
+    <string name="pack_selected">選択ファイルをパック</string>
+    <string name="clear_selection">選択をクリア</string>
+    <string name="deb_package">DEBパッケージ: %s</string>
+    <string name="installation_method">インストール方法</string>
+    <string name="script_file">スクリプトファイル: %s</string>
+    <string name="audio_file">オーディオファイル: %s</string>
+    <string name="playing_audio">オーディオを再生中: %s</string>
+    <string name="executing_script">スクリプトを実行中: %s</string>
+    <string name="installing_package">パッケージをインストール中: %s</string>
+    <string name="changing_permissions">権限を変更中</string>
+    <string name="permissions_changed_count">%d アイテムの権限を変更</string>
+    <string name="failed_change_permissions">権限の変更に失敗</string>
+    <string name="packing_directory">ディレクトリを %s にパック中</string>
+    <string name="select_directory_pack">パックするディレクトリを選択してください</string>
+    <string name="file_types">ファイルタイプ</string>
+    <string name="deb_files">DEBファイル</string>
+    <string name="script_files">スクリプトファイル</string>
+    <string name="audio_files">オーディオファイル</string>
+    <string name="document_files">ドキュメントファイル</string>
+    <string name="spreadsheet_files">スプレッドシートファイル</string>
+    <string name="presentation_files">プレゼンテーションファイル</string>
+    <string name="database_files">データベースファイル</string>
+    <string name="font_files">フォントファイル</string>
+    <string name="web_files">Webファイル</string>
+    <string name="programming_files">プログラミングファイル</string>
+    
+    <string name="install_in_proot">PRoot 🐧 でインストール</string>
+    <string name="install_normally">通常通りネイティブインストール</string>
+    <string name="change_permissions">実行権限を変更/修正</string>
+    <string name="open_with_mpv">MPVプレーヤーで開く</string>
+    <string name="no_proot_distro">PRootディストリビューションが見つかりません。最初にxodos Prootをインストールしてください。</string>
+    <string name="installing_in_proot">PRootディストリビューションでインストール中: %s</string>
+    <string name="select_mode_on">🎯 選択モードON:ファイルを長押しで選択</string>
+    <string name="select_mode_off">📁 選択モード</string>
+    <string name="copy_selected">選択をコピー</string>
+    
+    <string name="list_files">ファイルを一覧表示</string>
+    <string name="tree_view">ツリービュー</string>
+    <string name="image_info">イメージ情報</string>
+    <string name="unpack_image">イメージを解凍</string>
+    <string name="extract_to_folder">フォルダに抽出</string>
+    <string name="pack_with_xdvdfs">xdvdfsでパック</string>
+    <string name="pack_folder">フォルダをパック</string>
+    <string name="pack_iso">ISOをパック</string>
+    <!-- Add these missing strings to your strings.xml -->
+<string name="copy">コピー</string>
+<string name="run_in_terminal">ターミナルで実行</string>
+<string name="permissions_changed">実行可能に権限変更</string>
+<string name="delete">削除</string>
+    <!-- Wine Options -->
+    
+<string name="toolbox_wine">プレフィックスを削除</string>
+<string name="toolbox_clean_wine">クリーンアップ中</string>
+<string name="confirm_delete">削除の確認</string>
+<string name="delete_wine_prefix_warning">Wineプレフィックスを削除してもよろしいですか？この操作は元に戻せません。</string>
+<string name="wine_prefix_deleted">Wineプレフィックスの削除に成功しました ✅</string>
+<string name="error_no_wineprefix_in_conf">wine_path.confでWINEPREFIXが見つかりません ⚠️</string>
+
+</resources>
