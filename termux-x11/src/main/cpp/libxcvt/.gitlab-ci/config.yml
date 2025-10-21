@@ -1,9 +1,0 @@
-.default_tag: &default_tag '2022-08-03.0'
-
-distributions:
-  - name: fedora
-    tag: *default_tag
-    version: 34
-    packages:
-      - meson
-      - gcc
