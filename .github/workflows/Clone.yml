@@ -37,7 +37,7 @@ jobs:
           ls
            
           git submodule update --init --recursive
-          #git clone --depth=1 --filter=blob:none --sparse https://github.com/xodiosx/XoDos-test temprepo
+          #git clone --depth=1 --filter=blob:none --sparse https://github.com/xodiosx/XoDos2 temprepo
           
           #cd temprepo
           git sparse-checkout set termux-x11/src/main/cpp
