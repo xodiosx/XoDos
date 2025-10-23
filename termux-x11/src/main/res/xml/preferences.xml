@@ -45,7 +45,7 @@
         <SeekBarPreference app:defaultValue="1" app:key="touch_sensitivity" android:max="20" app:title="@string/touch_sensitivity" />
     </PreferenceScreen>
     <PreferenceScreen app:key="kbd">
-        <SwitchPreferenceCompat app:key="showAdditionalKbd" app:defaultValue="true" />
+        <SwitchPreferenceCompat app:key="showAdditionalKbd" app:defaultValue="false" />
         <!-- this preference should be a part of `Prefs` but should not appear in PreferenceScreen -->
         <SwitchPreferenceCompat app:key="additionalKbdVisible" app:defaultValue="true" app:isPreferenceVisible="false" />
         <SwitchPreferenceCompat app:key="showIMEWhileExternalConnected" app:defaultValue="true" />
