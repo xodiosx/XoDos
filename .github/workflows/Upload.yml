@@ -33,11 +33,21 @@ jobs:
           pip install gdown
           gdown "1K4Y5eO3aVuF3vvLFSS5e2zbdn-ZuILgp" -O XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk || exit 1
 
-      - name: Download Additional File
+      - name: Download Additional Files
         run: |
           gdown "1D7X64n1rlszrmDg_uMaG0QL0109fJdPE" -O xodos_proot-6.0.tar.xz || exit 1
           gdown "1IqSnMIVZzQ_RTwN_s-qnAGB9p8dpI9jp" -O xodos_steam-lite.tar.xz || exit 1
-          
+
+      - name: Generate MD5 Checksums
+        id: md5
+        run: |
+          echo "### File checksums:" > checksums.txt
+          for f in XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk xodos_proot-6.0.tar.xz xodos_steam-lite.tar.xz; do
+            md5sum "$f" | awk '{print "- **"$2"** → `"$1"`"}' >> checksums.txt
+          done
+          echo "md5_list<<EOF" >> $GITHUB_ENV
+          cat checksums.txt >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Create Release with Both Files
         uses: softprops/action-gh-release@v1
@@ -50,23 +60,21 @@ jobs:
             XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk
             xodos_proot-6.0.tar.xz
             xodos_steam-lite.tar.xz
-            
-            
-          body: | 
+          body: |
             New XoDos release for arm64
+
             What's new?
             - 
 
-            
-            Gdrive links::
+            ${{ env.md5_list }}
 
-            
+           
             **Credits:**
             Team: @xodiosx🇾🇪 & @DevArys🇨🇴 & @Mondo67244🇲🇫 & @Aurora0y🇧🇷 & @Chest1902🇧🇩 & @jiaxinchen-max 🇨🇳  & @Snap888🇷🇺
             Logo designer: @xl_v6/ashen🇮🇶
-            
+
             **Support:**
             Telegram: https://t.me/xodemulatorr
             Discord: https://discord.gg/d2ChVhPfnF
-            
-            Thank you for choosing XoDos by xodios M.aleiw
+
+            Thank you for choosing XoDos by xodios M.aleiw©2025
