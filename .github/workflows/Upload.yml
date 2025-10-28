@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       version_tag:
-        description: 'Version tag (5.9.0)'
+        description: 'Version tag (6.0.0)'
         required: true
-        default: '5.9.0'
+        default: '6.0.0'
 
 permissions:
   contents: write
@@ -31,11 +31,12 @@ jobs:
       - name: Download Main APK
         run: |
           pip install gdown
-          gdown "1ERgkZDNKI-jgXcN0U-DUknkW8K7DVMev" -O XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk || exit 1
+          gdown "1JB3mZ6LiNdzgSoYzW_mjRmTiltDxAcJu" -O XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk || exit 1
 
       - name: Download Additional File
         run: |
-          gdown "1D7X64n1rlszrmDg_uMaG0QL0109fJdPE" -O xodos_proot-5.9.tar.xz || exit 1
+          gdown "1D7X64n1rlszrmDg_uMaG0QL0109fJdPE" -O xodos_proot-6.0.tar.xz || exit 1
+          gdown "1IqSnMIVZzQ_RTwN_s-qnAGB9p8dpI9jp" -O xodos_steam-lite.tar.xz || exit 1
           
 
       - name: Create Release with Both Files
@@ -47,15 +48,18 @@ jobs:
           name: XoDos ${{ github.event.inputs.version_tag }}
           files: |
             XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk
-            xodos_proot-5.9.tar.xz
+            xodos_proot-6.0.tar.xz
+            xodos_steam-lite.tar.xz
             
             
           body: | 
             New XoDos release for arm64
             What's new?
             - 
+
             
-            For best experience download the full version APK (1.7 GB) with Bionic and Glibc wine pre-installed
+            Gdrive links::
+
             
             **Credits:**
             Team: @xodiosx🇾🇪 & @DevArys🇨🇴 & @Mondo67244🇲🇫 & @Aurora0y🇧🇷 & @Chest1902🇧🇩 & @jiaxinchen-max 🇨🇳  & @Snap888🇷🇺
