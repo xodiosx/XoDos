@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version_tag:
-        description: 'Version tag (6.0.0)'
+        description: 'Version tag (e.g., 6.0.0)'
         required: true
         default: '6.0.0'
 
@@ -14,34 +14,47 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # ✅ Step 1: Checkout repository
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # ✅ Step 2: Install Python and gdown
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip
+          pip install gdown
+
+      # ✅ Step 3: Create Git Tag (after checkout)
       - name: Create Git Tag
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag ${{ github.event.inputs.version_tag }}
-          git push origin ${{ github.event.inputs.version_tag }}
+          git tag "v${{ github.event.inputs.version_tag }}"
+          git push origin "v${{ github.event.inputs.version_tag }}"
 
+      # ✅ Step 4: Download main APK file
       - name: Download Main APK
         run: |
-          pip install gdown
-          gdown "1K4Y5eO3aVuF3vvLFSS5e2zbdn-ZuILgp" -O XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk || exit 1
+          gdown --fuzzy "https://drive.google.com/uc?id=1K4Y5eO3aVuF3vvLFSS5e2zbdn-ZuILgp" \
+            -O "XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk" || exit 1
 
+      # ✅ Step 5: Download additional files
       - name: Download Additional Files
         run: |
-          gdown "1JB3mZ6LiNdzgSoYzW_mjRmTiltDxAcJu" -O xodos_proot-6.0.tar.xz || exit 1
-          gdown "1IqSnMIVZzQ_RTwN_s-qnAGB9p8dpI9jp" -O xodos_steam-lite.tar.xz || exit 1
+          gdown --fuzzy "https://drive.google.com/uc?id=1JB3mZ6LiNdzgSoYzW_mjRmTiltDxAcJu" -O "xodos_proot-6.0.tar.xz" || exit 1
+          gdown --fuzzy "https://drive.google.com/uc?id=1IqSnMIVZzQ_RTwN_s-qnAGB9p8dpI9jp" -O "xodos_steam-lite.tar.xz" || exit 1
 
+      # ✅ Step 6: Generate MD5 checksums for all downloaded files
       - name: Generate MD5 Checksums
         id: md5
         run: |
-          echo "### File checksums:" > checksums.txt
+          echo "### File Checksums:" > checksums.txt
           for f in XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk xodos_proot-6.0.tar.xz xodos_steam-lite.tar.xz; do
             md5sum "$f" | awk '{print "- **"$2"** → `"$1"`"}' >> checksums.txt
           done
@@ -49,32 +62,37 @@ jobs:
           cat checksums.txt >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Create Release with Both Files
-        uses: softprops/action-gh-release@v1
+      # ✅ Step 7: Create GitHub Release and upload files
+      - name: Create GitHub Release with Files
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.event.inputs.version_tag }}
-          name: XoDos ${{ github.event.inputs.version_tag }}
+          tag_name: "v${{ github.event.inputs.version_tag }}"
+          name: "XoDos v${{ github.event.inputs.version_tag }}"
           files: |
             XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk
             xodos_proot-6.0.tar.xz
             xodos_steam-lite.tar.xz
           body: |
-            New XoDos release for arm64
+            🧩 **XoDos v${{ github.event.inputs.version_tag }} full release**
 
-            What's new?
-            - 
+            ### ✅ What's New
+            - Improved performance and stability
+            - Updated environment packages
+            - Compatibility enhancements
 
+            ### 🧾 Checksums
             ${{ env.md5_list }}
 
-           
-            **Credits:**
-            Team: @xodiosx🇾🇪 & @DevArys🇨🇴 & @Mondo67244🇲🇫 & @Aurora0y🇧🇷 & @Chest1902🇧🇩 & @jiaxinchen-max 🇨🇳  & @Snap888🇷🇺
-            Logo designer: @xl_v6/ashen🇮🇶
+            ---
 
-            **Support:**
-            Telegram: https://t.me/xodemulatorr
-            Discord: https://discord.gg/d2ChVhPfnF
+            **👥 Credits**
+            Team: @xodiosx🇾🇪 • @DevArys🇨🇴 • @Mondo67244🇲🇫 • @Aurora0y🇧🇷 • @Chest1902🇧🇩 • @jiaxinchen-max🇨🇳 • @Snap888🇷🇺  
+            Logo: @xl_v6 / ashen🇮🇶  
 
-            Thank you for choosing XoDos by xodios M.aleiw©2025
+            **💬 Support**
+            Telegram: [t.me/xodemulatorr](https://t.me/xodemulatorr)  
+            Discord: [discord.gg/d2ChVhPfnF](https://discord.gg/d2ChVhPfnF)  
+
+            _Thank you for choosing XoDos by xodios M. aleiw ©2025_
