@@ -31,7 +31,7 @@ jobs:
       - name: Download Main APK
         run: |
           pip install gdown
-          gdown "1JB3mZ6LiNdzgSoYzW_mjRmTiltDxAcJu" -O XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk || exit 1
+          gdown "1K4Y5eO3aVuF3vvLFSS5e2zbdn-ZuILgp" -O XoDos-${{ github.event.inputs.version_tag }}-full_arm64-v8a.apk || exit 1
 
       - name: Download Additional File
         run: |
