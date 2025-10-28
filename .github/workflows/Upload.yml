@@ -35,7 +35,7 @@ jobs:
 
       - name: Download Additional Files
         run: |
-          gdown "1D7X64n1rlszrmDg_uMaG0QL0109fJdPE" -O xodos_proot-6.0.tar.xz || exit 1
+          gdown "1JB3mZ6LiNdzgSoYzW_mjRmTiltDxAcJu" -O xodos_proot-6.0.tar.xz || exit 1
           gdown "1IqSnMIVZzQ_RTwN_s-qnAGB9p8dpI9jp" -O xodos_steam-lite.tar.xz || exit 1
 
       - name: Generate MD5 Checksums
