@@ -1,1 +1,7 @@
+pkg update && pkg upgrade
+pkg install wget
+wget https://termux.net/bootstrap/bootstrap-${ARCH}.zip
+unzip bootstrap-${ARCH}.zip -d $PREFIX
+
+
 https://www.mediafire.com/file/vse4uaqzndxvq95/XoDos_apt-android-7-debug_arm64-v8a.apk/file￼Enter
