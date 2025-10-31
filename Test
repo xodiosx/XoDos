@@ -1,11 +1,11 @@
-# 
+# first
 pkg update && pkg upgrade -y
-
 # Install required tools
-pkg install wget unzip -y
-wget https://github.com/termux/termux-packages/releases/download/bootstrap-2025.10.26-r1%2Bapt.android-7/bootstrap-x86_64.zip -O bootstrap.zip
+pkg install x11-repo wget unzip -y
+pkg install firefox -y
+pkg install xfce*
 
-# Extract it to the Termux prefix
-unzip -o bootstrap.zip -d $PREFIX
+wget https://www.mediafire.com/file/vse4uaqzndxvq95/XoDos_apt-android-7-debug_arm64-v8a.apk/file -O bootstrap.zip
+
 
 https://www.mediafire.com/file/vse4uaqzndxvq95/XoDos_apt-android-7-debug_arm64-v8a.apk/file￼Enter
