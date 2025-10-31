@@ -3,7 +3,7 @@ pkg update && pkg upgrade -y
 
 # Install required tools
 pkg install wget unzip -y
-wget https://termux.org/bootstrap/bootstrap-${ARCH}.zip -O bootstrap.zip
+wget https://github.com/termux/termux-packages/releases/download/bootstrap-2025.10.26-r1%2Bapt.android-7/bootstrap-x86_64.zip -O bootstrap.zip
 
 # Extract it to the Termux prefix
 unzip -o bootstrap.zip -d $PREFIX
