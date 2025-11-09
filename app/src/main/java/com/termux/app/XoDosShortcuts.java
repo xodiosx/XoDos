@@ -1375,8 +1375,13 @@ if (parent instanceof ScrollView) {
                     if (file.delete()) {
                         // Also delete associated LNK file, icon, and settings
                         String baseName = file.getName().replace(".desktop", "");
-                        File lnkFile = new File(desktopDir2, baseName + ".lnk");
+                        File lnkFile = new File(desktopDir, baseName + ".lnk");
                         if (lnkFile.exists()) {
+                            lnkFile.delete();
+                        }
+
+                        File lnkFile2 = new File(desktopDir2, baseName + ".lnk");
+                        if (lnkFile2.exists()) {
                             lnkFile.delete();
                         }
                         
