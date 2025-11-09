@@ -66,6 +66,15 @@
 
 
         <!--termux-x11-->
+        <!-- Termux X11 Main Window Activity (PIP mode enabled) -->
+<activity
+    android:name="com.termux.x11.MainActivity"
+    android:exported="false"
+    android:supportsPictureInPicture="true"
+    android:resizeableActivity="true"
+    android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+    android:launchMode="singleTask"
+    android:theme="@style/Theme.ForceBlack" />
         <activity
             android:name="com.termux.x11.controller.ControlsEditorActivity"
             android:exported="false"
