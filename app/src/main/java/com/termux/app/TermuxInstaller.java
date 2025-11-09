@@ -1,5 +1,20 @@
 package com.termux.app;
 
+import java.io.IOException;
+import android.app.ProgressDialog;
+import android.os.Handler;     
+import android.os.Looper; 
+import android.content.res.AssetManager; 
+import java.io.InputStream;      
+import java.io.FileOutputStream;  
+import java.io.BufferedReader;
+import java.io.InputStreamReader; 
+import java.util.Map;
+import android.content.res.AssetFileDescriptor;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Stack;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -115,6 +130,15 @@ final class TermuxInstaller {
         }
 
         final ProgressDialog progress = ProgressDialog.show(activity, null, activity.getString(R.string.bootstrap_installer_body), true, false);
+        
+        // Create the XoDos progress dialog but don't show it yet
+        final ProgressDialog extractionProgressDialog = new ProgressDialog(activity);
+        extractionProgressDialog.setTitle("Installing XoDos system");
+        extractionProgressDialog.setMessage("Please wait for XoDos first Install ...");
+        extractionProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        extractionProgressDialog.setMax(100); // 0-100%
+        extractionProgressDialog.setCancelable(false);
+   
         new Thread() {
             @Override
             public void run() {
@@ -218,10 +242,25 @@ final class TermuxInstaller {
 
                     Logger.logInfo(LOG_TAG, "Bootstrap packages installed successfully.");
 
-                    // Recreate env file since termux prefix was wiped earlier
-                    TermuxShellEnvironment.writeEnvironmentToFile(activity);
-
-                    activity.runOnUiThread(whenDone);
+                    // Show confirmation dialog before installing XoDos
+                    activity.runOnUiThread(() -> {
+                        new AlertDialog.Builder(activity)
+                            .setTitle("Install XoDos System")
+                            .setMessage("Do you want to install the XoDos system? This will install additional packages and configurations.")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                // User confirmed - start XoDos installation
+                                extractionProgressDialog.show();
+                                startXoDosInstallation(activity, extractionProgressDialog, whenDone);
+                            })
+                            .setNegativeButton("No", (dialog, which) -> {
+                                // User canceled - skip XoDos installation
+                                Logger.logInfo(LOG_TAG, "User canceled XoDos installation");
+                                extractionProgressDialog.dismiss();
+                                activity.runOnUiThread(whenDone);
+                            })
+                            .setCancelable(false)
+                            .show();
+                    });
 
                 } catch (final Exception e) {
                     showBootstrapErrorDialog(activity, whenDone, Logger.getStackTracesMarkdownString(null, Logger.getStackTracesStringArray(e)));
@@ -238,6 +277,245 @@ final class TermuxInstaller {
             }
         }.start();
     }
+
+    /**
+     * Start the XoDos installation process
+     */
+    private static void startXoDosInstallation(Activity activity, ProgressDialog extractionProgressDialog, Runnable whenDone) {
+        new Thread(() -> {
+            Process process = null;
+            File outFile = null;
+            File scriptFile = null;
+
+            try {
+                // Add folder size check here
+                File wallpaperFolder = new File("/data/data/com.termux/files/home/WALLPAPERS");
+                long folderSize = 0;
+                long sizeLimit = 5 * 1024 * 1024; // 5 MB
+                boolean folderExists = wallpaperFolder.exists() && wallpaperFolder.isDirectory();
+
+                if (folderExists) {
+                    Stack<File> stack = new Stack<>();
+                    stack.push(wallpaperFolder);
+
+                    outerLoop:
+                    while (!stack.isEmpty()) {
+                        File current = stack.pop();
+                        File[] files = current.listFiles();
+                        if (files == null) continue;
+
+                        for (File file : files) {
+                            if (file.isFile()) {
+                                folderSize += file.length();
+                                if (folderSize > sizeLimit) {
+                                    break outerLoop;
+                                }
+                            } else if (file.isDirectory()) {
+                                stack.push(file);
+                            }
+                        }
+                    }
+                }
+
+                // Determine asset name based on folder check
+                String assetName = (folderExists && folderSize > sizeLimit) 
+                                    ? "xodos0.tar.xz" 
+                                    : "xodos.tar.xz";
+
+                // Update UI before copying
+                activity.runOnUiThread(() -> extractionProgressDialog.setMessage("Copying XoDos file..."));
+
+                // Copy selected asset
+                AssetManager assetManager = activity.getAssets();
+                InputStream in = assetManager.open(assetName);
+                outFile = new File(activity.getFilesDir(), assetName);
+                FileOutputStream out = new FileOutputStream(outFile);
+
+                // Get total file size for progress
+                long totalBytes = assetManager.openFd(assetName).getLength();
+                long copiedBytes = 0;
+                byte[] copybuffer = new byte[1024 * 128]; // 16KB buffer
+
+                int bytesRead;
+                while ((bytesRead = in.read(copybuffer)) != -1) {
+                    out.write(copybuffer, 0, bytesRead);
+                    copiedBytes += bytesRead;
+
+                    // Update progress bar (first 50% for copying)
+                    int progress = (int) ((copiedBytes * 50) / totalBytes);
+                    activity.runOnUiThread(() -> extractionProgressDialog.setProgress(progress));
+                }
+
+                out.close();
+                in.close();
+
+                // Copy fix script and make it executable
+                InputStream scriptIn = assetManager.open("fix");
+                scriptFile = new File(activity.getFilesDir(), "fix");
+                FileOutputStream scriptOut = new FileOutputStream(scriptFile);
+
+                while ((bytesRead = scriptIn.read(copybuffer)) != -1) {
+                    scriptOut.write(copybuffer, 0, bytesRead);
+                }
+
+                scriptOut.close();
+                scriptIn.close();
+                scriptFile.setExecutable(true);
+
+                // UI update before extraction
+                activity.runOnUiThread(() -> extractionProgressDialog.setMessage("Installing XoDos system..."));
+                Thread.sleep(1500); // Small delay to ensure stability
+
+                // Calculate dynamic checkpoint interval for smoother updates
+                int bytesPerRecord = 512; // Tar's block size
+                int targetCheckpoints = 250; // Aim for 200 checkpoints (~0.25% per update)
+
+                // Calculate records per checkpoint
+                long totalRecords = (totalBytes + bytesPerRecord - 1) / bytesPerRecord;
+                int recordsPerCheckpoint = Math.max(1, (int) (totalRecords / targetCheckpoints));
+
+                ProcessBuilder processBuilder = new ProcessBuilder(
+                    "sh", "-c",
+                    "tar -xf " + outFile.getAbsolutePath() +
+                    " -C /data/data/com.termux/files --preserve-permissions " +
+                    "--warning=no-file-ignored " +  
+                    "--checkpoint=" + recordsPerCheckpoint + " --checkpoint-action=echo=CHECKPOINT " + // Dynamic checkpoint
+                    "--totals 2>&1"
+                );
+
+                // Set environment
+                Map<String, String> env = processBuilder.environment();
+                env.put("PATH", "/data/data/com.termux/files/usr/bin:" + System.getenv("PATH"));
+                env.put("LD_LIBRARY_PATH", "/data/data/com.termux/files/usr/lib");
+
+                // Start process
+                process = processBuilder.start();
+
+                // Monitor progress from the combined input stream (stdout and stderr)
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                // Calculate total expected checkpoints (ceiling division)
+                int estimatedTotalCheckpoints = (int) Math.ceil((double) totalRecords / recordsPerCheckpoint);
+
+                // Track progress
+                int checkpointCount = 0;
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    if (line.contains("CHECKPOINT")) {
+                        checkpointCount++;
+                        
+                        // Calculate progress with floating-point division
+                        int progress = 50 + (int) ((checkpointCount * 50.0) / 50);
+                        progress = Math.min(99, progress); // Cap at 99%
+                        
+                        // Create a final copy of progress for the lambda
+                        final int finalProgress = progress;
+                        activity.runOnUiThread(() -> extractionProgressDialog.setProgress(finalProgress));
+
+                    } else if (line.startsWith("Total bytes read:")) {
+                        Logger.logInfo(LOG_TAG, "Tar: " + line);
+                    }
+                }
+
+                // Wait for extraction to complete
+                int exitCode = process.waitFor();
+                if (exitCode != 0) {
+                    throw new IOException("Tar extraction failed with code: " + exitCode);
+                }
+
+                // After extraction completes, update progress
+                activity.runOnUiThread(() -> extractionProgressDialog.setMessage("XoDos installed successfully..."));
+                activity.runOnUiThread(() -> extractionProgressDialog.setProgress(99));
+
+                // Cleanup
+                if (!outFile.delete()) {
+                    Logger.logError(LOG_TAG, "Failed to delete temp file");
+                }
+
+                // Run fix after extraction
+                activity.runOnUiThread(() -> extractionProgressDialog.setMessage("Finalizing and fixing installation..."));
+
+                process = new ProcessBuilder("sh", scriptFile.getAbsolutePath()).start();
+                int scriptExitCode = process.waitFor();
+                if (scriptExitCode != 0) {
+                    throw new IOException("Fix script failed with code: " + scriptExitCode);
+                }
+
+                activity.runOnUiThread(() -> extractionProgressDialog.setProgress(100));
+
+                // Cleanup script file
+                if (scriptFile != null && !scriptFile.delete()) {
+                    Logger.logError(LOG_TAG, "Failed to delete script file");
+                }
+
+                // UI update - installation complete
+                activity.runOnUiThread(() -> {
+                    extractionProgressDialog.setMessage("Installation complete!");
+                    extractionProgressDialog.dismiss();
+
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        // Recreate env file since termux prefix was wiped earlier
+                        TermuxShellEnvironment.writeEnvironmentToFile(activity);
+                        whenDone.run();
+                    }, 2000);
+                });
+
+            } catch (Exception e) {
+                Logger.logError(LOG_TAG, "XoDos extraction error: " + e.getMessage());
+                activity.runOnUiThread(() -> {
+                    extractionProgressDialog.dismiss();
+                    showXoDosErrorDialog(activity, whenDone, "XoDos installation failed: " + e.getMessage());
+                });
+            } finally {
+                // Cleanup resources
+                if (process != null) process.destroy();
+                if (outFile != null && outFile.exists()) {
+                    if (!outFile.delete()) {
+                        Logger.logError(LOG_TAG, "Failed to delete temp file in finally");
+                    }
+                }
+                if (scriptFile != null && scriptFile.exists()) {
+                    if (!scriptFile.delete()) {
+                        Logger.logError(LOG_TAG, "Failed to delete script file in finally");
+                    }
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Show error dialog for XoDos installation failure
+     */
+    private static void showXoDosErrorDialog(Activity activity, Runnable whenDone, String message) {
+        Logger.logErrorExtended(LOG_TAG, "XoDos Installation Error:\n" + message);
+
+        activity.runOnUiThread(() -> {
+            try {
+                new AlertDialog.Builder(activity)
+                    .setTitle("XoDos Installation Error")
+                    .setMessage(message + "\n\nDo you want to continue without XoDos?")
+                    .setNegativeButton("Exit", (dialog, which) -> {
+                        dialog.dismiss();
+                        activity.finish();
+                    })
+                    .setPositiveButton("Continue", (dialog, which) -> {
+                        dialog.dismiss();
+                        // Recreate env file and continue
+                        TermuxShellEnvironment.writeEnvironmentToFile(activity);
+                        whenDone.run();
+                    })
+                    .setCancelable(false)
+                    .show();
+            } catch (WindowManager.BadTokenException e) {
+                // Activity already dismissed - continue without XoDos
+                TermuxShellEnvironment.writeEnvironmentToFile(activity);
+                whenDone.run();
+            }
+        });
+    }
+
+    // ... [Rest of the existing methods remain unchanged: showBootstrapErrorDialog, sendBootstrapCrashReportNotification, setupStorageSymlinks, ensureDirectoryExists, loadZipBytes, getZip]
 
     public static void showBootstrapErrorDialog(Activity activity, Runnable whenDone, String message) {
         Logger.logErrorExtended(LOG_TAG, "Bootstrap Error:\n" + message);
