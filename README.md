@@ -168,6 +168,9 @@ xodios X - [@XAleiwi](https://x.com/XAleiwi)
 * [DXVK](https://github.com/ValveSoftware/dxvk)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Contributors 
+Team: @xodiosx🇾🇪 & @DesarrolladorPrimary 🇨🇴 & @Mondo67244🇲🇫 & (telegram:@Aurora0y🇧🇷) & (telegram:@Chest1902🇧🇩) & @jiaxinchen-max 🇨🇳 & @Snap888🇷🇺
+Logo designer:(telegram:@xl_v6/ashen🇮🇶)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -189,6 +192,7 @@ xodios X - [@XAleiwi](https://x.com/XAleiwi)
 xodios - [@XAleiwi](https://x.com/XAleiwi)
 [YouTube channel:](https://www.youtube.com/@xodmods5082)
  [Telegram Group:](https://t.me/xodemulatorr)
+
 
 
 <a id="readme-top"></a>
