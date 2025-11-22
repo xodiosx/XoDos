@@ -1,6 +1,7 @@
 <!-- Improved compatibility of back t<!-- Improved compatibility of back to top link: See:  -->
 <a id="readme-top"></a>
 
+# [🔥XoDos Rebirth link🔥](https://github.com/xodiosx/XoDos2)
 
 <!-- PROJECT SHIELDS -->
 
