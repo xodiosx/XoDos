@@ -14,6 +14,11 @@
   </a>
 
 ## XoDos emulator
+[![Downloads](https://img.shields.io/github/downloads/xodiosx/XoDos/total.svg)](https://github.com/xodiosx/XoDos/releases)
+[![GitHub Release](https://img.shields.io/badge/Release-orange)](https://github.com/xodiosx/XoDos/releases)
+[![Telegram](https://img.shields.io/badge/Telegram-Join%20Chat-blue)](https://t.me/xodemulatorr)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da)](https://discord.gg/d2ChVhPfnF)
+
 
 # About
 it's a fully fledged X server with termux and winlator touch controls together in one App. It is built with Android NDK.
