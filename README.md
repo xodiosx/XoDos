@@ -141,7 +141,10 @@ XoDos V5.1.0 glibc/bionic
 ## ❤️ Support This Project and buy me a ☕ ❤️
 https://buymeacoffee.com/karysdev?new=1
 
-
+For crypto currency donations we accept USDT here,,
+```
+0x96e8c405d10da473f5afbe02b514d405131a3804
+```
 ## License
 Released under the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.html).
  See `LICENSE.md` for more information.
