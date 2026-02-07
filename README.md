@@ -2,7 +2,7 @@
 <a id="readme-top"></a>
 
 # [🔥XoDos Rebirth link🔥](https://github.com/xodiosx/XoDos2)
-
+XoDos rebirth id the second version of XoDos original but different app and features and have active development
 <!-- PROJECT SHIELDS -->
 
 
