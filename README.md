@@ -138,8 +138,8 @@ XoDos V5.1.0 glibc/bionic
 
 ## ⭐
 <a id="support"></a> <!-- Anchor for funding button -->
-## ❤️ Support This Project To grow ❤️
-
+## ❤️ Support This Project and buy me a ☕ ❤️
+https://buymeacoffee.com/karysdev?new=1
 
 
 ## License
