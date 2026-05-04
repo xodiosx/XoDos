@@ -37,7 +37,7 @@ jobs:
           curl -L -o xodos_proot-5.9.tar.xz "https://drive.google.com/uc?export=download&id=1D7X64n1rlszrmDg_uMaG0QL0109fJdPE"
 
       - name: Create Release with Both Files
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
