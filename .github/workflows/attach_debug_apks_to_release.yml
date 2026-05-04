@@ -102,7 +102,7 @@ jobs:
           echo "Found $APK_COUNT APK files"
 
       - name: Create Release and Upload APKs
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.get_version.outputs.release_version }}
           name: Release ${{ steps.get_version.outputs.release_version }}
