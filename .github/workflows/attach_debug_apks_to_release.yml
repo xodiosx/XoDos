@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Clone repository and submodules
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref }}
           submodules: 'recursive'
@@ -75,7 +75,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         
       - name: Get release version
         id: get_version
